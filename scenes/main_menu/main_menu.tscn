@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://5etk1xbkj7g"]
+
+[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_00gpy"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_00gpy")
+
+[node name="MainContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 1148.0
+offset_bottom = 655.0
+
+[node name="MainVBoxContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="MainContainer/MainVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Resume"
+
+[node name="NewButton" type="Button" parent="MainContainer/MainVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "New"
+
+[node name="SaveButton" type="Button" parent="MainContainer/MainVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Save"
+
+[node name="LoadButton" type="Button" parent="MainContainer/MainVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Load"
+
+[node name="SettingsButton" type="Button" parent="MainContainer/MainVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="MainContainer/MainVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[connection signal="pressed" from="MainContainer/MainVBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="MainContainer/MainVBoxContainer/NewButton" to="." method="_on_new_button_pressed"]
+[connection signal="pressed" from="MainContainer/MainVBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="MainContainer/MainVBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainContainer/MainVBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

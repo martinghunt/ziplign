@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="tna"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/image="res://tna.png"
+boot_splash/use_filter=false
+config/icon="res://icon.svg"
+boot_splash/minimum_display_time=1500
+
+[autoload]
+
+Globals="*res://globals.gd"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_height"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

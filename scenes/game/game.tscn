@@ -1,0 +1,211 @@
+[gd_scene load_steps=8 format=3 uid="uid://cajqs7kwfmv43"]
+
+[ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
+[ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
+[ext_resource type="Script" path="res://scenes/game/RightTopScrollbar.gd" id="1_wnfnh"]
+[ext_resource type="Script" path="res://scenes/game/FiltMinLengthSpinBox.gd" id="2_d0lth"]
+[ext_resource type="Script" path="res://scenes/game/TopCoordsText.gd" id="2_ef7jy"]
+[ext_resource type="Script" path="res://scenes/game/FiltMinPcSpinBox.gd" id="3_esyft"]
+[ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchor_right = 1.02
+anchor_bottom = 1.0
+offset_right = 1.95988
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vo3rl")
+
+[node name="MainHBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1199.0
+offset_bottom = 700.0
+
+[node name="LeftViewportContainer" type="SubViewportContainer" parent="MainHBoxContainer"]
+custom_minimum_size = Vector2(120, 2.08165e-12)
+layout_mode = 2
+stretch = true
+
+[node name="LeftViewport" type="SubViewport" parent="MainHBoxContainer/LeftViewportContainer"]
+handle_input_locally = false
+size = Vector2i(120, 2)
+render_target_update_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport"]
+offset_left = 10.0
+offset_right = 120.0
+offset_bottom = 246.0
+
+[node name="PauseButton" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+text = "Menu"
+
+[node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="NavigationVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="MoveLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Move"
+horizontal_alignment = 1
+
+[node name="BoxContainer" type="BoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "⇇"
+
+[node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "↺"
+
+[node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "↻"
+
+[node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "⇉"
+
+[node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ZoomLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Zoom"
+horizontal_alignment = 1
+
+[node name="ZoomHBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonZoomMinus" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+layout_mode = 2
+text = "+"
+
+[node name="ButtonZoomBp" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+layout_mode = 2
+text = "+bp"
+
+[node name="HSeparator3" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="FilterVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="FilterLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+layout_mode = 2
+text = "Filter matches"
+
+[node name="FiltMinLengthSpinBox" type="SpinBox" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+layout_mode = 2
+max_value = 1e+07
+value = 100.0
+rounded = true
+allow_greater = true
+prefix = "≥"
+suffix = "bp"
+custom_arrow_step = 50.0
+script = ExtResource("2_d0lth")
+
+[node name="FiltMinPcSpinBox" type="SpinBox" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+layout_mode = 2
+value = 90.0
+prefix = "≥"
+suffix = "%id"
+script = ExtResource("3_esyft")
+
+[node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
+layout_mode = 2
+
+[node name="RightViewportContainer" type="SubViewportContainer" parent="MainHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightViewport" type="SubViewport" parent="MainHBoxContainer/RightViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(1050, 700)
+render_target_update_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/RightViewportContainer/RightViewport"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="TopCoordsLabel" type="Label" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Selected match:"
+
+[node name="TopCoordsText" type="RichTextLabel" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+text = "None"
+fit_content = true
+autowrap_mode = 0
+selection_enabled = true
+script = ExtResource("2_ef7jy")
+
+[node name="RightTopScrollbar" type="HScrollBar" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 30)
+layout_mode = 2
+tooltip_text = "Move top genome"
+script = ExtResource("1_wnfnh")
+
+[node name="ColorRect" type="ColorRect" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(900, 550)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="GenomesNMatches" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer" instance=ExtResource("1_14efs")]
+
+[node name="RightBottomScrollbar" type="HScrollBar" parent="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 30)
+layout_mode = 2
+size_flags_vertical = 8
+tooltip_text = "Move bottom genome"
+script = ExtResource("3_nnddm")
+
+[connection signal="new_project_go" from="." to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_game_new_project_go"]
+[connection signal="window_resized" from="." to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_game_window_resized"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomMinus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_minus_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomReset" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomPlus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_plus_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomBp" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_bp_pressed"]
+[connection signal="value_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthSpinBox" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_length_spin_box_value_changed"]
+[connection signal="value_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinPcSpinBox" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_pc_spin_box_value_changed"]
+[connection signal="value_changed" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightTopScrollbar" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_right_top_scrollbar_value_changed"]
+[connection signal="hscrollbar_set_bottom_value" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightBottomScrollbar" method="_on_genomes_n_matches_hscrollbar_set_bottom_value"]
+[connection signal="hscrollbar_set_top_value" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightTopScrollbar" method="_on_genomes_n_matches_hscrollbar_set_top_value"]
+[connection signal="match_deselected" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_match_deselected"]
+[connection signal="match_selected" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_match_selected"]
+[connection signal="value_changed" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightBottomScrollbar" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_right_bottom_scrollbar_value_changed"]

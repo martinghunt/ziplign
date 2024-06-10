@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://eap762pqaesx"]
+
+[ext_resource type="Script" path="res://scenes/genomes_n_matches/genomes_n_matches.gd" id="1_jvu84"]
+
+[node name="GenomesNMatches" type="Node2D"]
+script = ExtResource("1_jvu84")
