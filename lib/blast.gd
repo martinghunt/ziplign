@@ -1,7 +1,7 @@
 func blast_index(fasta_file, outdb):
 	print("run blast index")
 	var stderr = []
-	var exit_code = OS.execute(Globals.ext_path.path_join("makeblastdb"), ["-in", fasta_file, "-dbtype", "nucl", "-out", outdb], stderr, true)
+	var exit_code = OS.execute(Globals.bin_path.path_join("makeblastdb"), ["-in", fasta_file, "-dbtype", "nucl", "-out", outdb], stderr, true)
 	#var exit_code = OS.execute("res://ext/makeblastdb", ["-in", fasta_file, "-dbtype", "nucl", "-out", outdb], stderr, true)
 	if exit_code != 0:
 		print("Error running makeblastdb")
@@ -19,7 +19,7 @@ func blastn(qry_fasta, refdb, outfile):
 		"-outfmt", '"6',
 		"qseqid", "sseqid", "pident", "qstart", "qend", "sstart", "send", "qseq", 'sseq"',
 	]
-	var exit_code = OS.execute(Globals.ext_path.path_join("blastn"), blast_opts, stderr, true)
+	var exit_code = OS.execute(Globals.bin_path.path_join("blastn"), blast_opts, stderr, true)
 	#var exit_code = OS.execute("res://ext/blastn", blast_opts, stderr, true)
 	if exit_code != 0:
 		print("Error running blastn")
