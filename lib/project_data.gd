@@ -42,11 +42,12 @@ func delete_all_files():
 	
 func init_from_dir(dir_path):
 	root_dir = dir_path
-	#TODO check root_dir exists
-	set_paths()
-	load_genomes()
-	load_blast_matches()
-
+	if DirAccess.dir_exists_absolute(dir_path):
+		set_paths()
+		load_genomes()
+		load_blast_matches()
+	elif FileAccess.file_exists(dir_path):
+		load_from_serialized_file(dir_path)
 
 func set_paths():
 	print("set paths. root_dir:", root_dir)
@@ -78,3 +79,17 @@ func load_blast_matches():
 
 func run_blast():
 	blast_lib.run_blast(root_dir)
+
+
+func save_as_serialized_file(outfile):
+	print("Save project to file: ", outfile)
+	var file = FileAccess.open(outfile, FileAccess.WRITE)
+	file.store_var(blast_matches, true)
+	file.store_var(genome_seqs, true)
+
+
+func load_from_serialized_file(infile):
+	print("Loading project from file: ", infile)
+	var file = FileAccess.open(infile, FileAccess.READ)
+	blast_matches = file.get_var()
+	genome_seqs = file.get_var()

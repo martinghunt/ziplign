@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsbxlfa2t7bm5"]
+
+[ext_resource type="Script" path="res://scenes/save_project/save_project.gd" id="1_8a3a3"]
+[ext_resource type="Script" path="res://scenes/save_project/SaveDialog.gd" id="2_gsdyg"]
+
+[node name="SaveProject" type="Node"]
+script = ExtResource("1_8a3a3")
+
+[node name="SaveDialog" type="FileDialog" parent="."]
+title = "Save project to file"
+size = Vector2i(444, 300)
+visible = true
+ok_button_text = "Save"
+dialog_hide_on_ok = true
+access = 2
+script = ExtResource("2_gsdyg")
+
+[connection signal="open_save_dialog" from="." to="SaveDialog" method="_on_save_project_open_save_dialog"]
+[connection signal="canceled" from="SaveDialog" to="SaveDialog" method="_on_canceled"]
+[connection signal="file_selected" from="SaveDialog" to="SaveDialog" method="_on_file_selected"]
+[connection signal="finished_saving" from="SaveDialog" to="." method="_on_save_dialog_finished_saving"]

@@ -51,6 +51,7 @@ text = "Quit"
 
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/NewButton" to="." method="_on_new_button_pressed"]
+[connection signal="pressed" from="MainContainer/MainVBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

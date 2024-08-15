@@ -3,6 +3,7 @@ extends Control
 signal resume
 signal new_project
 signal load_project
+signal save_project
 signal open_settings
 var quit_selected = false
 
@@ -22,6 +23,11 @@ func _on_load_button_pressed():
 	load_project.emit()
 
 
+func _on_save_button_pressed():
+	hide()
+	save_project.emit()
+	
+	
 func _on_game_pause():
 	show()
 
@@ -45,3 +51,7 @@ func _on_settings_return_to_main_menu():
 func _on_settings_button_pressed():
 	hide()
 	open_settings.emit()
+
+
+func _on_save_project_return_to_main_menu():
+	show()
