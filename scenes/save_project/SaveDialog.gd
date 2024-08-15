@@ -2,10 +2,9 @@ extends FileDialog
 
 signal finished_saving
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	hide()
-	pass # Replace with function body.
 
 
 func _on_save_project_open_save_dialog():
@@ -15,7 +14,6 @@ func _on_save_project_open_save_dialog():
 
 
 func _on_file_selected(path):
-	print("save file selected: ", path)
 	Globals.proj_data.save_as_serialized_file(path)
 	hide()
 	finished_saving.emit()
