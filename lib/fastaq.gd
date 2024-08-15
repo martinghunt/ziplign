@@ -1,9 +1,8 @@
-func to_fasta(infile, outfile):
+func to_fasta(infile, outprefix):
 	var stderr = []
-	var exit_code = OS.execute(Globals.bin_path.path_join("seqkit"), ["seq", "--only-id", "-w", "0", infile, "-o", outfile], stderr, true)
-	#var exit_code = OS.execute("res://ext/seqkit", ["seq", "--only-id", "-w", "0", infile, "-o", outfile], stderr, true)
+	var exit_code = OS.execute(Globals.userdata.tnahelper, ["import_seqfile", "-i", infile, "-o", outprefix], stderr, true)
 	if exit_code != 0:
-		print("Error running seqkit")
+		print("Error importing sequence file", infile)
 		print(stderr)
 	return exit_code
 

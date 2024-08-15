@@ -10,7 +10,6 @@ signal append_to_info_text
 
 var filename1 = ""
 var filename2 = ""
-var project_path = ""
 
 
 func _ready():
@@ -35,8 +34,8 @@ func _on_go_button_pressed():
 	# found adding all these timeouts made the text label update.
 	# Without them it doesn't change
 	await get_tree().process_frame
-	append_to_info_text.emit("Make project folder:\n  " + project_path)
-	Globals.proj_data.create(project_path)
+	append_to_info_text.emit("Initialising data folder:\n  " + Globals.userdata.current_proj_dir)
+	Globals.proj_data.create(Globals.userdata.current_proj_dir)
 	await get_tree().create_timer(0.1).timeout
 	
 	append_to_info_text.emit("Start importing genomes:\n  " + filename1 + "\n  " + filename2)
@@ -62,16 +61,10 @@ func _on_main_menu_new_project():
 	show()
 
 
-func _on_dir_line_edit_text_changed(new_text):
-	project_path = new_text
-
-
 func _on_cancel_button_pressed():
 	hide()
 	filename1 = ""
 	filename2 = ""
 	update_top_genome_filename.emit("")
 	update_bottom_genome_filename.emit("")
-	update_project_dir.emit("")
-	_on_dir_line_edit_text_changed("")
 	new_project_cancel.emit()

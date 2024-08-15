@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://o6vk13fe8nhl"]
+[gd_scene load_steps=5 format=3 uid="uid://o6vk13fe8nhl"]
 
 [ext_resource type="Script" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
 [ext_resource type="Script" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
 [ext_resource type="Script" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
-[ext_resource type="Script" path="res://scenes/new_project/DirLineEdit.gd" id="4_d64sa"]
 [ext_resource type="Script" path="res://scenes/new_project/InfoRichTextLabel.gd" id="5_4kmm3"]
 
 [node name="NewProject" type="Control"]
@@ -71,20 +70,6 @@ expand_to_text_length = true
 [node name="HSeparator3" type="HSeparator" parent="MainVBoxContainer"]
 layout_mode = 2
 
-[node name="DirContainer" type="HBoxContainer" parent="MainVBoxContainer"]
-layout_mode = 2
-
-[node name="DirLabel" type="Label" parent="MainVBoxContainer/DirContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Project directory"
-
-[node name="DirLineEdit" type="LineEdit" parent="MainVBoxContainer/DirContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-expand_to_text_length = true
-script = ExtResource("4_d64sa")
-
 [node name="HSeparator4" type="HSeparator" parent="MainVBoxContainer"]
 layout_mode = 2
 
@@ -115,8 +100,6 @@ script = ExtResource("5_4kmm3")
 
 [connection signal="append_to_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_append_to_info_text"]
 [connection signal="update_bottom_genome_filename" from="." to="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" method="_on_new_project_update_bottom_genome_filename"]
-[connection signal="update_project_dir" from="." to="MainVBoxContainer/DirContainer/DirLineEdit" method="_on_new_project_update_project_dir"]
 [connection signal="update_top_genome_filename" from="." to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_new_project_update_top_genome_filename"]
-[connection signal="text_changed" from="MainVBoxContainer/DirContainer/DirLineEdit" to="." method="_on_dir_line_edit_text_changed"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/GoButton" to="." method="_on_go_button_pressed"]

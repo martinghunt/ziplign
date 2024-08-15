@@ -1,11 +1,28 @@
+func run_blast(proj_dir):
+	var opts = ["blast", "-b", Globals.userdata.bin, "-o", proj_dir]
+	print("opts: ", Globals.userdata.tnahelper, opts)
+	var stderr = []
+	var exit_code = OS.execute(Globals.userdata.tnahelper, opts, stderr, true)
+	for x in stderr:
+		print(x)
+	if exit_code != 0:
+		print("Error running blastn")
+	return exit_code
+
+
 func blast_index(fasta_file, outdb):
 	print("run blast index")
 	var stderr = []
-	var exit_code = OS.execute(Globals.bin_path.path_join("makeblastdb"), ["-in", fasta_file, "-dbtype", "nucl", "-out", outdb], stderr, true)
+	print("WTF outdb:", outdb)
+	var params = ["-in", "\" '" + '"' + fasta_file + "'" + '" \"', "-dbtype", "nucl"] #, "-out", outdb]
+	print("params: ", params)
+	#var command = "\"' -in '" + fasta_file + "' -dbtype nucl -out '" + outdb + "'\""
+	var exit_code = OS.execute(Globals.bin_path.path_join("makeblastdb"), params, stderr, true) 
+	#var exit_code = OS.execute(Globals.bin_path.path_join("makeblastdb"), ["-in", "\"'" + fasta_file + "'\"", "-dbtype", "nucl", "-out", "\"'" + outdb + "'\""], stderr, true)
 	#var exit_code = OS.execute("res://ext/makeblastdb", ["-in", fasta_file, "-dbtype", "nucl", "-out", outdb], stderr, true)
 	if exit_code != 0:
-		print("Error running makeblastdb")
-		print(stderr)
+		print("Error running makeblastdb", stderr)
+		print()
 	return exit_code
 
 

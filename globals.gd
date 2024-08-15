@@ -2,11 +2,11 @@ extends Node
 
 const ProjData = preload("res://lib/project_data.gd")
 var proj_data = ProjData.new()
-const UserData = preload("res://lib/user_data.gd")
-var user_data = UserData.new()
+const UsrData = preload("res://lib/user_data.gd")
+var userdata = UsrData.new()
 
 
-var bin_path = user_data.get_bin_path()
+var bin_path = userdata.get_bin_path()
 var genomes_viewport_width = 1000
 var match_min_show_pc_id = 90.0
 var match_min_show_length = 100
