@@ -3,7 +3,7 @@ class_name UserData
 func get_bin_path():
 	return OS.get_user_data_dir().path_join("bin")
 
-
+var home_dir = OS.get_environment("USERPROFILE") if OS.has_feature("windows") else OS.get_environment("HOME")
 var bin = get_bin_path()
 var makeblastdb = bin.path_join("makeblastdb")
 var blastn = bin.path_join("blastn")

@@ -13,6 +13,7 @@ func _on_save_project_open_save_dialog():
 	#var window_size = get_viewport().get_visible_rect().size
 	#print("in _on_save_project_open_save_dialog(). window_size:", window_size)
 	#print("DisplayServer.window_get_size():", DisplayServer.window_get_size())
+	set_current_dir(Globals.userdata.home_dir)
 	show()
 
 
