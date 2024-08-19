@@ -8,8 +8,11 @@ func _ready():
 
 
 func _on_save_project_open_save_dialog():
-	size.x = DisplayServer.window_get_size().x - 20
-	size.y = DisplayServer.window_get_size().y - 30
+	#size.x = DisplayServer.window_get_size().x - 20
+	#size.y = DisplayServer.window_get_size().y - 30
+	#var window_size = get_viewport().get_visible_rect().size
+	#print("in _on_save_project_open_save_dialog(). window_size:", window_size)
+	#print("DisplayServer.window_get_size():", DisplayServer.window_get_size())
 	show()
 
 
