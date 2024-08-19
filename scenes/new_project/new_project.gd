@@ -17,6 +17,13 @@ func _ready():
 	get_viewport().files_dropped.connect(on_files_dropped)
 
 
+func clear_fields():
+	filename1 = ""
+	filename2 = ""
+	update_top_genome_filename.emit("")
+	update_bottom_genome_filename.emit("")
+
+
 func on_files_dropped(files):
 	if len(files) != 1:
 		return
@@ -54,17 +61,16 @@ func _on_go_button_pressed():
 	await get_tree().create_timer(0.1).timeout
 	Globals.proj_data.load_genomes()
 	hide()
+	clear_fields()
 	new_project_go_button.emit()
 
 
 func _on_main_menu_new_project():
+	clear_fields()
 	show()
 
 
 func _on_cancel_button_pressed():
 	hide()
-	filename1 = ""
-	filename2 = ""
-	update_top_genome_filename.emit("")
-	update_bottom_genome_filename.emit("")
+	clear_fields()
 	new_project_cancel.emit()
