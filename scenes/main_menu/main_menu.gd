@@ -40,8 +40,8 @@ func _on_new_project_new_project_cancel():
 	show()
 
 
-func _on_load_project_cancel_load_project():
-	show()
+#func _on_load_project_cancel_load_project():
+#	show()
 
 
 func _on_settings_return_to_main_menu():
@@ -54,4 +54,13 @@ func _on_settings_button_pressed():
 
 
 func _on_save_project_return_to_main_menu():
+	show()
+
+
+func _on_load_project_return_to_game():
+	hide()
+	resume.emit()
+
+
+func _on_load_project_return_to_main_menu():
 	show()

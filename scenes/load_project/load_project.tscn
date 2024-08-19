@@ -1,52 +1,23 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdpfqi7xni7"]
 
 [ext_resource type="Script" path="res://scenes/load_project/load_project.gd" id="1_63hee"]
-[ext_resource type="Script" path="res://scenes/load_project/DirLineEdit.gd" id="2_kat27"]
+[ext_resource type="Script" path="res://scenes/load_project/LoadDialog.gd" id="3_6chvd"]
 
-[node name="LoadProject" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="LoadProject" type="Node"]
 script = ExtResource("1_63hee")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="LoadDialog" type="FileDialog" parent="."]
+title = "Open a File"
+position = Vector2i(0, 36)
+size = Vector2i(900, 500)
+visible = true
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+script = ExtResource("3_6chvd")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="DirLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Project Directory:"
-
-[node name="DirLineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-expand_to_text_length = true
-script = ExtResource("2_kat27")
-
-[node name="LoadButton" type="Button" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Load"
-
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="CancelButton" type="Button" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Cancel"
-
-[connection signal="update_dir_line_edit" from="." to="CenterContainer/VBoxContainer/HBoxContainer/DirLineEdit" method="_on_load_project_update_dir_line_edit"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="open_load_dialog" from="." to="LoadDialog" method="_on_load_project_open_load_dialog"]
+[connection signal="canceled" from="LoadDialog" to="LoadDialog" method="_on_canceled"]
+[connection signal="cancelled_loading" from="LoadDialog" to="." method="_on_load_dialog_cancelled_loading"]
+[connection signal="file_selected" from="LoadDialog" to="LoadDialog" method="_on_file_selected"]
+[connection signal="finished_loading" from="LoadDialog" to="." method="_on_load_dialog_finished_loading"]
