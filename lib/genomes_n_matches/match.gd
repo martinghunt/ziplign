@@ -8,15 +8,6 @@ signal match_selected
 signal match_deselected
 
 
-var color = "red"
-var rev_color = "blue"
-var hover_color = "pink"
-var rev_hover_color = "light_blue"
-var selected_color = "yellow"
-var outline_color = "black"
-var internal_match_color = "darkred"
-var end_match_color = "black"
-var mismatch_color = "orange"
 var match_width = 1
 var mismatch_width = 2
 var static_body_2d = StaticBody2D.new()
@@ -67,18 +58,18 @@ func _init(new_id, new_start1, new_end1, new_start2, new_end2, new_is_revcomp, y
 	length = max(end1 - start1, end2 - start2)
 	is_revcomp = new_is_revcomp
 	outline1.width = outline_width
-	outline1.default_color = outline_color
+	outline1.default_color = Globals.theme.colours["blast_match"]["outline"]
 	outline2.width = outline_width
-	outline2.default_color = outline_color
+	outline2.default_color = Globals.theme.colours["blast_match"]["outline"]
 
 
 	static_body_2d.set_pickable(true)
 	static_body_2d.z_index = 0
 	if is_revcomp:
-		poly.color = rev_color
-		poly2.color = rev_color
+		poly.color = Globals.theme.colours["blast_match"]["rev"]
+		poly2.color = Globals.theme.colours["blast_match"]["rev"]
 	else:
-		poly.color = color
+		poly.color = Globals.theme.colours["blast_match"]["fwd"]
 
 	set_polygon_coords()
 	add_child(static_body_2d)
@@ -213,10 +204,10 @@ func draw_alignment_lines():
 						alignment_lines[-1].add_point(Vector2(line_top, top))
 						alignment_lines[-1].add_point(Vector2(line_bottom, bottom))
 						if i == aln_data[0] or i == aln_data[1]:
-							alignment_lines[-1].default_color = end_match_color
+							alignment_lines[-1].default_color = Globals.theme.colours["blast_match"]["bp_match_end"]
 							alignment_lines[-1].width = mismatch_width
 						else:
-							alignment_lines[-1].default_color = internal_match_color
+							alignment_lines[-1].default_color = Globals.theme.colours["blast_match"]["bp_match"]
 							alignment_lines[-1].width = match_width
 
 						alignment_lines[-1].z_index = 5
@@ -236,7 +227,7 @@ func draw_alignment_lines():
 			if not position_is_visible(line_bottom, 10):
 				continue
 			alignment_lines.append(Line2D.new())
-			alignment_lines[-1].default_color = mismatch_color
+			alignment_lines[-1].default_color = Globals.theme.colours["blast_match"]["bp_mismatch"]
 			alignment_lines[-1].width = mismatch_width
 			alignment_lines[-1].z_index = 5
 			alignment_lines[-1].add_point(Vector2(top_start, top))
@@ -318,9 +309,9 @@ func select():
 	static_body_2d.z_index = 3
 	outline1.z_index = 3
 	outline2.z_index = 3
-	poly.color = selected_color
+	poly.color = Globals.theme.colours["blast_match"]["selected"]
 	if is_revcomp:
-		poly2.color = selected_color
+		poly2.color = Globals.theme.colours["blast_match"]["selected"]
 	match_selected.emit(id)
 
 
@@ -329,31 +320,29 @@ func deselect():
 	send_to_back()
 	if hovering:
 		if is_revcomp:
-			poly.color = rev_hover_color
-			poly2.color = rev_hover_color
+			poly.color = Globals.theme.colours["blast_match"]["rev_hover"]
+			poly2.color = Globals.theme.colours["blast_match"]["rev_hover"]
 		else:
-			poly.color = hover_color
+			poly.color = Globals.theme.colours["blast_match"]["fwd_hover"]
 	else:
 		if is_revcomp:
-			poly.color = rev_color
-			poly2.color = rev_color
+			poly.color = Globals.theme.colours["blast_match"]["rev"]
+			poly2.color = Globals.theme.colours["blast_match"]["rev"]
 		else:
-			poly.color = color
+			poly.color = Globals.theme.colours["blast_match"]["fwd"]
 
 
 func _on_mouse_entered():
 	hovering = true
 	if selected:
-		#poly.color = "yellow"
 		pass
 	else:
 		if is_revcomp:
-			poly.color = rev_hover_color
-			poly2.color = rev_hover_color
+			poly.color = Globals.theme.colours["blast_match"]["rev_hover"]
+			poly2.color = Globals.theme.colours["blast_match"]["rev_hover"]
 		else:
-			poly.color = hover_color
+			poly.color = Globals.theme.colours["blast_match"]["fwd_hover"]
 		bring_to_top()
-		#_draw()
 	mouse_in.emit(id)
 
 
@@ -361,9 +350,9 @@ func _on_mouse_exited():
 	hovering = false
 	if not selected:
 		if is_revcomp:
-			poly.color = rev_color
-			poly2.color = rev_color
+			poly.color = Globals.theme.colours["blast_match"]["rev"]
+			poly2.color = Globals.theme.colours["blast_match"]["rev"]
 		else:
-			poly.color = color
+			poly.color = Globals.theme.colours["blast_match"]["fwd"]
 		send_to_back()
 	mouse_out.emit(id)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=3 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
+[ext_resource type="Script" path="res://scenes/settings/ThemeOptionButton.gd" id="2_4nf2k"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -19,6 +20,11 @@ offset_bottom = 40.0
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
+[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back to main menu"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -30,9 +36,18 @@ text = "Settings placeholder"
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="ThemeVBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ThemeLabel" type="Label" parent="CenterContainer/VBoxContainer/ThemeVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Back to main menu"
+text = "Theme"
+
+[node name="ThemeOptionButton" type="OptionButton" parent="CenterContainer/VBoxContainer/ThemeVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+script = ExtResource("2_4nf2k")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="item_selected" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" method="_on_item_selected"]

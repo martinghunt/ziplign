@@ -14,6 +14,8 @@ var makeblastdb_exists = false
 var tnahelper_exists = false
 var current_proj_dir = OS.get_user_data_dir().path_join("current_proj")
 
+
+
 func get_config_path():
 	return OS.get_user_data_dir().path_join("config")
 

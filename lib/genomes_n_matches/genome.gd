@@ -65,7 +65,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 			nt_labels[-1].position.x = plot_x
 			nt_labels[-1].position.y = top - 10
 			nt_labels[-1].set_horizontal_alignment(1) # 1 = center
-			nt_labels[-1].add_theme_color_override("font_color", Color("black"))
+			nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 			add_child(nt_labels[-1])
 			
 			nt_labels.append(Label.new())
@@ -73,7 +73,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 			nt_labels[-1].position.x = plot_x
 			nt_labels[-1].position.y = top + 10
 			nt_labels[-1].set_horizontal_alignment(1) # 1 = center
-			nt_labels[-1].add_theme_color_override("font_color", Color("black"))
+			nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 			add_child(nt_labels[-1])
 			
 

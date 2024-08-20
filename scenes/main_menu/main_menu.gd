@@ -1,6 +1,7 @@
 extends Control
 
 signal resume
+signal reload
 signal new_project
 signal load_project
 signal save_project
@@ -10,7 +11,11 @@ var quit_selected = false
 
 func _on_resume_button_pressed():
 	hide()
-	resume.emit()
+	if Globals.reload_needed:
+		Globals.reload_needed = false
+		reload.emit()
+	else:
+		resume.emit()
 
 
 func _on_new_button_pressed():
@@ -57,10 +62,15 @@ func _on_save_project_return_to_main_menu():
 	show()
 
 
-func _on_load_project_return_to_game():
-	hide()
-	resume.emit()
+#func _on_load_project_return_to_game():
+#	hide()
+#	resume.emit()
 
 
 func _on_load_project_return_to_main_menu():
 	show()
+
+
+func _on_load_project_return_to_game_reload():
+	hide()
+	reload.emit()

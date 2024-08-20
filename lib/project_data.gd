@@ -91,5 +91,7 @@ func save_as_serialized_file(outfile):
 func load_from_serialized_file(infile):
 	print("Loading project from file: ", infile)
 	var file = FileAccess.open(infile, FileAccess.READ)
+	blast_matches.clear()
+	genome_seqs.clear()
 	blast_matches = file.get_var()
 	genome_seqs = file.get_var()
