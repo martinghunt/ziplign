@@ -1,7 +1,7 @@
 class_name ColourThemes
 
 var colour_themes = {
-	"classic": {
+	"Classic": {
 		"blast_match": {
 			"fwd": "red",
 			"rev": "blue",
@@ -16,40 +16,40 @@ var colour_themes = {
 		"text": "black",
 		"genomes_bg": "white"
 	},
-	"dark": {
+	"Solarized dark": {
 		"blast_match": {
-			"fwd": "dark_red",
-			"rev": "midnight_blue",
-			"fwd_hover": "web_purple",
-			"rev_hover": "steel_blue",
-			"selected": "black",
+			"fwd": "#657b83",
+			"rev": "#657b83",
+			"fwd_hover": "#93a1a1",
+			"rev_hover": "#93a1a1",
+			"selected": "#b58900",
 			"outline": "black",
-			"bp_match": "black",
-			"bp_match_end": "black",
-			"bp_mismatch": "slate_gray",
+			"bp_match": "#073642",
+			"bp_match_end": "#073642",
+			"bp_mismatch": "#cb4b16",
 		},
-		"text": "white_smoke",
-		"genomes_bg": "dim_gray",
+		"text": "#93a1a1",
+		"genomes_bg": "#002b36",
 	},
-	"light": {
+	"Solarized light": {
 		"blast_match": {
-			"fwd": "green",
-			"rev": "orange",
-			"fwd_hover": "light_green",
-			"rev_hover": "yellow",
-			"selected": "white",
-			"outline": "slate_gray",
-			"bp_match": "black",
-			"bp_match_end": "black",
-			"bp_mismatch": "red",
+			"fwd": "#586e75",
+			"rev": "#586e75",
+			"fwd_hover": "#839496",
+			"rev_hover": "#839496",
+			"selected": "#b58900",
+			"outline": "#002b36",
+			"bp_match": "#002b36",
+			"bp_match_end": "#002b36",
+			"bp_mismatch": "#cb4b16",
 		},
-		"text": "black",
-		"genomes_bg": "slate_gray",
+		"text": "#586e75",
+		"genomes_bg": "#fdf6e3",
 	}
 }
 
 
-var name = "classic"
+var name = "Classic"
 var colours = get_theme()
 
 func get_theme():
