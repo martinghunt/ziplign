@@ -13,6 +13,14 @@ var colour_themes = {
 			"bp_match_end": "black",
 			"bp_mismatch": "orange",
 		},
+		"contig": {
+			"edge": "black",
+			"edge_hover": "gray",
+			"edge_selected": "red",
+			"fill": "dark_orange",
+			"fill_hover": "white",
+			"fill_selected": "yellow",
+		},
 		"text": "black",
 		"genomes_bg": "white"
 	},
@@ -28,7 +36,15 @@ var colour_themes = {
 			"bp_match_end": "#073642",
 			"bp_mismatch": "#cb4b16",
 		},
-		"text": "#93a1a1",
+		"contig": {
+			"edge": "#fdf6e3",
+			"edge_hover": "gray",
+			"edge_selected": "red",
+			"fill": "#b58900",
+			"fill_hover": "white",
+			"fill_selected": "yellow",
+		},
+		"text": "#eee8d5",
 		"genomes_bg": "#002b36",
 	},
 	"Solarized light": {
@@ -43,7 +59,15 @@ var colour_themes = {
 			"bp_match_end": "#002b36",
 			"bp_mismatch": "#cb4b16",
 		},
-		"text": "#586e75",
+		"contig": {
+			"edge": "#002b36",
+			"edge_hover": "gray",
+			"edge_selected": "red",
+			"fill": "#b58900",
+			"fill_hover": "white",
+			"fill_selected": "yellow",
+		},
+		"text": "#073642",
 		"genomes_bg": "#fdf6e3",
 	}
 }
