@@ -12,11 +12,13 @@ var poly = Polygon2D.new()
 var centerline = Line2D.new()
 var leftvline = Line2D.new()
 var rightvline = Line2D.new()
+var top_or_bottom
 var centerline_width = 1
 var centerline_width_zoomed = 1
 var top = 5
 var bottom = 30
 var middle = 0.5 * (top + bottom)
+var centerline_y = middle
 var id
 var selected = false
 var hovering = false
@@ -32,16 +34,18 @@ var edge_hover_colour = Color("gray")
 var edge_select_colour = Color("red")
 
 
-func _init(new_id, new_x_start, new_x_end, new_top, new_bottom, bp_length):
+func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_bottom, bp_length):
 	id = new_id
+	top_or_bottom = new_top_or_bottom
 	top = new_top
 	bottom = new_bottom
 	middle = 0.5 * (top + bottom)
+	centerline_y = middle
 	static_body_2d.set_pickable(true)
 	poly.color = Globals.theme.colours["contig"]["fill"]
 	centerline.default_color = Globals.theme.colours["contig"]["edge"]
-	centerline.add_point(Vector2(0, 0))
-	centerline.add_point(Vector2(0, 0))
+	centerline.add_point(Vector2(0, centerline_y))
+	centerline.add_point(Vector2(0, centerline_y))
 	centerline.width = centerline_width
 	leftvline.default_color = Globals.theme.colours["contig"]["edge"]
 	leftvline.add_point(Vector2(0, 0))
@@ -82,8 +86,8 @@ func set_polygons_coords():
 		Vector2(x_start, bottom),
 	]
 	coll_poly.polygon = poly.polygon
-	centerline.set_point_position(0, Vector2(x_start, middle))
-	centerline.set_point_position(1, Vector2(x_end, middle))
+	centerline.set_point_position(0, Vector2(x_start, centerline_y))
+	centerline.set_point_position(1, Vector2(x_end, centerline_y))
 	leftvline.set_point_position(0, Vector2(x_start, top))
 	leftvline.set_point_position(1, Vector2(x_start, bottom))
 	rightvline.set_point_position(0, Vector2(x_end, top))
@@ -92,14 +96,25 @@ func set_polygons_coords():
 func set_zoomed_view(turn_on):
 	if turn_on:
 		centerline.width = centerline_width_zoomed
-		leftvline.width = 0
-		rightvline.width = 0
+		if top_or_bottom == "top":
+			centerline_y = top
+		else:
+			centerline_y = bottom
+		leftvline.hide()
+		rightvline.hide()
 		poly.hide()
 	else:
 		centerline.width = centerline_width
-		leftvline.width = centerline_width
-		rightvline.width = centerline_width
+		centerline_y = middle
+
+
+
+		leftvline.show()
+		rightvline.show()
 		poly.show()
+
+	centerline.set_point_position(0, Vector2(x_start, centerline_y))
+	centerline.set_point_position(1, Vector2(x_end, centerline_y))
 
 
 func set_start_end(new_start, new_end):

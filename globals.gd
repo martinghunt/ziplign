@@ -25,3 +25,21 @@ var complement_dict = {
 	"T": "A",
 	"N": "N"
 }
+
+func load_dejavu():
+	var dejavu = load("res://fonts/dejavu-sans/DejaVuSans.ttf")
+	#dejavu.antialiasing = 2
+	#dejavu.hinting = 0
+	#dejavu.multichannel_signed_distance_field = true
+	#dejavu.generate_mipmaps = true
+	return dejavu
+	
+func get_char_sizes(font_size):
+	var sizes = {}
+	for c in ["A", "C", "G", "T", "N"]:
+		sizes[c] = dejavu.get_string_size(c, 0, -1, font_size)[0]
+	return sizes
+
+var dejavu = load_dejavu()
+var font_acgt_size = 13
+var font_acgt_sizes = get_char_sizes(font_acgt_size)
