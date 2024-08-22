@@ -49,10 +49,10 @@ func get_intersection(line1, line2):
 
 func _init(new_id, new_start1, new_end1, new_start2, new_end2, new_is_revcomp, y_top=100, y_bottom=400):
 	id = new_id
-	start1 = new_start1
-	end1 = new_end1
-	start2 = new_start2
-	end2 = new_end2
+	start1 = new_start1 - 1
+	end1 = new_end1 - 1
+	start2 = new_start2 - 1
+	end2 = new_end2 - 1
 	top = y_top
 	bottom = y_bottom
 	length = max(end1 - start1, end2 - start2)
