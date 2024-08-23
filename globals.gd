@@ -27,12 +27,12 @@ var complement_dict = {
 }
 
 func load_dejavu():
-	var dejavu = load("res://fonts/dejavu-sans/DejaVuSans.ttf")
+	var dj = load("res://fonts/dejavu-sans/DejaVuSans.ttf")
 	#dejavu.antialiasing = 2
 	#dejavu.hinting = 0
 	#dejavu.multichannel_signed_distance_field = true
 	#dejavu.generate_mipmaps = true
-	return dejavu
+	return dj
 	
 func get_char_sizes(font_size):
 	var sizes = {}

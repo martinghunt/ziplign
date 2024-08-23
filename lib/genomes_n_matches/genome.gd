@@ -176,7 +176,6 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 		var plot_x = contigs[cname].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
 		nt_labels.append(Label.new())
 		nt_labels[-1].text = contig_nt(contig_index, i)
-		var nuc = contig_nt(contig_index, i)
 		nt_labels[-1].position.x = plot_x - 0.5 * Globals.font_acgt_sizes[contig_nt(contig_index, i)]
 		nt_labels[-1].position.y = fwd_y
 		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
