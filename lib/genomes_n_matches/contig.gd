@@ -26,12 +26,6 @@ var x_offset = 0
 var x_start
 var x_end
 var length_in_bp
-var fill_colour = Color("gray")
-var fill_hover_colour = Color("light_gray")
-var fill_select_colour = Color("pink")
-var edge_colour = Color("black")
-var edge_hover_colour = Color("gray")
-var edge_select_colour = Color("red")
 
 
 func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_bottom, bp_length):

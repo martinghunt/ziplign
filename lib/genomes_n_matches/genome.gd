@@ -25,11 +25,7 @@ var right_genome_index = ""
 var right_genome_pos = 0
 var nt_labels = []
 var zoomed_contigs = {}
-var left_coords_label
-var right_coords_label
 var label_space_pixels = 200
-var human_suffixes = ["", "k", "M", "G"]
-var contig_name_labels = []
 var style_box_ctg_names = StyleBoxFlat.new()
 
 
@@ -256,16 +252,6 @@ func reset_contig_coords():
 			units = 1000000000
 		
 		label_space_bp = max(10, snappedi(label_space_bp, max(50, units)))
-
-		#nt_labels.append(Label.new())
-		#nt_labels[-1].text = contig_names[left_genome_index]
-		#nt_labels[-1].position.x = 10
-		#nt_labels[-1].position.y = tracks_y["ctg_name"]
-		#nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
-		#nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
-		#nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
-		#nt_labels[-1].z_index = 10
-		#add_child(nt_labels[-1])
 
 		if left_genome_index == right_genome_index:
 			show_coords_axis(left_genome_index, left_genome_pos, right_genome_pos, label_space_bp)
