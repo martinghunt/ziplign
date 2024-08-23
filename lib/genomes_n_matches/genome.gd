@@ -31,7 +31,6 @@ var label_space_pixels = 200
 var human_suffixes = ["", "k", "M", "G"]
 
 
-
 func _init(new_top_or_bottom, new_top, new_bottom):
 	top_or_bottom = new_top_or_bottom
 	top = new_top
@@ -297,8 +296,7 @@ func draw_pos_to_genome_and_contig_pos(x):
 		if x < base_contig_pos[contig_names[i]][1]:
 			x = max(x, base_contig_pos[contig_names[i]][0])
 			return  [i, x - base_contig_pos[contig_names[i]][0]]
-	return [-1, 0]
-
+	return [len(contig_names)-1, contig_length_from_index(len(contig_names)-1)]
 
 func screen_x_pos_to_genome_contig_and_pos(screen_x):
 	var x = (screen_x / x_zoom) - x_left
