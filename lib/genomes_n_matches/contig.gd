@@ -13,6 +13,7 @@ var centerline = Line2D.new()
 var leftvline = Line2D.new()
 var rightvline = Line2D.new()
 var top_or_bottom
+var vline_width = 2
 var centerline_width = 1
 var centerline_width_zoomed = 1
 var top = 5
@@ -44,11 +45,11 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	leftvline.default_color = Globals.theme.colours["contig"]["edge"]
 	leftvline.add_point(Vector2(0, 0))
 	leftvline.add_point(Vector2(0, 0))
-	leftvline.width = centerline_width
+	leftvline.width = vline_width
 	rightvline.default_color = Globals.theme.colours["contig"]["edge"]
 	rightvline.add_point(Vector2(0, 0))
 	rightvline.add_point(Vector2(0, 0))
-	rightvline.width = centerline_width
+	rightvline.width = vline_width
 	set_start_end(new_x_start, new_x_end)
 	add_child(static_body_2d)
 	static_body_2d.add_child(coll_poly)
