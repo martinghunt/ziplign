@@ -15,7 +15,7 @@ var bottom_genome
 var x_zoom = 1
 var top_x = 0
 var bottom_x = 0
-var global_top = 70
+var global_top = 80
 var global_bottom = 590
 var genome_height = 60
 var top_scrollbar_value = 0

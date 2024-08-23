@@ -29,23 +29,27 @@ var left_coords_label
 var right_coords_label
 var label_space_pixels = 200
 var human_suffixes = ["", "k", "M", "G"]
+var contig_name_labels = []
+var style_box_ctg_names = StyleBoxFlat.new()
 
 
 func _init(new_top_or_bottom, new_top, new_bottom):
+	style_box_ctg_names.bg_color = Globals.theme.colours["genomes_bg"]
+	style_box_ctg_names.border_color = Globals.theme.colours["text"]
 	top_or_bottom = new_top_or_bottom
 	top = new_top
 	bottom = new_bottom
-	var track_height = 0.25 * (bottom - top)
+	var track_height = 0.2 * (bottom - top)
 	if top_or_bottom == "top":
-		tracks_y["ctg_name"] = top
-		tracks_y["coords_top"] = top + track_height
-		tracks_y["fwd_top"] = top + 2 * track_height
-		tracks_y["rev_top"] = top + 3 * track_height
+		tracks_y["ctg_name"] = top - 11
+		tracks_y["coords_top"] = top + 2 * track_height
+		tracks_y["fwd_top"] = top + 3 * track_height
+		tracks_y["rev_top"] = top + 4 * track_height
 	else:
 		tracks_y["fwd_top"] = top
 		tracks_y["rev_top"] = top + track_height
 		tracks_y["coords_top"] = top + 2 * track_height
-		tracks_y["ctg_name"] = top + 3 * track_height
+		tracks_y["ctg_name"] = top + 4 * track_height
 
 	tracks_y["fwd_bottom"] = tracks_y["fwd_top"] + track_height
 	tracks_y["coords_bottom"] = tracks_y["coords_top"] + track_height
@@ -114,6 +118,18 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 	while len(range(start, genome_end, tick_space)) > 10:
 		tick_space *= 1.1
 
+	nt_labels.append(Label.new())
+	nt_labels[-1].text = cname + " "
+	var x = contigs[cname].x_start + 1.0 * genome_plot_len / contig_length_in_bp
+	nt_labels[-1].position.x = max(10, x)
+	nt_labels[-1].position.y = tracks_y["ctg_name"]
+	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
+	nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
+	nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+	nt_labels[-1].z_index = 10 + contig_index
+	add_child(nt_labels[-1])
+
+
 	for i in range(start, genome_end, tick_space):
 		var plot_x = contigs[cname].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
 		nt_labels.append(Line2D.new())
@@ -130,68 +146,77 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 		nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
 		add_child(nt_labels[-1])
-		
-		
 
 
-		
 func show_nuc_sequence(contig_index, genome_start, genome_end):
-		var cname = contig_names[contig_index]
-		var genome_plot_len = contigs[cname].x_end - contigs[cname].x_start
-		genome_start = int(genome_start)
-		genome_end = int(genome_end)
-		var contig_length_in_bp = contig_length_from_index(contig_index)
-		var fwd_y
-		var rev_y
+	var cname = contig_names[contig_index]
+	var genome_plot_len = contigs[cname].x_end - contigs[cname].x_start
+	genome_start = int(genome_start)
+	genome_end = int(genome_end)
+	var contig_length_in_bp = contig_length_from_index(contig_index)
+	var fwd_y
+	var rev_y
+	
+	if top_or_bottom == "top":
+		fwd_y = tracks_y["fwd_top"] + 4
+		rev_y = tracks_y["rev_top"] + 6
+	else:
+		fwd_y = tracks_y["fwd_top"] - 7
+		rev_y = tracks_y["rev_top"] - 5
+
+	nt_labels.append(Label.new())
+	nt_labels[-1].text = cname + " "
+	var x = contigs[cname].x_start + 1.0 * genome_plot_len / contig_length_in_bp
+	nt_labels[-1].position.x = max(10, x)
+	nt_labels[-1].position.y = tracks_y["ctg_name"]
+	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
+	nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
+	nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+	nt_labels[-1].z_index = 10 + contig_index
+	add_child(nt_labels[-1])
+
+	
+	for i in range(genome_start, genome_end):
+		var plot_x = contigs[cname].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
+		nt_labels.append(Label.new())
+		nt_labels[-1].text = contig_nt(contig_index, i)
+		var nuc = contig_nt(contig_index, i)
+		nt_labels[-1].position.x = plot_x - 0.5 * Globals.font_acgt_sizes[contig_nt(contig_index, i)]
+		nt_labels[-1].position.y = fwd_y
+		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
+		nt_labels[-1].add_theme_font_size_override("font_size", Globals.font_acgt_size)
+		nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+		add_child(nt_labels[-1])
 		
-		if top_or_bottom == "top":
-			fwd_y = tracks_y["fwd_top"] + 4
-			rev_y = tracks_y["rev_top"] + 6
+		nt_labels.append(Label.new())
+		nt_labels[-1].text = Globals.complement_dict.get(contig_nt(contig_index, i), "N")
+		nt_labels[-1].position.x = plot_x - 0.5 * Globals.font_acgt_sizes[contig_nt(contig_index, i)]
+		nt_labels[-1].position.y = rev_y
+		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
+		nt_labels[-1].add_theme_font_size_override("font_size", Globals.font_acgt_size)
+		nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+		add_child(nt_labels[-1])
+		
+		nt_labels.append(Line2D.new())
+		if (i+1) % 10 == 0:
+			nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_top"]))
+			nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_bottom"]))
+			nt_labels[-1].width = 2
 		else:
-			fwd_y = tracks_y["fwd_top"] - 6
-			rev_y = tracks_y["rev_top"] - 4
-		
-		for i in range(genome_start, genome_end):
-			var plot_x = contigs[cname].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
+			nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_top_small"]))
+			nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_bottom_small"]))
+			nt_labels[-1].width = 1
+		nt_labels[-1].default_color = Globals.theme.colours["text"]
+		add_child(nt_labels[-1])
+			
+		if i > 1 and (i+1) % 20 == 0:
 			nt_labels.append(Label.new())
-			nt_labels[-1].text = contig_nt(contig_index, i)
-			var nuc = contig_nt(contig_index, i)
-			nt_labels[-1].position.x = plot_x - 0.5 * Globals.font_acgt_sizes[contig_nt(contig_index, i)]
-			nt_labels[-1].position.y = fwd_y
+			nt_labels[-1].text = pos_add_commas(i+1)
+			nt_labels[-1].position.x = plot_x - 5
+			nt_labels[-1].position.y = coords_axis_y["coords"]
 			nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
-			nt_labels[-1].add_theme_font_size_override("font_size", Globals.font_acgt_size)
 			nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
 			add_child(nt_labels[-1])
-			
-			nt_labels.append(Label.new())
-			nt_labels[-1].text = Globals.complement_dict.get(contig_nt(contig_index, i), "N")
-			nt_labels[-1].position.x = plot_x - 0.5 * Globals.font_acgt_sizes[contig_nt(contig_index, i)]
-			nt_labels[-1].position.y = rev_y
-			nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
-			nt_labels[-1].add_theme_font_size_override("font_size", Globals.font_acgt_size)
-			nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
-			add_child(nt_labels[-1])
-			
-			nt_labels.append(Line2D.new())
-			if (i+1) % 10 == 0:
-				nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_top"]))
-				nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_bottom"]))
-				nt_labels[-1].width = 2
-			else:
-				nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_top_small"]))
-				nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_bottom_small"]))
-				nt_labels[-1].width = 1
-			nt_labels[-1].default_color = Globals.theme.colours["text"]
-			add_child(nt_labels[-1])
-				
-			if i > 1 and (i+1) % 20 == 0:
-				nt_labels.append(Label.new())
-				nt_labels[-1].text = pos_add_commas(i+1)
-				nt_labels[-1].position.x = plot_x - 5
-				nt_labels[-1].position.y = coords_axis_y["coords"]
-				nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
-				nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
-				add_child(nt_labels[-1])
 
 
 func clear_nt_labels():
@@ -231,6 +256,16 @@ func reset_contig_coords():
 			units = 1000000000
 		
 		label_space_bp = max(10, snappedi(label_space_bp, max(50, units)))
+
+		#nt_labels.append(Label.new())
+		#nt_labels[-1].text = contig_names[left_genome_index]
+		#nt_labels[-1].position.x = 10
+		#nt_labels[-1].position.y = tracks_y["ctg_name"]
+		#nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
+		#nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
+		#nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+		#nt_labels[-1].z_index = 10
+		#add_child(nt_labels[-1])
 
 		if left_genome_index == right_genome_index:
 			show_coords_axis(left_genome_index, left_genome_pos, right_genome_pos, label_space_bp)
