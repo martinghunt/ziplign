@@ -9,14 +9,13 @@ signal match_selected
 signal match_deselected
 
 var matches = []
-var hover_matches = {}
+var hover_matches = []
 var selected = -1
 var top = 100
 var bottom = 600
 var x_zoom = 1
 var x_left_bottom = 0
 var x_left_top = 0
-
 
 func _init(coords):
 	for c in coords:
@@ -93,8 +92,8 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed or event.double_click:
-				if len(hover_matches) == 1:
-					var match_id = hover_matches.keys()[0]
+				if len(hover_matches) >= 1:
+					var match_id = hover_matches[-1]
 					if selected != -1 and selected == match_id:
 						moved_to_selected_match.emit(selected)
 						return
@@ -115,7 +114,8 @@ func _unhandled_input(event):
 
 
 func on_mouse_in_match(match_id):
-	hover_matches[match_id] = true
+	if match_id not in hover_matches:
+		hover_matches.append(match_id)
 
 
 func on_mouse_out_match(match_id):
