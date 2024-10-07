@@ -10,39 +10,6 @@ func run_blast(proj_dir):
 	return exit_code
 
 
-func blast_index(fasta_file, outdb):
-	print("run blast index")
-	var stderr = []
-	print("WTF outdb:", outdb)
-	var params = ["-in", "\" '" + '"' + fasta_file + "'" + '" \"', "-dbtype", "nucl"] #, "-out", outdb]
-	print("params: ", params)
-	#var command = "\"' -in '" + fasta_file + "' -dbtype nucl -out '" + outdb + "'\""
-	var exit_code = OS.execute(Globals.bin_path.path_join("makeblastdb"), params, stderr, true) 
-	#var exit_code = OS.execute(Globals.bin_path.path_join("makeblastdb"), ["-in", "\"'" + fasta_file + "'\"", "-dbtype", "nucl", "-out", "\"'" + outdb + "'\""], stderr, true)
-	#var exit_code = OS.execute("res://ext/makeblastdb", ["-in", fasta_file, "-dbtype", "nucl", "-out", outdb], stderr, true)
-	if exit_code != 0:
-		print("Error running makeblastdb", stderr)
-		print()
-	return exit_code
-
-
-func blastn(qry_fasta, refdb, outfile):
-	print("run blastn")
-	var stderr = []
-	var blast_opts = [
-		"-db", refdb,
-		"-query", qry_fasta,
-		"-out", outfile,
-		"-outfmt", '"6',
-		"qseqid", "sseqid", "pident", "qstart", "qend", "sstart", "send", "qseq", 'sseq"',
-	]
-	var exit_code = OS.execute(Globals.bin_path.path_join("blastn"), blast_opts, stderr, true)
-	#var exit_code = OS.execute("res://ext/blastn", blast_opts, stderr, true)
-	if exit_code != 0:
-		print("Error running blastn")
-	return exit_code
-
-
 func load_tsv_file(filename):
 	var file = FileAccess.open(filename, FileAccess.READ)
 	var contents = file.get_as_text()
