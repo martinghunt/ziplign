@@ -73,6 +73,35 @@ text = "↻"
 layout_mode = 2
 text = "⇉"
 
+[node name="NavigationVBoxContainer2" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="MoveLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Move"
+horizontal_alignment = 1
+
+[node name="BoxContainer" type="BoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "⇇"
+
+[node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "↺"
+
+[node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "↻"
+
+[node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "⇉"
+
 [node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
 layout_mode = 2
 
@@ -132,6 +161,27 @@ value = 90.0
 prefix = "≥"
 suffix = "%id"
 script = ExtResource("3_esyft")
+
+[node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="RevcompVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
+layout_mode = 2
+
+[node name="RevcompLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer"]
+layout_mode = 2
+text = "Reverse comp"
+
+[node name="RecvompHBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer"]
+layout_mode = 2
+
+[node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
+layout_mode = 2
+text = "Top"
+
+[node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
+layout_mode = 2
+text = "Bottom"
 
 [node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
 layout_mode = 2
@@ -197,12 +247,18 @@ script = ExtResource("3_nnddm")
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_right_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_left_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_right_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomMinus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_minus_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomReset" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomPlus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_plus_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomBp" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_bp_pressed"]
 [connection signal="value_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthSpinBox" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_length_spin_box_value_changed"]
 [connection signal="value_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinPcSpinBox" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_pc_spin_box_value_changed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompTopButton" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_revcomp_top_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompBottomButton" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
 [connection signal="value_changed" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightTopScrollbar" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_right_top_scrollbar_value_changed"]
 [connection signal="hscrollbar_set_bottom_value" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightBottomScrollbar" method="_on_genomes_n_matches_hscrollbar_set_bottom_value"]
 [connection signal="hscrollbar_set_top_value" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightTopScrollbar" method="_on_genomes_n_matches_hscrollbar_set_top_value"]

@@ -185,6 +185,20 @@ func move_top_and_bottom(top_frac, bottom_frac):
 	shift_bottom(d * bottom_frac / bottom_genome.last_contig_end)
 
 
+func reverse_complement(to_rev):
+	if to_rev != "both":
+		Globals.proj_data.flip_all_blast_matches()
+	
+	if to_rev == "both" or to_rev == "top":
+		Globals.proj_data.reverse_complement_genome("top")
+	
+	if to_rev == "both" or to_rev == "bottom":
+		Globals.proj_data.reverse_complement_genome("bottom")
+
+	_on_game_new_project_go()
+
+
+
 func _on_button_move_left_left_pressed():
 	move_top_and_bottom(-0.5, -0.5)
 	
@@ -215,3 +229,11 @@ func _on_game_window_resized():
 	matches.update_hide_and_show()
 	top_genome.reset_contig_coords()
 	bottom_genome.reset_contig_coords()
+
+
+func _on_revcomp_top_button_pressed():
+	reverse_complement("top")
+
+
+func _on_revcomp_bottom_button_pressed():
+	reverse_complement("bottom")

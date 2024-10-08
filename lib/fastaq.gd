@@ -20,3 +20,10 @@ func load_fasta_file(filename):
 			contigs["seqs"][contigs["names"][-1]] = line
 	print("Loaded fasta file ok:", filename)
 	return contigs
+
+func revcomp(seq_in):
+	var seq_out = []
+	for i in range(0, len(seq_in)):
+		seq_out.append(Globals.complement_dict.get(seq_in[-i-1], "N"))
+	return "".join(seq_out)
+
