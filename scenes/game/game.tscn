@@ -73,35 +73,6 @@ text = "↻"
 layout_mode = 2
 text = "⇉"
 
-[node name="NavigationVBoxContainer2" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
-layout_mode = 2
-
-[node name="MoveLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Move"
-horizontal_alignment = 1
-
-[node name="BoxContainer" type="BoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2"]
-layout_mode = 2
-alignment = 1
-
-[node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
-layout_mode = 2
-text = "⇇"
-
-[node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
-layout_mode = 2
-text = "↺"
-
-[node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
-layout_mode = 2
-text = "↻"
-
-[node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer"]
-layout_mode = 2
-text = "⇉"
-
 [node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
 layout_mode = 2
 
@@ -247,10 +218,6 @@ script = ExtResource("3_nnddm")
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_right_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_left_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_right_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_left_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_left_right_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_left_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer2/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_move_right_right_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomMinus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_minus_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomReset" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomPlus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_plus_pressed"]
