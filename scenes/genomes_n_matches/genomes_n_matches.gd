@@ -192,8 +192,15 @@ func reverse_complement(to_rev):
 	elif to_rev == "bottom":
 		Globals.proj_data.reverse_complement_genome("bottom")
 
+	var currently_selected = matches.selected
+	var current_zoom = x_zoom
 	_on_game_new_project_go()
+	set_x_zoom(current_zoom)
 
+	if currently_selected != -1:
+		matches.selected = currently_selected
+		matches.matches[matches.selected].select()
+		matches.move_to_selected()
 
 
 func _on_button_move_left_left_pressed():
