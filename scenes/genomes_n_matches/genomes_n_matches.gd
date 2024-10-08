@@ -186,13 +186,9 @@ func move_top_and_bottom(top_frac, bottom_frac):
 
 
 func reverse_complement(to_rev):
-	if to_rev != "both":
-		Globals.proj_data.flip_all_blast_matches()
-	
-	if to_rev == "both" or to_rev == "top":
+	if to_rev == "top":
 		Globals.proj_data.reverse_complement_genome("top")
-	
-	if to_rev == "both" or to_rev == "bottom":
+	elif to_rev == "bottom":
 		Globals.proj_data.reverse_complement_genome("bottom")
 
 	_on_game_new_project_go()

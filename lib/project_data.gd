@@ -97,10 +97,27 @@ func load_from_serialized_file(infile):
 	genome_seqs = file.get_var()
 
 
-func flip_all_blast_matches():
-	for x in blast_matches:
-		x["rev"] = not x["rev"]
+func flip_all_blast_matches(top_or_bottom):
+	var len_key = ""
+	var start_key = ""
+	var end_key = ""
+	if top_or_bottom == "top":
+		len_key = "qry"
+		start_key = "qstart"
+		end_key  = "qend"
+	else:
+		len_key = "ref"
+		start_key = "rstart"
+		end_key = "rend"
+		
+	for d in blast_matches:
+		d["rev"] = not d["rev"]
+		var new_start = len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[end_key]
+		d[end_key] = len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[start_key]
+		d[start_key] = new_start
+
 
 func reverse_complement_genome(top_or_bottom):
+	flip_all_blast_matches(top_or_bottom)
 	for name in genome_seqs[top_or_bottom]["names"]:
 		genome_seqs[top_or_bottom]["seqs"][name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][name])
