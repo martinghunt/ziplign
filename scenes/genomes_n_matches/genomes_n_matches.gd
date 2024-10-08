@@ -33,7 +33,8 @@ func set_matches():
 			top_contig_start[0] + d["qend"],
 			bottom_contig_start[0] + d["rstart"],
 			bottom_contig_start[0] + d["rend"],
-			d["rev"]
+			d["rev"],
+			d["pc"],
 		])
 	matches = Matches.new(coords)
 

@@ -19,7 +19,7 @@ var x_left_top = 0
 
 func _init(coords):
 	for c in coords:
-		matches.append(MatchClass.new(len(matches), c[0], c[1], c[2], c[3], c[4]))
+		matches.append(MatchClass.new(len(matches), c[0], c[1], c[2], c[3], c[4], c[5]))
 	update_hide_and_show()
 	
 

@@ -30,12 +30,13 @@ var end1
 var start2
 var end2
 var is_revcomp = false
-var pc_id
+var pc_id = 100.0
 var x_zoom = 1
 var length = 0
 var visible_extra = 500
 var alignment_lines = []
-
+var fwd_col
+var rev_col
 
 
 
@@ -47,7 +48,7 @@ func get_intersection(line1, line2):
 	return line1.points[0] + t * d1
 
 
-func _init(new_id, new_start1, new_end1, new_start2, new_end2, new_is_revcomp, y_top=100, y_bottom=400):
+func _init(new_id, new_start1, new_end1, new_start2, new_end2, new_is_revcomp, new_pc_id, y_top=100, y_bottom=400):
 	id = new_id
 	start1 = new_start1 - 1
 	end1 = new_end1 - 1
@@ -57,19 +58,22 @@ func _init(new_id, new_start1, new_end1, new_start2, new_end2, new_is_revcomp, y
 	bottom = y_bottom
 	length = max(end1 - start1, end2 - start2)
 	is_revcomp = new_is_revcomp
+	pc_id = new_pc_id
 	outline1.width = outline_width
 	outline1.default_color = Globals.theme.colours["blast_match"]["outline"]
 	outline2.width = outline_width
 	outline2.default_color = Globals.theme.colours["blast_match"]["outline"]
-
+	var pc_light = min(0.6, 3 - 0.03 * pc_id)
+	fwd_col = Color(Globals.theme.colours["blast_match"]["fwd"]).lightened(pc_light)
+	rev_col = Color(Globals.theme.colours["blast_match"]["rev"]).lightened(pc_light)
 
 	static_body_2d.set_pickable(true)
 	static_body_2d.z_index = 0
 	if is_revcomp:
-		poly.color = Globals.theme.colours["blast_match"]["rev"]
-		poly2.color = Globals.theme.colours["blast_match"]["rev"]
+		poly.color = rev_col
+		poly2.color = rev_col
 	else:
-		poly.color = Globals.theme.colours["blast_match"]["fwd"]
+		poly.color = fwd_col
 
 	set_polygon_coords()
 	add_child(static_body_2d)
@@ -326,10 +330,10 @@ func deselect():
 			poly.color = Globals.theme.colours["blast_match"]["fwd_hover"]
 	else:
 		if is_revcomp:
-			poly.color = Globals.theme.colours["blast_match"]["rev"]
-			poly2.color = Globals.theme.colours["blast_match"]["rev"]
+			poly.color = rev_col
+			poly2.color = rev_col
 		else:
-			poly.color = Globals.theme.colours["blast_match"]["fwd"]
+			poly.color = fwd_col
 
 
 func _on_mouse_entered():
@@ -350,9 +354,9 @@ func _on_mouse_exited():
 	hovering = false
 	if not selected:
 		if is_revcomp:
-			poly.color = Globals.theme.colours["blast_match"]["rev"]
-			poly2.color = Globals.theme.colours["blast_match"]["rev"]
+			poly.color = rev_col
+			poly2.color = rev_col
 		else:
-			poly.color = Globals.theme.colours["blast_match"]["fwd"]
+			poly.color = fwd_col
 		send_to_back()
 	mouse_out.emit(id)
