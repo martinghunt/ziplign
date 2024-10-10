@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkqo7pcll5pjj"]
+
+[ext_resource type="Script" path="res://scenes/init/init.gd" id="1_fgosu"]
+[ext_resource type="Script" path="res://scenes/init/StatusRichTextLabel.gd" id="2_fgc48"]
+
+[node name="Init" type="Control"]
+top_level = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fgosu")
+
+[node name="StatusRichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 1140.0
+offset_bottom = 644.0
+focus_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+selection_enabled = true
+script = ExtResource("2_fgc48")
+
+[connection signal="add_to_text_label" from="." to="StatusRichTextLabel" method="_on_init_add_to_text_label"]

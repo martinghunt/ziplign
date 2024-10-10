@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://5etk1xbkj7g"]
+[gd_scene load_steps=3 format=3 uid="uid://5etk1xbkj7g"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_00gpy"]
+[ext_resource type="Script" path="res://scenes/main_menu/StatusRichTextLabel.gd" id="2_4ot8r"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,6 +11,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_00gpy")
+
+[node name="StatusRichTextLabel" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_mode = 2
+offset_right = 1109.0
+offset_bottom = 49.0
+focus_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+text = "TNA version: unknown"
+fit_content = true
+selection_enabled = true
+script = ExtResource("2_4ot8r")
 
 [node name="MainContainer" type="CenterContainer" parent="."]
 layout_mode = 0
@@ -49,6 +66,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Quit"
 
+[connection signal="rerun_status_check" from="." to="StatusRichTextLabel" method="_on_main_menu_rerun_status_check"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/NewButton" to="." method="_on_new_button_pressed"]
 [connection signal="pressed" from="MainContainer/MainVBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]

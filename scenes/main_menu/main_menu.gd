@@ -6,8 +6,13 @@ signal new_project
 signal load_project
 signal save_project
 signal open_settings
+signal rerun_status_check
+
 var quit_selected = false
 
+
+func _ready():
+	hide()
 
 func _on_resume_button_pressed():
 	hide()
@@ -74,3 +79,8 @@ func _on_load_project_return_to_main_menu():
 func _on_load_project_return_to_game_reload():
 	hide()
 	reload.emit()
+
+
+func _on_init_init_finished():
+	rerun_status_check.emit()
+	show()

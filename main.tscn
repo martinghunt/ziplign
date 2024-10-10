@@ -1,15 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://b261m6mf32s8e"]
+[gd_scene load_steps=9 format=3 uid="uid://b261m6mf32s8e"]
 
 [ext_resource type="PackedScene" uid="uid://5etk1xbkj7g" path="res://scenes/main_menu/main_menu.tscn" id="1_4bx2i"]
-[ext_resource type="Script" path="res://main.gd" id="1_e85l8"]
+[ext_resource type="Script" path="res://main.gd" id="1_y7efp"]
 [ext_resource type="PackedScene" uid="uid://o6vk13fe8nhl" path="res://scenes/new_project/new_project.tscn" id="2_xhjgo"]
 [ext_resource type="PackedScene" uid="uid://cajqs7kwfmv43" path="res://scenes/game/game.tscn" id="3_gtkd0"]
 [ext_resource type="PackedScene" uid="uid://bdpfqi7xni7" path="res://scenes/load_project/load_project.tscn" id="5_vxdry"]
 [ext_resource type="PackedScene" uid="uid://bshg2cnsbwrv2" path="res://scenes/settings/settings.tscn" id="6_c5h4v"]
+[ext_resource type="PackedScene" uid="uid://dkqo7pcll5pjj" path="res://scenes/init/init.tscn" id="7_gj10y"]
 [ext_resource type="PackedScene" uid="uid://bsbxlfa2t7bm5" path="res://scenes/save_project/save_project.tscn" id="7_hhjed"]
 
 [node name="Main" type="Node2D"]
-script = ExtResource("1_e85l8")
+script = ExtResource("1_y7efp")
 
 [node name="MainMenu" parent="." instance=ExtResource("1_4bx2i")]
 
@@ -25,6 +26,9 @@ offset_bottom = 656.0
 
 [node name="SaveProject" parent="." instance=ExtResource("7_hhjed")]
 
+[node name="Init" parent="." instance=ExtResource("7_gj10y")]
+
+[connection signal="start_init" from="." to="Init" method="_on_main_start_init"]
 [connection signal="load_project" from="MainMenu" to="LoadProject" method="_on_main_menu_load_project"]
 [connection signal="new_project" from="MainMenu" to="NewProject" method="_on_main_menu_new_project"]
 [connection signal="open_settings" from="MainMenu" to="Settings" method="_on_main_menu_open_settings"]
@@ -38,3 +42,4 @@ offset_bottom = 656.0
 [connection signal="return_to_main_menu" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_main_menu"]
 [connection signal="return_to_main_menu" from="Settings" to="MainMenu" method="_on_settings_return_to_main_menu"]
 [connection signal="return_to_main_menu" from="SaveProject" to="MainMenu" method="_on_save_project_return_to_main_menu"]
+[connection signal="init_finished" from="Init" to="MainMenu" method="_on_init_init_finished"]
