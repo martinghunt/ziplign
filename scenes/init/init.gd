@@ -116,7 +116,6 @@ func run_all():
 		blast_ok = false
 		add_to_text_label.emit("blastn not found: " + Globals.userdata.blastn)
 	
-	#await get_tree().create_timer(5).timeout
 	await get_tree().create_timer(0.1).timeout
 	
 	if not blast_ok:
