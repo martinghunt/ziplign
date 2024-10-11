@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://o6vk13fe8nhl"]
+[gd_scene load_steps=7 format=3 uid="uid://o6vk13fe8nhl"]
 
 [ext_resource type="Script" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
 [ext_resource type="Script" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
+[ext_resource type="Script" path="res://scenes/new_project/StatusLabel.gd" id="2_rom0h"]
 [ext_resource type="Script" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
+[ext_resource type="Script" path="res://scenes/new_project/GoButton.gd" id="4_n1phj"]
 [ext_resource type="Script" path="res://scenes/new_project/InfoRichTextLabel.gd" id="5_4kmm3"]
 
 [node name="NewProject" type="Control"]
@@ -19,22 +21,31 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="StatusGenomeContainer" type="HBoxContainer" parent="MainVBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="MainVBoxContainer/StatusGenomeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "default text"
+script = ExtResource("2_rom0h")
+
+[node name="HSeparator6" type="HSeparator" parent="MainVBoxContainer"]
+layout_mode = 2
+
 [node name="TopGenomeContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
 
 [node name="TopGenomeLabel" type="Label" parent="MainVBoxContainer/TopGenomeContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Top genome file"
+text = "Top genome file       "
 
 [node name="TopGenomeLineEdit" type="LineEdit" parent="MainVBoxContainer/TopGenomeContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 expand_to_text_length = true
 script = ExtResource("2_ed3tn")
-
-[node name="HSeparator" type="HSeparator" parent="MainVBoxContainer"]
-layout_mode = 2
 
 [node name="BottomGenomeContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
@@ -50,28 +61,20 @@ theme_override_font_sizes/font_size = 30
 expand_to_text_length = true
 script = ExtResource("3_4xijc")
 
-[node name="HSeparator2" type="HSeparator" parent="MainVBoxContainer"]
-layout_mode = 2
-
 [node name="CompareContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
 
 [node name="CompareLabel" type="Label" parent="MainVBoxContainer/CompareContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Blast options"
+text = "Blast options            "
 
 [node name="CompareLineEdit" type="LineEdit" parent="MainVBoxContainer/CompareContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "not implemented"
+text = "to be implemented"
+editable = false
 expand_to_text_length = true
-
-[node name="HSeparator3" type="HSeparator" parent="MainVBoxContainer"]
-layout_mode = 2
-
-[node name="HSeparator4" type="HSeparator" parent="MainVBoxContainer"]
-layout_mode = 2
 
 [node name="CancelOrGoContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
@@ -81,13 +84,21 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Cancel"
 
+[node name="ResetButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Reset"
+
+[node name="OpenFileManagerButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "File browser"
+
 [node name="GoButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Go! Go! Go!"
-
-[node name="HSeparator5" type="HSeparator" parent="MainVBoxContainer"]
-layout_mode = 2
+script = ExtResource("4_n1phj")
 
 [node name="InfoRichTextLabel" type="RichTextLabel" parent="MainVBoxContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 100)
@@ -99,7 +110,17 @@ scroll_active = false
 script = ExtResource("5_4kmm3")
 
 [connection signal="append_to_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_append_to_info_text"]
+[connection signal="clear_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_clear_info_text"]
+[connection signal="enable_go_button" from="." to="MainVBoxContainer/CancelOrGoContainer/GoButton" method="_on_new_project_enable_go_button"]
+[connection signal="reset_status_text" from="." to="MainVBoxContainer/StatusGenomeContainer/StatusLabel" method="_on_new_project_reset_status_text"]
+[connection signal="set_bottom_genome_line_edit_enable" from="." to="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" method="_on_new_project_set_bottom_genome_line_edit_enable"]
+[connection signal="set_status_text" from="." to="MainVBoxContainer/StatusGenomeContainer/StatusLabel" method="_on_new_project_set_status_text"]
+[connection signal="set_top_genome_line_edit_enable" from="." to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_new_project_set_top_genome_line_edit_enable"]
 [connection signal="update_bottom_genome_filename" from="." to="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" method="_on_new_project_update_bottom_genome_filename"]
 [connection signal="update_top_genome_filename" from="." to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_new_project_update_top_genome_filename"]
+[connection signal="text_submitted" from="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" to="." method="_on_top_genome_line_edit_text_submitted"]
+[connection signal="text_submitted" from="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" to="." method="_on_bottom_genome_line_edit_text_submitted"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/OpenFileManagerButton" to="." method="_on_open_file_manager_button_pressed"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/GoButton" to="." method="_on_go_button_pressed"]
