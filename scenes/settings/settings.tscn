@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=4 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
 [ext_resource type="Script" path="res://scenes/settings/ThemeOptionButton.gd" id="2_4nf2k"]
+[ext_resource type="Script" path="res://scenes/settings/OpenDataDirButton.gd" id="3_jpjef"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -25,17 +26,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Back to main menu"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Settings placeholder"
-
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-
 [node name="ThemeVBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -49,5 +39,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 script = ExtResource("2_4nf2k")
 
+[node name="OpenDataDirContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="OpenDataDirButton" type="Button" parent="CenterContainer/VBoxContainer/OpenDataDirContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Open TNA data folder"
+script = ExtResource("3_jpjef")
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="item_selected" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" method="_on_item_selected"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" to="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" method="_on_pressed"]
