@@ -49,15 +49,6 @@ var os = get_os()
 var arch = get_architecture()
 
 
-func get_user_home_dir():
-	if OS.has_feature("windows"):
-		return OS.get_environment("USERPROFILE")
-	else:
-		return OS.get_environment("HOME")
-
-var user_home_dir = get_user_home_dir()
-
-
 func get_config_path():
 	return OS.get_user_data_dir().path_join("config")
 
