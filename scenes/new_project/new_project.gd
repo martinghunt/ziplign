@@ -126,5 +126,5 @@ func _on_reset_button_pressed():
 
 
 func _on_open_file_manager_button_pressed():
-	OS.shell_show_in_file_manager(Globals.userdata.user_home_dir)
+	OS.shell_show_in_file_manager(Globals.userdata.home_dir)
 
