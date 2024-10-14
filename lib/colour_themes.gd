@@ -2,6 +2,11 @@ class_name ColourThemes
 
 var colour_themes = {
 	"Classic": {
+		"ui": {
+			"text": "black",
+			"button_bg": "lightgray",
+			"general_bg": "white",
+		},
 		"blast_match": {
 			"fwd": "red",
 			"rev": "blue",
@@ -25,6 +30,11 @@ var colour_themes = {
 		"genomes_bg": "white"
 	},
 	"Solarized dark": {
+		"ui": {
+			"text": "#eee8d5",
+			"button_bg": "black",
+			"general_bg": "#002b36",
+		},
 		"blast_match": {
 			"fwd": "#657b83",
 			"rev": "#657b83",
@@ -48,6 +58,11 @@ var colour_themes = {
 		"genomes_bg": "#002b36",
 	},
 	"Solarized light": {
+		"ui": {
+			"text": "#073642",
+			"button_bg": "white",
+			"general_bg": "#fdf6e3",
+		},
 		"blast_match": {
 			"fwd": "#586e75",
 			"rev": "#586e75",

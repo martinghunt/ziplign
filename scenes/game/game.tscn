@@ -17,6 +17,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vo3rl")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 700.0
+color = Color(0.427451, 1, 1, 1)
+
 [node name="MainHBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_right = 1199.0
@@ -31,6 +37,16 @@ stretch = true
 handle_input_locally = false
 size = Vector2i(120, 700)
 render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 0.454902, 1, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport"]
 offset_left = 10.0
@@ -167,6 +183,19 @@ handle_input_locally = false
 physics_object_picking = true
 size = Vector2i(1050, 700)
 render_target_update_mode = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="MainHBoxContainer/RightViewportContainer/RightViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MainHBoxContainer/RightViewportContainer/RightViewport/BoxContainer"]
+custom_minimum_size = Vector2(900, 550)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 0.490196, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/RightViewportContainer/RightViewport"]
 offset_right = 40.0

@@ -50,4 +50,5 @@ script = ExtResource("3_jpjef")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="item_selected" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" method="_on_item_selected"]
+[connection signal="theme_updated" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="." method="_on_theme_option_button_theme_updated"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" to="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" method="_on_pressed"]

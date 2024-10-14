@@ -12,6 +12,24 @@
 [node name="Main" type="Node2D"]
 script = ExtResource("1_y7efp")
 
+[node name="BoxContainer" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 10000.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="BoxContainer"]
+custom_minimum_size = Vector2(2000, 1000)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.756863, 1, 0.286275, 1)
+
 [node name="MainMenu" parent="." instance=ExtResource("1_4bx2i")]
 
 [node name="NewProject" parent="." instance=ExtResource("2_xhjgo")]
@@ -41,5 +59,6 @@ offset_bottom = 656.0
 [connection signal="return_to_game_reload" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_game_reload"]
 [connection signal="return_to_main_menu" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_main_menu"]
 [connection signal="return_to_main_menu" from="Settings" to="MainMenu" method="_on_settings_return_to_main_menu"]
+[connection signal="theme_updated" from="Settings" to="." method="_on_settings_theme_updated"]
 [connection signal="return_to_main_menu" from="SaveProject" to="MainMenu" method="_on_save_project_return_to_main_menu"]
 [connection signal="init_finished" from="Init" to="MainMenu" method="_on_init_init_finished"]
