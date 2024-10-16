@@ -117,11 +117,75 @@ var colour_themes = {
 		},
 		"text": solarized["base03"],
 		"genomes_bg": solarized["base3"],
-	}
+	},
+	"Dark": {
+		"ui": {
+			"text": Color(0.95, 0.95, 0.95),
+			"text_hover": "black",
+			"button_bg": Color(0.2, 0.2, 0.2),
+			"button_highlight": Color(0.95, 0.95, 0.95),
+			"button_pressed": "gainsboro",
+			"general_bg": "black",
+			"panel_bg": Color(0.1, 0.1, 0.1),
+		},
+		"blast_match": {
+			"fwd": Color(0.3, 0.15, 0.15),
+			"rev": Color(0.15, 0.15, 0.3),
+			"fwd_hover": Color(0.5, 0.15, 0.15),
+			"rev_hover": Color(0.15, 0.15, 0.5),
+			"selected": Color(0.25, 0.25, 0.25),
+			"outline": Color(0.95, 0.95, 0.95),
+			"bp_match": Color(0.5, 0.5, 0.5),
+			"bp_match_end": Color(0.5, 0.5, 0.5),
+			"bp_mismatch": Color(0.95, 0.95, 0.95),
+		},
+		"contig": {
+			"edge": Color(0.8, 0.8, 0.8),
+			"edge_hover": "gray",
+			"edge_selected": "red",
+			"fill": Color(0.2, 0.2, 0.2),
+			"fill_hover": "white",
+			"fill_selected": "yellow",
+		},
+		"text": Color(0.95, 0.95, 0.95),
+		"genomes_bg": "black",
+	},
+	"Light": {
+		"ui": {
+			"text": Color(0.1, 0.1, 0.1),
+			"text_hover": "white",
+			"button_bg": Color(0.8, 0.8, 0.8),
+			"button_highlight": Color(0.1, 0.1, 0.1),
+			"button_pressed": "gainsboro",
+			"general_bg": "white",
+			"panel_bg": Color(0.9, 0.9, 0.9),
+		},
+		"blast_match": {
+			"fwd": "firebrick",
+			"rev": "darkslateblue",
+			"fwd_hover": "indianred",
+			"rev_hover": "slateblue",
+			"selected": Color(0.8, 0.8, 0.8),
+			"outline": Color(0.1, 0.1, 0.1),
+			"bp_match": Color(0.1, 0.1, 0.1),
+			"bp_match_end": Color(0.1, 0.1, 0.1),
+			"bp_mismatch": "gold",
+		},
+		"contig": {
+			"edge": Color(0.1, 0.1, 0.1),
+			"edge_hover": "gray",
+			"edge_selected": "red",
+			"fill": Color(0.8, 0.8, 0.8),
+			"fill_hover": "white",
+			"fill_selected": "yellow",
+		},
+		"text": Color(0.1, 0.1, 0.1),
+		"genomes_bg": "white",
+	},
 }
 
 
-var name = "Classic"
+var name = "Light"
 var colours = get_theme()
 
 func get_theme():
