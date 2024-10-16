@@ -3,10 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
 [ext_resource type="Script" path="res://scenes/game/RightTopScrollbar.gd" id="1_wnfnh"]
-[ext_resource type="Script" path="res://scenes/game/FiltMinLengthSpinBox.gd" id="2_d0lth"]
 [ext_resource type="Script" path="res://scenes/game/TopCoordsText.gd" id="2_ef7jy"]
-[ext_resource type="Script" path="res://scenes/game/FiltMinPcSpinBox.gd" id="3_esyft"]
 [ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
+[ext_resource type="Script" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
+[ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -29,13 +29,13 @@ offset_right = 1199.0
 offset_bottom = 700.0
 
 [node name="LeftViewportContainer" type="SubViewportContainer" parent="MainHBoxContainer"]
-custom_minimum_size = Vector2(120, 2.08165e-12)
+custom_minimum_size = Vector2(130, 2.08165e-12)
 layout_mode = 2
 stretch = true
 
 [node name="LeftViewport" type="SubViewport" parent="MainHBoxContainer/LeftViewportContainer"]
 handle_input_locally = false
-size = Vector2i(120, 700)
+size = Vector2i(130, 700)
 render_target_update_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport"]
@@ -111,7 +111,7 @@ text = "-"
 
 [node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
-text = "0"
+text = "⭤"
 
 [node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
@@ -131,23 +131,23 @@ layout_mode = 2
 layout_mode = 2
 text = "Filter matches"
 
-[node name="FiltMinLengthSpinBox" type="SpinBox" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+[node name="MinLengthLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
-max_value = 1e+07
-value = 100.0
-rounded = true
-allow_greater = true
-prefix = "≥"
-suffix = "bp"
-custom_arrow_step = 50.0
-script = ExtResource("2_d0lth")
+text = "Min length"
 
-[node name="FiltMinPcSpinBox" type="SpinBox" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+[node name="FiltMinLengthLineEdit" type="LineEdit" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
-value = 90.0
-prefix = "≥"
-suffix = "%id"
-script = ExtResource("3_esyft")
+tooltip_text = "Mininum match length to show in bp"
+context_menu_enabled = false
+script = ExtResource("4_6ydgx")
+
+[node name="MinIdentityLabel" type="Label" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+layout_mode = 2
+text = "Min % identity"
+
+[node name="FiltMinIdentityLineEdit" type="LineEdit" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_2v3gj")
 
 [node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer"]
 layout_mode = 2
@@ -251,8 +251,10 @@ script = ExtResource("3_nnddm")
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomReset" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomPlus" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_plus_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomBp" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_button_zoom_bp_pressed"]
-[connection signal="value_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthSpinBox" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_length_spin_box_value_changed"]
-[connection signal="value_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinPcSpinBox" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_pc_spin_box_value_changed"]
+[connection signal="min_match_length_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_length_line_edit_min_match_length_changed"]
+[connection signal="text_submitted" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" method="_on_text_submitted"]
+[connection signal="min_match_pc_id_changed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_filt_min_identity_line_edit_min_match_pc_id_changed"]
+[connection signal="text_submitted" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" method="_on_text_submitted"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompTopButton" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_revcomp_top_button_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompBottomButton" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
 [connection signal="value_changed" from="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightTopScrollbar" to="MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/GenomesNMatches" method="_on_right_top_scrollbar_value_changed"]

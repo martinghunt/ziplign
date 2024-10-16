@@ -219,16 +219,6 @@ func _on_button_move_right_right_pressed():
 	move_top_and_bottom(0.5, 0.5)
 
 
-func _on_filt_min_length_spin_box_value_changed(value):
-	Globals.match_min_show_length = value
-	matches.update_hide_and_show()
-
-
-func _on_filt_min_pc_spin_box_value_changed(value):
-	Globals.match_min_show_pc_id = value
-	matches.update_hide_and_show()
-
-
 func _on_game_window_resized():
 	matches.update_hide_and_show()
 	top_genome.reset_contig_coords()
@@ -241,3 +231,13 @@ func _on_revcomp_top_button_pressed():
 
 func _on_revcomp_bottom_button_pressed():
 	reverse_complement("bottom")
+
+
+func _on_filt_min_length_line_edit_min_match_length_changed(value):
+	Globals.match_min_show_length = value
+	matches.update_hide_and_show()
+
+
+func _on_filt_min_identity_line_edit_min_match_pc_id_changed(value):
+	Globals.match_min_show_pc_id = value
+	matches.update_hide_and_show()

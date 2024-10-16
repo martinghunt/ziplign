@@ -4,8 +4,12 @@ var colour_themes = {
 	"Classic": {
 		"ui": {
 			"text": "black",
-			"button_bg": "lightgray",
+			"text_hover": "gray",
+			"button_bg": "silver",
+			"button_highlight": "gainsboro",
+			"button_pressed": "dimgray",
 			"general_bg": "white",
+			"panel_bg": "snow"
 		},
 		"blast_match": {
 			"fwd": "red",
@@ -32,8 +36,12 @@ var colour_themes = {
 	"Solarized dark": {
 		"ui": {
 			"text": "#eee8d5",
+			"text_hover": "dimgray",
 			"button_bg": "black",
+			"button_highlight": "gray",
+			"button_pressed": "dimgray",
 			"general_bg": "#002b36",
+			"panel_bg": "#073642",
 		},
 		"blast_match": {
 			"fwd": "#657b83",
@@ -59,9 +67,13 @@ var colour_themes = {
 	},
 	"Solarized light": {
 		"ui": {
-			"text": "#073642",
-			"button_bg": "white",
+			"text": "#002b36",
+			"text_hover": "white",
+			"button_bg": "snow",
+			"button_highlight": "gray",
+			"button_pressed": "dimgray",
 			"general_bg": "#fdf6e3",
+			"panel_bg": "#eee8d5",
 		},
 		"blast_match": {
 			"fwd": "#586e75",
@@ -82,7 +94,7 @@ var colour_themes = {
 			"fill_hover": "white",
 			"fill_selected": "yellow",
 		},
-		"text": "#073642",
+		"text": "#002b36",
 		"genomes_bg": "#fdf6e3",
 	}
 }
