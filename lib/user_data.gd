@@ -64,15 +64,8 @@ func check_all_paths():
 	tnahelper_exists = FileAccess.file_exists(tnahelper)
 	print("tnahelper exists:", tnahelper_exists)
 	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists
-	#OS.shell_open(bin)
-	#OS.shell_open("https://www.startpage.com")
-
-
 
 
 func _init():
 	pass
-	#print("Start of user_data init()")
-	#check_all_paths()
-	#print("Install ok:", install_ok)
 
