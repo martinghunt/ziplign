@@ -27,6 +27,7 @@ var x_offset = 0
 var x_start
 var x_end
 var length_in_bp
+var fill_color
 
 
 func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_bottom, bp_length):
@@ -37,7 +38,11 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	middle = 0.5 * (top + bottom)
 	centerline_y = middle
 	static_body_2d.set_pickable(true)
-	poly.color = Globals.theme.colours["contig"]["fill"]
+	if id % 2 == 0:
+		fill_color = Globals.theme.colours["contig"]["fill"]
+	else:
+		fill_color = Globals.theme.colours["contig"]["fill_alt"]
+	poly.color = fill_color
 	centerline.default_color = Globals.theme.colours["contig"]["edge"]
 	centerline.add_point(Vector2(0, centerline_y))
 	centerline.add_point(Vector2(0, centerline_y))
@@ -129,7 +134,7 @@ func deselect():
 		poly.color = Globals.theme.colours["contig"]["fill_hover"]
 		centerline.default_color = Globals.theme.colours["contig"]["edge_hover"]
 	else:
-		poly.color = Globals.theme.colours["contig"]["fill"]
+		poly.color = fill_color
 		centerline.default_color = Globals.theme.colours["contig"]["edge"]
 
 
@@ -153,6 +158,6 @@ func _on_mouse_exited():
 		poly.color = Globals.theme.colours["contig"]["fill_selected"]
 		centerline.default_color = Globals.theme.colours["contig"]["edge_selected"]
 	else:
-		poly.color = Globals.theme.colours["contig"]["fill"]
+		poly.color = fill_color
 		centerline.default_color = Globals.theme.colours["contig"]["edge"]
 	mouse_out.emit(id)
