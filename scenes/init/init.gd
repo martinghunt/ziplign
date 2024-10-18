@@ -137,8 +137,23 @@ func run_all():
 
 		add_to_text_label.emit(" ... finished downloading blast")
 	
+	if Globals.userdata.example_data_exists:
+		add_to_text_label.emit("Example genome files found in " + Globals.userdata.example_data_dir)
+	else:
+		add_to_text_label.emit("Example genome files not found. Going to generate them")
+		var opts = ["make_example_data", "--outdir", Globals.userdata.example_data_dir]
+		var stderr = []
+		var exit_code = OS.execute(Globals.userdata.tnahelper, opts, stderr, true)
+		for x in stderr:
+			print(x + "\n")
+		if exit_code != 0:
+			print("Error making example genome files")
+			add_to_text_label.emit("Error making example genome files")
+			OS.alert("Error making example genome files.\nCannot continue", "ERROR")
+			return false
+	
 	add_to_text_label.emit("Initialization finished")
-
+	return true
 
 func _on_main_start_init():
 	show()

@@ -56,9 +56,6 @@ func on_files_dropped(files):
 		return
 	if filename1 == "":
 		set_filename1(files[0])
-		#filename1 = files[0]
-		#update_top_genome_filename.emit(filename1)
-		#set_status_text.emit("Add bottom genome: drap n drop or put filename in the box")
 	elif filename2 == "":
 		set_filename2(files[0])
 
@@ -97,6 +94,7 @@ func _on_go_button_pressed():
 	append_to_info_text.emit("Laoading genomes")
 	await get_tree().create_timer(0.1).timeout
 	Globals.proj_data.load_genomes()
+	Globals.proj_data.set_data_loaded()
 	hide()
 	clear_fields()
 	new_project_go_button.emit()

@@ -5,20 +5,44 @@ class_name UserData
 func get_bin_path():
 	return OS.get_user_data_dir().path_join("bin")
 
+
+func get_example_data_dir():
+	return OS.get_user_data_dir().path_join("example_data")
+
 var home_dir = OS.get_environment("USERPROFILE") if OS.has_feature("windows") else OS.get_environment("HOME")
 var bin = get_bin_path()
 var makeblastdb = bin.path_join("makeblastdb")
 var blastn = bin.path_join("blastn")
 var tnahelper = bin.path_join("tnahelper")
+var example_data_dir = get_example_data_dir()
 var data_dir = OS.get_user_data_dir()
+var example_data_file1 = example_data_dir.path_join("g1.gff")
+var example_data_file2 = example_data_dir.path_join("g2.gff")
 var data_dir_exists = false
 var bin_exists = false
 var blastn_exists = false
 var makeblastdb_exists = false
 var tnahelper_exists = false
+var example_data_exists = false
 var current_proj_dir = OS.get_user_data_dir().path_join("current_proj")
 var install_ok = false
 
+
+func does_example_data_exist():
+	if DirAccess.dir_exists_absolute(example_data_dir):
+		print("example data dir exists: ", example_data_dir)
+	else:
+		print("example data dir not found: ", example_data_dir)
+		return false
+	if FileAccess.file_exists(example_data_file1):
+		print("example data genome file 1 exists: ", example_data_file1)
+	else:
+		return false
+	if FileAccess.file_exists(example_data_file2):
+		print("example data genome file 2 exists: ", example_data_file2)
+	else:
+		return false
+	return true
 
 func get_os():
 	var os = OS.get_name()
@@ -63,7 +87,9 @@ func check_all_paths():
 	print("makeblastdb exists:", makeblastdb_exists)
 	tnahelper_exists = FileAccess.file_exists(tnahelper)
 	print("tnahelper exists:", tnahelper_exists)
-	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists
+	example_data_exists = does_example_data_exist()
+	print("example data found:", example_data_exists)
+	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists and example_data_exists
 
 
 func _init():

@@ -1,5 +1,7 @@
 class_name ProjectData
 
+signal project_data_loaded
+
 var fastaq_lib = preload("fastaq.gd").new()
 var blast_lib = preload("blast.gd").new()
 
@@ -14,11 +16,19 @@ var blast_file = ""
 var blast_db = ""
 var genome_seqs = {"top": {}, "bottom": {}}
 var blast_matches = []
+var data_loaded = false
 
 
 
 func _init():
-	init_from_dir("res://example_data")
+	# stick in some dummy data the user will never see, just to stop scene
+	# initialization crashing everything. We don't need blast matches, just
+	# the genomes
+	genome_seqs = {
+		"top": {"names": ["1"], "seqs": {"1":"ACGTA"}},
+		"bottom": {"names": ["2"], "seqs": {"2":"ACGTAT"}},
+	}
+	data_loaded = false
 
 
 func create(dir_path):
@@ -48,6 +58,8 @@ func init_from_dir(dir_path):
 		load_blast_matches()
 	elif FileAccess.file_exists(dir_path):
 		load_from_serialized_file(dir_path)
+	set_data_loaded()
+
 
 func set_paths():
 	print("set paths. root_dir:", root_dir)
@@ -83,9 +95,12 @@ func run_blast():
 
 func save_as_serialized_file(outfile):
 	print("Save project to file: ", outfile)
-	var file = FileAccess.open(outfile, FileAccess.WRITE)
-	file.store_var(blast_matches, true)
-	file.store_var(genome_seqs, true)
+	if not data_loaded:
+		OS.alert("Cannot save data because nothing loaded", "ERROR!")
+	else:
+		var file = FileAccess.open(outfile, FileAccess.WRITE)
+		file.store_var(blast_matches, true)
+		file.store_var(genome_seqs, true)
 
 
 func load_from_serialized_file(infile):
@@ -95,6 +110,7 @@ func load_from_serialized_file(infile):
 	genome_seqs.clear()
 	blast_matches = file.get_var()
 	genome_seqs = file.get_var()
+	set_data_loaded()
 
 
 func flip_all_blast_matches(top_or_bottom):
@@ -121,3 +137,8 @@ func reverse_complement_genome(top_or_bottom):
 	flip_all_blast_matches(top_or_bottom)
 	for name in genome_seqs[top_or_bottom]["names"]:
 		genome_seqs[top_or_bottom]["seqs"][name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][name])
+
+
+func set_data_loaded():
+	data_loaded = true
+	project_data_loaded.emit()

@@ -39,6 +39,7 @@ layout_mode = 2
 [node name="ResumeButton" type="Button" parent="MainContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
+disabled = true
 text = "Resume"
 
 [node name="NewButton" type="Button" parent="MainContainer/MainVBoxContainer"]
@@ -49,6 +50,7 @@ text = "New"
 [node name="SaveButton" type="Button" parent="MainContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
+disabled = true
 text = "Save"
 
 [node name="LoadButton" type="Button" parent="MainContainer/MainVBoxContainer"]

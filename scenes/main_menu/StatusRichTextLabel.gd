@@ -20,6 +20,7 @@ func regenerate_text():
 		append_text("\n  tnahelper - " + lookup[Globals.userdata.tnahelper_exists])
 		append_text("\n  makeblastdb - " + lookup[Globals.userdata.makeblastdb_exists])
 		append_text("\n  blastn - " + lookup[Globals.userdata.blastn_exists])
+		append_text("\n  Example data - " + lookup[Globals.userdata.example_data_exists])
 
 
 func _on_main_menu_rerun_status_check():

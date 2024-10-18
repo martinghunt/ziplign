@@ -64,6 +64,7 @@ func reset_colours():
 	var children_to_set = [
 		$MainMenu/MainContainer/MainVBoxContainer,
 		$NewProject/MainVBoxContainer/CancelOrGoContainer,
+		$NewProject/MainVBoxContainer/TestDataContainer,
 		$NewProject/MainVBoxContainer/StatusGenomeContainer,
 		$NewProject/MainVBoxContainer/TopGenomeContainer,
 		$NewProject/MainVBoxContainer/BottomGenomeContainer,

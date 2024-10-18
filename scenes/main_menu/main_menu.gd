@@ -12,8 +12,13 @@ var quit_selected = false
 
 
 func _ready():
+	Globals.proj_data.connect("project_data_loaded", _on_project_data_loaded)
 	hide()
 
+func _on_project_data_loaded():
+	$MainContainer/MainVBoxContainer/ResumeButton.disabled = false
+	$MainContainer/MainVBoxContainer/SaveButton.disabled = false
+	
 func _on_resume_button_pressed():
 	hide()
 	if Globals.reload_needed:
