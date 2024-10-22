@@ -20,7 +20,8 @@ func load_tsv_file(filename):
 	var rows = []
 
 	for line in lines:
-		var fields = line.split("\t")
+		# windows blast has an extra "\r" at the end of each line
+		var fields = line.rstrip("\r").split("\t")
 		var qcoords = [int(fields[3]), int(fields[4])]
 		if qcoords[0] > qcoords[1]:
 			print("Error qcoords not in order")
