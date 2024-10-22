@@ -2,6 +2,22 @@ extends Node
 
 class_name UserData
 
+func get_os():
+	var os = OS.get_name()
+	match os:
+		"Windows":
+			return "windows"
+		"macOS":
+			return "mac"
+		"Linux", "FreeBSD", "NetBSD", "OpenBSD", "BSD":
+			return "linux"
+
+	# TODO: handle this properly
+	print("Unsupported OS: ", os)
+	OS.alert("Error! Unsupported OS: " + os + ". Cannot continue.", "Error!")
+	return null
+
+
 func get_bin_path():
 	return OS.get_user_data_dir().path_join("bin")
 
@@ -9,11 +25,19 @@ func get_bin_path():
 func get_example_data_dir():
 	return OS.get_user_data_dir().path_join("example_data")
 
+
+func fix_windows_binary(b):
+	if get_os() == "windows":
+		return b + ".exe"
+	else:
+		return b
+
+
 var home_dir = OS.get_environment("USERPROFILE") if OS.has_feature("windows") else OS.get_environment("HOME")
 var bin = get_bin_path()
-var makeblastdb = bin.path_join("makeblastdb")
-var blastn = bin.path_join("blastn")
-var tnahelper = bin.path_join("tnahelper")
+var makeblastdb = fix_windows_binary(bin.path_join("makeblastdb"))
+var blastn = fix_windows_binary(bin.path_join("blastn"))
+var tnahelper = fix_windows_binary(bin.path_join("tnahelper"))
 var example_data_dir = get_example_data_dir()
 var data_dir = OS.get_user_data_dir()
 var example_data_file1 = example_data_dir.path_join("g1.gff")
@@ -44,20 +68,7 @@ func does_example_data_exist():
 		return false
 	return true
 
-func get_os():
-	var os = OS.get_name()
-	match os:
-		"Windows":
-			return "windows"
-		"macOS":
-			return "mac"
-		"Linux", "FreeBSD", "NetBSD", "OpenBSD", "BSD":
-			return "linux"
 
-	# TODO: handle this properly
-	print("Unsupported OS: ", os)
-	OS.alert("Error! Unsupported OS: " + os + ". Cannot continue.", "Error!")
-	return null
 
 func get_architecture():
 	var arch = Engine.get_architecture_name()

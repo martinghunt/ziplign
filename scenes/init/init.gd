@@ -93,11 +93,12 @@ func run_all():
 			OS.alert("Error downloading tnahelper.\nCannot continue", "ERROR")
 			return false
 		
-		print("making tnahelper executable")
-		ok = chmod_make_executable(Globals.userdata.tnahelper)
-		if not ok:
-			OS.alert("Error making tnahelper executable.\nCannot continue", "ERROR")
-			return false
+		if Globals.userdata.os != "windows":
+			print("making tnahelper executable")
+			ok = chmod_make_executable(Globals.userdata.tnahelper)
+			if not ok:
+				OS.alert("Error making tnahelper executable.\nCannot continue", "ERROR")
+				return false
 			
 		Globals.userdata.tnahelper_exists = true
 		await get_tree().create_timer(0.1).timeout
