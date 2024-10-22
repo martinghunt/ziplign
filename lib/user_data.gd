@@ -105,4 +105,3 @@ func check_all_paths():
 
 func _init():
 	pass
-
