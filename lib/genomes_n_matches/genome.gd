@@ -121,7 +121,7 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 	nt_labels[-1].position.y = tracks_y["ctg_name"]
 	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 	nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
-	nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+	nt_labels[-1].add_theme_font_override("font", Globals.fonts["dejavu"])
 	nt_labels[-1].z_index = 10 + contig_index
 	add_child(nt_labels[-1])
 
@@ -140,7 +140,7 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 		nt_labels[-1].position.x = plot_x - 5
 		nt_labels[-1].position.y = coords_axis_y["coords"]
 		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
-		nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+		nt_labels[-1].add_theme_font_override("font", Globals.fonts["dejavu"])
 		add_child(nt_labels[-1])
 
 
@@ -167,7 +167,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 	nt_labels[-1].position.y = tracks_y["ctg_name"]
 	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 	nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
-	nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+	nt_labels[-1].add_theme_font_override("font", Globals.fonts["dejavu"])
 	nt_labels[-1].z_index = 10 + contig_index
 	add_child(nt_labels[-1])
 
@@ -180,7 +180,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 		nt_labels[-1].position.y = fwd_y
 		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 		nt_labels[-1].add_theme_font_size_override("font_size", Globals.font_acgt_size)
-		nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+		nt_labels[-1].add_theme_font_override("font", Globals.fonts["mono"])
 		add_child(nt_labels[-1])
 		
 		nt_labels.append(Label.new())
@@ -189,7 +189,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 		nt_labels[-1].position.y = rev_y
 		nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 		nt_labels[-1].add_theme_font_size_override("font_size", Globals.font_acgt_size)
-		nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+		nt_labels[-1].add_theme_font_override("font", Globals.fonts["mono"])
 		add_child(nt_labels[-1])
 		
 		nt_labels.append(Line2D.new())
@@ -210,7 +210,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 			nt_labels[-1].position.x = plot_x - 5
 			nt_labels[-1].position.y = coords_axis_y["coords"]
 			nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
-			nt_labels[-1].add_theme_font_override("font", Globals.dejavu)
+			nt_labels[-1].add_theme_font_override("font", Globals.fonts["dejavu"])
 			add_child(nt_labels[-1])
 
 

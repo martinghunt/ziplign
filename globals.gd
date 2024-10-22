@@ -26,20 +26,29 @@ var complement_dict = {
 	"N": "N"
 }
 
-func load_dejavu():
-	var dj = load("res://fonts/dejavu-sans/DejaVuSans.ttf")
-	#dejavu.antialiasing = 2
-	#dejavu.hinting = 0
-	#dejavu.multichannel_signed_distance_field = true
-	#dejavu.generate_mipmaps = true
-	return dj
+
+func load_fonts():
+	var fonts = {
+		"dejavu": load("res://fonts/dejavu-sans/DejaVuSans.ttf"),
+		"mono": load("res://fonts/Anonymous-Pro/Anonymous_Pro.ttf"),
+		"mono_bold": load("res://fonts/Anonymous-Pro/Anonymous_Pro_B.ttf")
+	}
+	for x in fonts:
+		pass
+		fonts[x].subpixel_positioning = 0
+		fonts[x].multichannel_signed_distance_field = true
+		#fonts[x].antialiasing = 2
+		#fonts[x].hinting = 0
+	return fonts
 	
-func get_char_sizes(font_size):
+	
+
+func get_char_sizes(font, font_size):
 	var sizes = {}
 	for c in ["A", "C", "G", "T", "N"]:
-		sizes[c] = dejavu.get_string_size(c, 0, -1, font_size)[0]
+		sizes[c] = font.get_string_size(c, 0, -1, font_size)[0]
 	return sizes
 
-var dejavu = load_dejavu()
-var font_acgt_size = 13
-var font_acgt_sizes = get_char_sizes(font_acgt_size)
+var fonts = load_fonts()
+var font_acgt_size = 15
+var font_acgt_sizes = get_char_sizes(fonts["mono"], font_acgt_size)

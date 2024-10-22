@@ -108,8 +108,11 @@ func reset_colours():
 	
 func _ready():
 	reset_colours()
+	$NewProject/MainVBoxContainer/InfoRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
+	$MainMenu/StatusRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
+	$Init/StatusRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
+	$Init/StatusRichTextLabel.add_theme_font_override("bold_font", Globals.fonts["mono_bold"])
 	start_init.emit()
-
 
 func _on_settings_theme_updated():
 	reset_colours()
