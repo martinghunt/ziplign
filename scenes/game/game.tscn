@@ -46,6 +46,9 @@ z_as_relative = false
 layout_mode = 2
 mouse_filter = 0
 
+[node name="HSeparatorTop" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+
 [node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Menu"
@@ -162,6 +165,9 @@ text = "Top"
 [node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
 layout_mode = 2
 text = "Bottom"
+
+[node name="HSeparatorBottom" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
 
 [node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
 layout_mode = 2
