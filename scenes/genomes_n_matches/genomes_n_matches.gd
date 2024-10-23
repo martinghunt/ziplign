@@ -201,6 +201,7 @@ func reverse_complement(to_rev):
 		matches.selected = currently_selected
 		matches.matches[matches.selected].select()
 		matches.move_to_selected()
+		_on_match_selected(currently_selected)
 
 
 func _on_button_move_left_left_pressed():
