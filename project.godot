@@ -26,6 +26,7 @@ Globals="*res://globals.gd"
 
 [display]
 
+window/energy_saving/keep_screen_on=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 
