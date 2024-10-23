@@ -128,9 +128,18 @@ func flip_all_blast_matches(top_or_bottom):
 		
 	for d in blast_matches:
 		d["rev"] = not d["rev"]
-		var new_start = len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[end_key]
-		d[end_key] = len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[start_key]
+		var new_start = 1 + len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[end_key]
+		d[end_key] = 1 + len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[start_key]
 		d[start_key] = new_start
+		if top_or_bottom == "top":
+			d["aln_data"].reverse()
+			for l in d["aln_data"]:
+				new_start = d["qend"] - d["qstart"] - l[1]
+				l[1] = d["qend"] - d["qstart"] - l[0]
+				l[0] = new_start
+				new_start = d["rend"] - d["rstart"] - l[3]
+				l[3] = d["rend"] - d["rstart"] - l[2]
+				l[2] = new_start
 
 
 func reverse_complement_genome(top_or_bottom):
