@@ -62,8 +62,7 @@ func _ready():
 
 
 func get_default_x_zoom():
-	return get_viewport().get_visible_rect().size.x / max_genome_x
-
+	return Globals.genomes_viewport_width / (1.05 * max_genome_x)
 
 func set_x_zoom(zoom):
 	x_zoom = zoom
@@ -132,6 +131,7 @@ func _on_button_zoom_plus_pressed():
 	else:
 		set_x_zoom(x_zoom + 0.0001)
 
+	
 func _on_button_zoom_bp_pressed():
 	set_x_zoom(1.01 * Globals.zoom_to_show_bp)
 

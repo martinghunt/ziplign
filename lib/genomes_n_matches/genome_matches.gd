@@ -17,6 +17,7 @@ var x_zoom = 1
 var x_left_bottom = 0
 var x_left_top = 0
 
+
 func _init(coords):
 	for c in coords:
 		matches.append(MatchClass.new(len(matches), c[0], c[1], c[2], c[3], c[4], c[5]))
@@ -89,6 +90,9 @@ func deselect():
 
 
 func _unhandled_input(event):
+	if Globals.paused:
+		return
+		
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed or event.double_click:

@@ -13,6 +13,8 @@
 script = ExtResource("1_y7efp")
 
 [node name="BoxContainer" type="BoxContainer" parent="."]
+show_behind_parent = true
+z_as_relative = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -22,6 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 0
 
 [node name="ColorRect" type="ColorRect" parent="BoxContainer"]
 custom_minimum_size = Vector2(2000, 1000)
@@ -31,20 +34,25 @@ size_flags_vertical = 3
 color = Color(0.756863, 1, 0.286275, 1)
 
 [node name="MainMenu" parent="." instance=ExtResource("1_4bx2i")]
-
-[node name="NewProject" parent="." instance=ExtResource("2_xhjgo")]
+z_as_relative = false
+mouse_filter = 1
 
 [node name="Game" parent="." instance=ExtResource("3_gtkd0")]
 offset_right = 1183.0
 offset_bottom = 656.0
 
+[node name="NewProject" parent="." instance=ExtResource("2_xhjgo")]
+z_index = 1000
+
 [node name="LoadProject" parent="." instance=ExtResource("5_vxdry")]
 
 [node name="Settings" parent="." instance=ExtResource("6_c5h4v")]
+z_index = 1000
 
 [node name="SaveProject" parent="." instance=ExtResource("7_hhjed")]
 
 [node name="Init" parent="." instance=ExtResource("7_gj10y")]
+z_index = 1000
 
 [connection signal="start_init" from="." to="Init" method="_on_main_start_init"]
 [connection signal="load_project" from="MainMenu" to="LoadProject" method="_on_main_menu_load_project"]
@@ -53,9 +61,9 @@ offset_bottom = 656.0
 [connection signal="reload" from="MainMenu" to="Game" method="_on_main_menu_reload"]
 [connection signal="resume" from="MainMenu" to="Game" method="_on_main_menu_resume"]
 [connection signal="save_project" from="MainMenu" to="SaveProject" method="_on_main_menu_save_project"]
+[connection signal="pause" from="Game" to="MainMenu" method="_on_game_pause"]
 [connection signal="new_project_cancel" from="NewProject" to="MainMenu" method="_on_new_project_new_project_cancel"]
 [connection signal="new_project_go_button" from="NewProject" to="Game" method="_on_new_project_new_project_go_button"]
-[connection signal="pause" from="Game" to="MainMenu" method="_on_game_pause"]
 [connection signal="return_to_game_reload" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_game_reload"]
 [connection signal="return_to_main_menu" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_main_menu"]
 [connection signal="return_to_main_menu" from="Settings" to="MainMenu" method="_on_settings_return_to_main_menu"]

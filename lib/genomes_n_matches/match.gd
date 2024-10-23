@@ -139,17 +139,17 @@ func update_visibility():
 	
 	
 func is_visible_top_or_bottom(tolerance):
-	return (-Globals.controls_width -tolerance <= poly.polygon[1].x \
-			and poly.polygon[0].x <= Globals.genomes_viewport_width + tolerance) \
+	return (-Globals.controls_width - tolerance <= poly.polygon[1].x \
+			and poly.polygon[0].x <= Globals.controls_width + Globals.genomes_viewport_width + tolerance) \
 		or (-Globals.controls_width -tolerance <= get_x_bottom_right_coords() \
-			and get_x_bottom_left_coords() <= Globals.genomes_viewport_width + tolerance)
+			and get_x_bottom_left_coords() <= Globals.controls_width +Globals.genomes_viewport_width + tolerance)
 
 
 func is_visible_top_and_bottom(tolerance):
 	return -Globals.controls_width - tolerance <= poly.polygon[1].x \
-		and poly.polygon[0].x <= Globals.genomes_viewport_width + tolerance \
+		and poly.polygon[0].x <= Globals.controls_width + Globals.genomes_viewport_width + tolerance \
 		and -Globals.controls_width - tolerance <= get_x_bottom_right_coords() \
-		and get_x_bottom_left_coords() <= Globals.genomes_viewport_width + tolerance
+		and get_x_bottom_left_coords() <= Globals.controls_width + Globals.genomes_viewport_width + tolerance
 
 
 func should_be_visible():
@@ -159,7 +159,7 @@ func should_be_visible():
 
 
 func position_is_visible(x, tolerance):
-	return -Globals.controls_width - tolerance <= x and x <= Globals.genomes_viewport_width + tolerance
+	return -Globals.controls_width - tolerance <= x and x <= 2 * Globals.controls_width + Globals.genomes_viewport_width + tolerance
 	
 
 func draw_alignment_lines():
@@ -189,7 +189,9 @@ func draw_alignment_lines():
 		else:
 			bottom_start = bottom_left + aln_data[2] * bottom_scale
 			bottom_end = bottom_left + aln_data[3] * bottom_scale
-		if top_end < -1 or bottom_end < -1 or top_start > Globals.genomes_viewport_width or bottom_start > Globals.genomes_viewport_width:
+		if top_end < -1 or bottom_end < -1 \
+			or top_start > Globals.genomes_viewport_width + Globals.controls_width \
+			or bottom_start > Globals.genomes_viewport_width + Globals.controls_width:
 			continue
 			
 		if aln_data[4] == 0:
@@ -280,18 +282,18 @@ func set_top_bottom_coords(y_top, y_bottom):
 
 
 func set_top_x_left(x):
-	x_left_start1 = x
+	x_left_start1 = x + Globals.controls_width
 	set_polygon_coords()
 
 
 func set_bottom_x_left(x):
-	x_left_start2 = x
+	x_left_start2 = x + Globals.controls_width
 	set_polygon_coords()
 
 
 func set_x_lefts(new_top, new_bottom):
-	x_left_start1 = new_top
-	x_left_start2 = new_bottom
+	x_left_start1 = new_top + Globals.controls_width
+	x_left_start2 = new_bottom + Globals.controls_width
 	set_polygon_coords()
 
 

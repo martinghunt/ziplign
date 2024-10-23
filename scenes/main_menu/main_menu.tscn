@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scenes/main_menu/StatusRichTextLabel.gd" id="2_4ot8r"]
 
 [node name="MainMenu" type="Control"]
+z_index = 1001
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +30,7 @@ selection_enabled = true
 script = ExtResource("2_4ot8r")
 
 [node name="MainContainer" type="CenterContainer" parent="."]
+z_index = 1
 layout_mode = 0
 offset_right = 1148.0
 offset_bottom = 655.0

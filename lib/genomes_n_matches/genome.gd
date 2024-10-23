@@ -115,9 +115,9 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 		tick_space *= 1.1
 
 	nt_labels.append(Label.new())
-	nt_labels[-1].text = cname + " "
+	nt_labels[-1].text = " " + cname
 	var x = contigs[cname].x_start + 1.0 * genome_plot_len / contig_length_in_bp
-	nt_labels[-1].position.x = max(10, x)
+	nt_labels[-1].position.x = max(Globals.controls_width, x) - 7
 	nt_labels[-1].position.y = tracks_y["ctg_name"]
 	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 	nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
@@ -161,9 +161,9 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 		rev_y = tracks_y["rev_top"] - 5
 
 	nt_labels.append(Label.new())
-	nt_labels[-1].text = cname + " "
+	nt_labels[-1].text = " " + cname
 	var x = contigs[cname].x_start + 1.0 * genome_plot_len / contig_length_in_bp
-	nt_labels[-1].position.x = max(10, x)
+	nt_labels[-1].position.x = max(Globals.controls_width, x) - 7
 	nt_labels[-1].position.y = tracks_y["ctg_name"]
 	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
 	nt_labels[-1].add_theme_stylebox_override("normal", style_box_ctg_names)
@@ -286,7 +286,7 @@ func reset_contig_coords():
 	zoomed_contigs = new_zoomed
 
 func set_x_left(x):
-	x_left = x
+	x_left = x + Globals.controls_width
 	reset_contig_coords()
 
 

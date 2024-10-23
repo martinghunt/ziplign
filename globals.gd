@@ -16,6 +16,7 @@ var match_aln_step = 1
 var zoom_to_show_bp = 9.0
 var controls_width = 140
 var reload_needed = false
+var paused = true
 
 
 var complement_dict = {

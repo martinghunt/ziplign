@@ -49,13 +49,14 @@ func reset_colours():
 
 	$BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	$Game/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
-	$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/ColorRect.color = Globals.theme.colours["ui"]["panel_bg"]
-	$Game/MainHBoxContainer/RightViewportContainer/RightViewport/BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
+	$Game/ColorRect2.color = Globals.theme.colours["ui"]["panel_bg"]
+	$Game/MainHBoxContainer/BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["panel_bg"]
+	$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	
 	var ui_text_to_set = [
 		$MainMenu/StatusRichTextLabel,
 		$Init/StatusRichTextLabel,
-		$Game/MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/HBoxContainer/TopCoordsText,
+		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText,
 		$NewProject/MainVBoxContainer/InfoRichTextLabel,
 	]
 	for x in ui_text_to_set:
@@ -72,21 +73,21 @@ func reset_colours():
 		$Settings/CenterContainer/VBoxContainer,
 		$Settings/CenterContainer/VBoxContainer/ThemeVBoxContainer,
 		$Settings/CenterContainer/VBoxContainer/OpenDataDirContainer,
-		$Game/MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/HBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/NavigationVBoxContainer/BoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/VBoxContainer/ZoomHBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer,
-		$Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer,
+		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/NavigationVBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/VBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer,
 	]
 	for x in children_to_set:
 		set_children_font(x)
 	
 	# Change stylebox for one scrollbar, so all others also change
-	var sbar = $Game/MainHBoxContainer/RightViewportContainer/RightViewport/VBoxContainer/RightTopScrollbar
+	var sbar = $Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar
 	sbar.get_theme_stylebox("scroll").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	sbar.get_theme_stylebox("grabber").bg_color = Globals.theme.colours["ui"]["text"]
 	sbar.get_theme_stylebox("grabber_highlight").bg_color = Globals.theme.colours["ui"]["button_highlight"]
@@ -102,7 +103,7 @@ func reset_colours():
 	set_font_color(popup)
 	popup.add_theme_font_size_override("font_size", 30)
 	
-	var ledit = $Game/MainHBoxContainer/LeftViewportContainer/LeftViewport/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit
+	var ledit = $Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit
 	ledit.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	
 	
