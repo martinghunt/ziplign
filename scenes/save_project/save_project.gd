@@ -1,7 +1,6 @@
 extends Node
 
 signal open_save_dialog
-signal save_project
 signal return_to_main_menu
 
 

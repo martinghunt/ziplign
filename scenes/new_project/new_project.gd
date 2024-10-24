@@ -3,7 +3,6 @@ extends Control
 
 signal update_top_genome_filename
 signal update_bottom_genome_filename
-signal update_project_dir
 signal new_project_go_button
 signal new_project_cancel
 signal append_to_info_text

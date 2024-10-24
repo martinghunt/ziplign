@@ -5,7 +5,6 @@ class_name Match
 signal mouse_in
 signal mouse_out
 signal match_selected
-signal match_deselected
 
 
 var match_width = 1

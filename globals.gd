@@ -29,18 +29,18 @@ var complement_dict = {
 
 
 func load_fonts():
-	var fonts = {
+	var f = {
 		"dejavu": load("res://fonts/dejavu-sans/DejaVuSans.ttf"),
 		"mono": load("res://fonts/Anonymous-Pro/Anonymous_Pro.ttf"),
 		"mono_bold": load("res://fonts/Anonymous-Pro/Anonymous_Pro_B.ttf")
 	}
-	for x in fonts:
+	for x in f:
 		pass
-		fonts[x].subpixel_positioning = 0
-		fonts[x].multichannel_signed_distance_field = true
+		f[x].subpixel_positioning = 0
+		f[x].multichannel_signed_distance_field = true
 		#fonts[x].antialiasing = 2
 		#fonts[x].hinting = 0
-	return fonts
+	return f
 	
 	
 

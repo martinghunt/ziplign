@@ -5,7 +5,7 @@ class_name Contig
 signal mouse_in
 signal mouse_out
 
-const AnnotFeature = preload("res://lib/annot_feature.gd")
+const AnnotFeatureClass = preload("res://lib/annot_feature.gd")
 
 var static_body_2d = StaticBody2D.new()
 var coll_poly = CollisionPolygon2D.new()
@@ -96,7 +96,7 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 		if feature[3]: # is reverse
 			f_top = gene_rev_top
 			f_bot = gene_rev_bottom
-		annot_polys.append(AnnotFeature.new(feature, f_top, f_bot, self))
+		annot_polys.append(AnnotFeatureClass.new(feature, f_top, f_bot, self))
 		add_child(annot_polys[-1])
 
 

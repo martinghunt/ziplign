@@ -3,8 +3,8 @@ extends Node
 class_name UserData
 
 func get_os():
-	var os = OS.get_name()
-	match os:
+	var got_os = OS.get_name()
+	match got_os:
 		"Windows":
 			return "windows"
 		"macOS":
@@ -13,8 +13,8 @@ func get_os():
 			return "linux"
 
 	# TODO: handle this properly
-	print("Unsupported OS: ", os)
-	OS.alert("Error! Unsupported OS: " + os + ". Cannot continue.", "Error!")
+	print("Unsupported OS: ", got_os)
+	OS.alert("Error! Unsupported OS: " + got_os + ". Cannot continue.", "Error!")
 	return null
 
 
@@ -71,13 +71,13 @@ func does_example_data_exist():
 
 
 func get_architecture():
-	var arch = Engine.get_architecture_name()
-	if "x86" in arch or "arm" in arch:
-		return arch
+	var got_arch = Engine.get_architecture_name()
+	if "x86" in got_arch or "arm" in got_arch:
+		return got_arch
 	else:
 		# TODO: handle this properly
-		print("unsupported architecture: ", arch)
-		OS.alert("Error! Unsupported architecture: " + arch + ". Cannot continue.", "Error!")
+		print("unsupported architecture: ", got_arch)
+		OS.alert("Error! Unsupported architecture: " + got_arch + ". Cannot continue.", "Error!")
 		return null
 
 var os = get_os()
