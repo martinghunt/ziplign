@@ -24,7 +24,17 @@ func set_top_and_bottom(new_top, new_bottom):
 
 func is_rev():
 	return gff_data[3]
-	
+
+
+func set_visibility(zoom):
+	if zoom > Globals.zoom_to_show_annot_all \
+		or (zoom > Globals.zoom_to_show_annot_500 and (gff_data[1] - gff_data[0]) >= 500) \
+		or (zoom > Globals.zoom_to_show_annot_1k and (gff_data[1] - gff_data[0]) >= 1000) \
+		or (zoom > Globals.zoom_to_show_annot_2k and (gff_data[1] - gff_data[0]) >= 2000):
+		show()
+	else:
+		hide()
+
 
 func set_polygon_coords():
 	if len(outline.points) == 0:
@@ -79,3 +89,4 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	coll_poly.add_child(poly)
 	static_body_2d.add_child(outline)
 	add_child(name_label)
+	hide()

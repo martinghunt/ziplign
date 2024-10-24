@@ -176,7 +176,9 @@ func deselect():
 		poly.color = fill_color
 		centerline.default_color = Globals.theme.colours["contig"]["edge"]
 
-
+func set_annot_visibility(zoom):
+	for x in annot_polys:
+		x.set_visibility(zoom)
 
 
 func _on_mouse_entered():

@@ -230,6 +230,8 @@ func clear_nt_labels():
 func reset_contig_coords():
 	for cname in contigs:
 		contigs[cname].set_start_end(x_left + base_contig_pos[cname][0] * x_zoom, x_left + base_contig_pos[cname][1] * x_zoom)
+		contigs[cname].set_annot_visibility(x_zoom)
+
 	var result = draw_pos_to_genome_and_contig_pos(-x_left / x_zoom)
 	left_genome_index = result[0]
 	left_genome_pos = result[1]
