@@ -72,7 +72,7 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 	if not Globals.proj_data.has_annotation():
 		coords_axis_y["coords"] -= 4
 		if top_or_bottom == "top":
-			tracks_y["ctg_name"] -= 10
+			tracks_y["ctg_name"] -= 12
 	var start = 100
 	last_contig_end = 0
 	
