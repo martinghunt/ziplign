@@ -4,6 +4,7 @@ signal project_data_loaded
 
 var fastaq_lib = preload("fastaq.gd").new()
 var blast_lib = preload("blast.gd").new()
+var gff_lib = preload("gff.gd").new()
 
 var root_dir = ""
 var genome_top_file_prefix = ""
@@ -16,6 +17,7 @@ var blast_file = ""
 var blast_db = ""
 var genome_seqs = {"top": {}, "bottom": {}}
 var blast_matches = []
+var annotation = {"top": {}, "bottom": {}}
 var data_loaded = false
 
 
@@ -56,6 +58,7 @@ func init_from_dir(dir_path):
 		set_paths()
 		load_genomes()
 		load_blast_matches()
+		load_annotation_files()
 	elif FileAccess.file_exists(dir_path):
 		load_from_serialized_file(dir_path)
 	set_data_loaded()
@@ -67,8 +70,8 @@ func set_paths():
 	genome_bottom_file_prefix = root_dir.path_join("g2")
 	genome_top_fa_file = genome_top_file_prefix + ".fa"
 	genome_bottom_fa_file = genome_bottom_file_prefix + ".fa"
-	genome_top_annot_file = genome_top_file_prefix + ".annot"
-	genome_bottom_annot_file = genome_bottom_file_prefix + ".annot"
+	genome_top_annot_file = genome_top_file_prefix + ".gff"
+	genome_bottom_annot_file = genome_bottom_file_prefix + ".gff"
 	blast_file = root_dir.path_join("blast")
 	blast_db = root_dir.path_join("blast_db")
 
@@ -85,8 +88,16 @@ func load_genomes():
 
 
 func load_blast_matches():
-	blast_matches.clear() # saves some ram if proejct already loaded
+	blast_matches.clear() # saves some ram if project already loaded
 	blast_matches = blast_lib.load_tsv_file(blast_file)
+
+
+func load_annotation_files():
+	annotation = {"top": {}, "bottom": {}}
+	if FileAccess.file_exists(genome_top_annot_file):
+		annotation["top"] = gff_lib.load_gff_file(genome_top_annot_file)
+	if FileAccess.file_exists(genome_bottom_annot_file):
+		annotation["bottom"] = gff_lib.load_gff_file(genome_bottom_annot_file)
 
 
 func run_blast():
@@ -101,6 +112,7 @@ func save_as_serialized_file(outfile):
 		var file = FileAccess.open(outfile, FileAccess.WRITE)
 		file.store_var(blast_matches, true)
 		file.store_var(genome_seqs, true)
+		file.store_var(annotation, true)
 
 
 func load_from_serialized_file(infile):
@@ -110,6 +122,9 @@ func load_from_serialized_file(infile):
 	genome_seqs.clear()
 	blast_matches = file.get_var()
 	genome_seqs = file.get_var()
+	annotation = file.get_var()
+	if annotation == null:
+		annotation = {"top": {}, "bottom": {}}
 	set_data_loaded()
 
 
@@ -142,8 +157,20 @@ func flip_all_blast_matches(top_or_bottom):
 				l[2] = new_start
 
 
+func reverse_complement_annotation(top_or_bottom):
+	for name in annotation[top_or_bottom]:
+		var contig_length = len(genome_seqs[top_or_bottom]["seqs"][name])
+		for a in annotation[top_or_bottom][name]:
+			a[3] = not a[3] # flip the strand
+			var start = contig_length - a[1]
+			a[1] = contig_length - a[0]
+			a[0] = start
+		
+		
+
 func reverse_complement_genome(top_or_bottom):
 	flip_all_blast_matches(top_or_bottom)
+	reverse_complement_annotation(top_or_bottom)
 	for name in genome_seqs[top_or_bottom]["names"]:
 		genome_seqs[top_or_bottom]["seqs"][name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][name])
 
@@ -151,3 +178,7 @@ func reverse_complement_genome(top_or_bottom):
 func set_data_loaded():
 	data_loaded = true
 	project_data_loaded.emit()
+
+
+func has_annotation():
+	return len(annotation["top"]) > 0 or len(annotation["bottom"]) < 0

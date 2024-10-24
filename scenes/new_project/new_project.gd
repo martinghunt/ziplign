@@ -94,6 +94,10 @@ func _on_go_button_pressed():
 	append_to_info_text.emit("Laoading genomes")
 	await get_tree().create_timer(0.1).timeout
 	Globals.proj_data.load_genomes()
+	
+	append_to_info_text.emit("Loading annotation")
+	await get_tree().create_timer(0.1).timeout
+	Globals.proj_data.load_annotation_files()
 	Globals.proj_data.set_data_loaded()
 	hide()
 	clear_fields()

@@ -47,13 +47,17 @@ func _ready():
 	bottom_scrollbar_value = 0
 	hscrollbar_set_bottom_value.emit(0)
 	hscrollbar_set_top_value.emit(0)
+	if Globals.proj_data.has_annotation():
+		genome_height = 130
+	else:
+		genome_height = 60
 	top_genome = GenomeClass.new("top", global_top, global_top + genome_height)
 	bottom_genome = GenomeClass.new("bottom", global_bottom - genome_height, global_bottom)
 	add_child(top_genome)
 	add_child(bottom_genome)
 	set_matches()
 	add_child(matches)
-	matches.set_top_bottom_coords(global_top + genome_height + 10, global_bottom - genome_height - 5)
+	matches.set_top_bottom_coords(global_top + genome_height + 10, global_bottom - genome_height - 10)
 	max_genome_x = max(top_genome.last_contig_end, bottom_genome.last_contig_end)
 	set_x_zoom(get_default_x_zoom())
 	matches.connect("moved_to_selected_match", _on_moved_to_selected_match)

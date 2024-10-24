@@ -35,21 +35,25 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 	top_or_bottom = new_top_or_bottom
 	top = new_top
 	bottom = new_bottom
-	var track_height = 0.2 * (bottom - top)
+	var total_height = bottom - top
+
 	if top_or_bottom == "top":
 		tracks_y["ctg_name"] = top - 11
-		tracks_y["coords_top"] = top + 2 * track_height
-		tracks_y["fwd_top"] = top + 3 * track_height
-		tracks_y["rev_top"] = top + 4 * track_height
+		tracks_y["coords_top"] = top + 0.27 * total_height
+		tracks_y["coords_bottom"] = top + 0.4 * total_height
+		tracks_y["fwd_top"] = top + 0.4 * total_height
+		tracks_y["fwd_bottom"] = top + 0.7 * total_height
+		tracks_y["rev_top"] = top + 0.7 * total_height
+		tracks_y["rev_bottom"] = top + total_height
 	else:
 		tracks_y["fwd_top"] = top
-		tracks_y["rev_top"] = top + track_height
-		tracks_y["coords_top"] = top + 2 * track_height
-		tracks_y["ctg_name"] = top + 4 * track_height
-
-	tracks_y["fwd_bottom"] = tracks_y["fwd_top"] + track_height
-	tracks_y["coords_bottom"] = tracks_y["coords_top"] + track_height
-	tracks_y["rev_bottom"] = tracks_y["rev_top"] + track_height
+		tracks_y["fwd_bottom"] = top + 0.3 * total_height
+		tracks_y["rev_top"] = top + 0.3 * total_height
+		tracks_y["rev_bottom"] = top + 0.6 * total_height
+		tracks_y["coords_top"] = top + 0.6 * total_height
+		tracks_y["coords_bottom"] = top + 0.73 * total_height
+		tracks_y["ctg_name"] = top + total_height
+		
 
 	if top_or_bottom == "top":
 		coords_axis_y["coords"] = tracks_y["coords_top"] - 13
@@ -59,13 +63,16 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		coords_axis_y["tick_bottom_small"] = tracks_y["fwd_top"]
 		coords_axis_y["tick_top"] -= 3
 	else:
-		coords_axis_y["coords"] = tracks_y["coords_top"] + 9
+		coords_axis_y["coords"] = tracks_y["coords_top"] + 11
 		coords_axis_y["tick_bottom"] = 0.5 * (tracks_y["coords_top"] + tracks_y["coords_bottom"])
 		coords_axis_y["tick_top"] = tracks_y["coords_top"] - 3
 		coords_axis_y["tick_bottom_small"] = coords_axis_y["tick_bottom"]
 		coords_axis_y["tick_top_small"] = tracks_y["coords_top"]
 		coords_axis_y["tick_bottom"] += 3
-
+	if not Globals.proj_data.has_annotation():
+		coords_axis_y["coords"] -= 4
+		if top_or_bottom == "top":
+			tracks_y["ctg_name"] -= 10
 	var start = 100
 	last_contig_end = 0
 	
@@ -73,7 +80,7 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		var clength = len(Globals.proj_data.genome_seqs[top_or_bottom]["seqs"][cname])
 		contig_names.append(cname)
 		last_contig_end = start + clength
-		contigs[cname] = ContigClass.new(len(contigs), top_or_bottom, start, last_contig_end, tracks_y["fwd_top"], tracks_y["rev_bottom"], clength)
+		contigs[cname] = ContigClass.new(len(contigs), top_or_bottom, start, last_contig_end, tracks_y["fwd_top"], tracks_y["rev_bottom"], clength, Globals.proj_data.annotation[top_or_bottom].get(cname, {}))
 		base_contig_pos[cname] = [start, last_contig_end]
 		start += contig_space + clength
 
@@ -154,11 +161,11 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 	var rev_y
 	
 	if top_or_bottom == "top":
-		fwd_y = tracks_y["fwd_top"] + 4
-		rev_y = tracks_y["rev_top"] + 6
+		fwd_y = tracks_y["fwd_bottom"] - 15
+		rev_y = tracks_y["fwd_bottom"] - 2
 	else:
-		fwd_y = tracks_y["fwd_top"] - 7
-		rev_y = tracks_y["rev_top"] - 5
+		fwd_y = tracks_y["fwd_bottom"] - 13
+		rev_y = tracks_y["fwd_bottom"] 
 
 	nt_labels.append(Label.new())
 	nt_labels[-1].text = " " + cname

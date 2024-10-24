@@ -5,6 +5,7 @@ class_name Contig
 signal mouse_in
 signal mouse_out
 
+const AnnotFeature = preload("res://lib/annot_feature.gd")
 
 var static_body_2d = StaticBody2D.new()
 var coll_poly = CollisionPolygon2D.new()
@@ -18,6 +19,10 @@ var centerline_width = 1
 var centerline_width_zoomed = 1
 var top = 5
 var bottom = 30
+var gene_fwd_top = 9
+var gene_fwd_bottom = 17
+var gene_rev_top = 21
+var gene_rev_bottom = 28
 var middle = 0.5 * (top + bottom)
 var centerline_y = middle
 var id
@@ -28,14 +33,30 @@ var x_start
 var x_end
 var length_in_bp
 var fill_color
+var annot_polys = []
+var gff_features = []
 
 
-func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_bottom, bp_length):
+func set_gene_top_bottom(zoomed: bool):
+	if zoomed:
+		gene_fwd_top = top + 5
+		gene_fwd_bottom = top + 0.6 * (middle - top)
+		gene_rev_top = middle + 0.4 * (bottom - middle)
+		gene_rev_bottom = bottom - 5
+	else:
+		gene_fwd_top = top + 0.15 * (middle - top)
+		gene_fwd_bottom = top + 0.85 * (middle - top)
+		gene_rev_top = middle + 0.15 * (bottom - middle)
+		gene_rev_bottom = middle + 0.85 * (bottom - middle)
+
+
+func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_bottom, bp_length, annotation):
 	id = new_id
 	top_or_bottom = new_top_or_bottom
 	top = new_top
 	bottom = new_bottom
 	middle = 0.5 * (top + bottom)
+	set_gene_top_bottom(false)
 	centerline_y = middle
 	static_body_2d.set_pickable(true)
 	if id % 2 == 0:
@@ -62,12 +83,22 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	coll_poly.add_child(centerline)
 	coll_poly.add_child(leftvline)
 	coll_poly.add_child(rightvline)
+	length_in_bp = bp_length
 	# comment out for now to stop doing anything on mouse hover
 	# or selecting, because haven't implemented doing anything with
 	# selected contig
 	#static_body_2d.mouse_entered.connect(_on_mouse_entered)
 	#tatic_body_2d.mouse_exited.connect(_on_mouse_exited)
-	length_in_bp = bp_length
+	gff_features = annotation
+	for feature in gff_features:
+		var f_top = gene_fwd_top
+		var f_bot = gene_fwd_bottom
+		if feature[3]: # is reverse
+			f_top = gene_rev_top
+			f_bot = gene_rev_bottom
+		annot_polys.append(AnnotFeature.new(feature, f_top, f_bot, self))
+		add_child(annot_polys[-1])
+
 
 
 
@@ -92,6 +123,10 @@ func set_polygons_coords():
 	leftvline.set_point_position(1, Vector2(x_start, bottom))
 	rightvline.set_point_position(0, Vector2(x_end, top))
 	rightvline.set_point_position(1, Vector2(x_end, bottom))
+	for x in annot_polys:
+		x.set_polygon_coords()
+
+
 
 func set_zoomed_view(turn_on):
 	if turn_on:
@@ -106,15 +141,19 @@ func set_zoomed_view(turn_on):
 	else:
 		centerline.width = centerline_width
 		centerline_y = middle
-
-
-
 		leftvline.show()
 		rightvline.show()
 		poly.show()
 
 	centerline.set_point_position(0, Vector2(x_start, centerline_y))
 	centerline.set_point_position(1, Vector2(x_end, centerline_y))
+
+	set_gene_top_bottom(turn_on)
+	for x in annot_polys:
+		if x.is_rev():
+			x.set_top_and_bottom(gene_rev_top, gene_rev_bottom)
+		else:
+			x.set_top_and_bottom(gene_fwd_top, gene_fwd_bottom)
 
 
 func set_start_end(new_start, new_end):

@@ -53,3 +53,4 @@ func get_char_sizes(font, font_size):
 var fonts = load_fonts()
 var font_acgt_size = 15
 var font_acgt_sizes = get_char_sizes(fonts["mono"], font_acgt_size)
+var font_annot_size = 12
