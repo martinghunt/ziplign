@@ -57,6 +57,12 @@ func set_polygon_coords():
 	name_label.set_size(Vector2(outline.points[1].x - outline.points[0].x - 1, outline.points[2].y - outline.points[0].y - 1))
 	name_label.set_vertical_alignment(VERTICAL_ALIGNMENT_CENTER)
 	name_label.clip_text = true
+	
+
+func gff2tooltip(a: Array):
+	return str(a[0]) + "-" + str(a[1]) + "\n" \
+		+ "type=" + a[2] + "\n" \
+		+ "tags=" + str(a[4])
 
 
 func _init(gff_data_list, new_top, new_bottom, parent_contig):
@@ -75,13 +81,17 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
 	name_label.add_theme_font_override("font", Globals.fonts["dejavu"])
-	name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)
+	name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)	
+	name_label.set_mouse_filter(Control.MOUSE_FILTER_PASS)
+
 	for k in ["Name", "name", "ID"]:
 		name_label.text = gff_data[4].get(k, "")
 		if name_label.text != "":
 			break
 	if name_label.text == "":
 		name_label.text = "UNKNOWN"
+		
+	name_label.set_tooltip_text(name_label.text + " " + gff2tooltip(gff_data))
 
 	set_polygon_coords()
 	add_child(static_body_2d)
