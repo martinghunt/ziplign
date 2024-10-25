@@ -223,7 +223,6 @@ size_flags_vertical = 3
 mouse_filter = 1
 
 [node name="GenomesNMatches" parent="MainHBoxContainer/BoxContainer/VBoxContainer2" instance=ExtResource("1_14efs")]
-visible = false
 clip_children = 2
 position = Vector2(200, 0)
 
