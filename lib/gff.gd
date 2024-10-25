@@ -7,7 +7,7 @@ func load_gff_file(filename):
 	for line in lines:
 		if line[0] == "#":
 			continue
-		
+
 		var fields = line.rstrip("\r").split("\t")
 		# example line:
 		# g1.c1  .  gene  900  1400  .  +  .  ID=gene1;foo=bar;name=name1

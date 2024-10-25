@@ -58,3 +58,13 @@ var fonts = load_fonts()
 var font_acgt_size = 15
 var font_acgt_sizes = get_char_sizes(fonts["mono"], font_acgt_size)
 var font_annot_size = 12
+
+
+func make_tooltip_style():
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.2, 0.4, 0.6)  # Set your preferred background color here
+	#tooltip_style.border_width_all = 2
+	style.border_color = Color(0.8, 0.8, 0.8)  # Optional: Set border color if needed
+	return style
+	
+var tooltip_style = make_tooltip_style()
