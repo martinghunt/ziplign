@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=26 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -7,6 +7,60 @@
 [ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_oek1a"]
+action = &"pause"
+
+[sub_resource type="Shortcut" id="Shortcut_2ji08"]
+events = [SubResource("InputEventAction_oek1a")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_vxsve"]
+action = &"genomes_tl_bl"
+
+[sub_resource type="Shortcut" id="Shortcut_xgvof"]
+events = [SubResource("InputEventAction_vxsve")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_cfsbb"]
+action = &"genomes_tr_bl"
+
+[sub_resource type="Shortcut" id="Shortcut_3s5re"]
+events = [SubResource("InputEventAction_cfsbb")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_cf6us"]
+action = &"genomes_tl_br"
+
+[sub_resource type="Shortcut" id="Shortcut_g4tv5"]
+events = [SubResource("InputEventAction_cf6us")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_b0dax"]
+action = &"genomes_tr_br"
+
+[sub_resource type="Shortcut" id="Shortcut_hq06d"]
+events = [SubResource("InputEventAction_b0dax")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_ufr1h"]
+action = &"zoom_minus"
+
+[sub_resource type="Shortcut" id="Shortcut_rytnn"]
+events = [SubResource("InputEventAction_ufr1h")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_470f2"]
+action = &"zoom_reset"
+
+[sub_resource type="Shortcut" id="Shortcut_t1pu1"]
+events = [SubResource("InputEventAction_470f2")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_okxiq"]
+action = &"zoom_plus"
+
+[sub_resource type="Shortcut" id="Shortcut_k003o"]
+events = [SubResource("InputEventAction_okxiq")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_stosh"]
+action = &"zoom_bp"
+
+[sub_resource type="Shortcut" id="Shortcut_7fmgm"]
+events = [SubResource("InputEventAction_stosh")]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -52,6 +106,7 @@ layout_mode = 2
 
 [node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_2ji08")
 text = "Menu"
 
 [node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -72,18 +127,22 @@ alignment = 1
 
 [node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_xgvof")
 text = "⇇"
 
 [node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_3s5re")
 text = "↺"
 
 [node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_g4tv5")
 text = "↻"
 
 [node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_hq06d")
 text = "⇉"
 
 [node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -104,18 +163,22 @@ layout_mode = 2
 
 [node name="ButtonZoomMinus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_rytnn")
 text = "-"
 
 [node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_t1pu1")
 text = "⭤"
 
 [node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_k003o")
 text = "+"
 
 [node name="ButtonZoomBp" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_7fmgm")
 text = "+bp"
 
 [node name="HSeparator3" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]

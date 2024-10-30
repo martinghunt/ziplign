@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://5etk1xbkj7g"]
+[gd_scene load_steps=5 format=3 uid="uid://5etk1xbkj7g"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_00gpy"]
 [ext_resource type="Script" path="res://scenes/main_menu/StatusRichTextLabel.gd" id="2_4ot8r"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_xx7b4"]
+action = &"resume"
+
+[sub_resource type="Shortcut" id="Shortcut_ow52b"]
+events = [SubResource("InputEventAction_xx7b4")]
 
 [node name="MainMenu" type="Control"]
 z_index = 1001
@@ -42,6 +48,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 disabled = true
+shortcut = SubResource("Shortcut_ow52b")
 text = "Resume"
 
 [node name="NewButton" type="Button" parent="MainContainer/MainVBoxContainer"]
