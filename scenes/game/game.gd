@@ -29,12 +29,14 @@ func resize():
 func _on_pause_button_pressed():
 	hide()
 	$"../BoxContainer/ColorRect".z_index = 100
+	get_viewport().canvas_transform.origin.y = Globals.y_offset_paused
 	Globals.paused = true
 	pause.emit()
 
 
 func resume():
 	$"../BoxContainer/ColorRect".z_index = 0
+	get_viewport().canvas_transform.origin.y = -Globals.y_offset_not_paused
 	Globals.paused = false
 	show()
 

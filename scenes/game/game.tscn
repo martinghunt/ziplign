@@ -30,6 +30,7 @@ z_index = 300
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 729.0
+mouse_filter = 1
 color = Color(0.817581, 0.53318, 0.923651, 1)
 
 [node name="MainHBoxContainer" type="HBoxContainer" parent="."]

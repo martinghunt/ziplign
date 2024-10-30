@@ -105,7 +105,8 @@ func reset_colours():
 	
 	var ledit = $Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit
 	ledit.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
-	
+	Globals.tooltip_style.bg_color = Globals.theme.colours["ui"]["panel_bg"]
+	Globals.tooltip_style.border_color = Globals.theme.colours["text"]
 	
 func _ready():
 	reset_colours()

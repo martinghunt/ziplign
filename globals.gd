@@ -21,7 +21,8 @@ var zoom_to_show_annot_all = 0.006
 var controls_width = 140
 var reload_needed = false
 var paused = true
-
+var y_offset_paused = 0
+var y_offset_not_paused = 1000
 
 var complement_dict = {
 	"A": "T",
@@ -62,9 +63,10 @@ var font_annot_size = 12
 
 func make_tooltip_style():
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.2, 0.4, 0.6)  # Set your preferred background color here
-	#tooltip_style.border_width_all = 2
-	style.border_color = Color(0.8, 0.8, 0.8)  # Optional: Set border color if needed
+	style.bg_color = theme.colours["ui"]["panel_bg"]
+	style.set_border_width_all(2)
+	style.set_expand_margin_all(1)
+	style.border_color = theme.colours["text"]
 	return style
 	
 var tooltip_style = make_tooltip_style()
