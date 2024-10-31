@@ -12,8 +12,8 @@ func _on_return_button_pressed():
 
 
 func _on_main_menu_open_settings():
+	$CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton.set_selected_to_match_theme()
 	show()
-
 
 func _on_theme_option_button_theme_updated():
 	theme_updated.emit()

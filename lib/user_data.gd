@@ -50,6 +50,9 @@ var tnahelper_exists = false
 var example_data_exists = false
 var current_proj_dir = OS.get_user_data_dir().path_join("current_proj")
 var install_ok = false
+var config_file = OS.get_user_data_dir().path_join("config")
+var config_file_exists = false
+var config = ConfigFile.new()
 
 
 func does_example_data_exist():
@@ -84,9 +87,6 @@ var os = get_os()
 var arch = get_architecture()
 
 
-func get_config_path():
-	return OS.get_user_data_dir().path_join("config")
-
 func check_all_paths():
 	data_dir_exists = DirAccess.dir_exists_absolute(data_dir)
 	print("Checking bin directory:", bin)
@@ -100,7 +100,24 @@ func check_all_paths():
 	print("tnahelper exists:", tnahelper_exists)
 	example_data_exists = does_example_data_exist()
 	print("example data found:", example_data_exists)
-	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists and example_data_exists
+	config_file_exists = FileAccess.file_exists(config_file)
+	print("config file found:", config_file_exists)
+	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists and example_data_exists and config_file_exists
+	
+	
+func make_default_config():
+	config.clear()
+	config.set_value("colours", "theme", "Light")
+	config.save(config_file)
+
+
+func load_config():
+	config.load(config_file)
+
+
+func save_config():
+	config.save(config_file)
+
 
 
 func _init():

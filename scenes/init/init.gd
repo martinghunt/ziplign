@@ -153,6 +153,15 @@ func run_all():
 			OS.alert("Error making example genome files.\nCannot continue", "ERROR")
 			return false
 	
+	if Globals.userdata.config_file_exists:
+		add_to_text_label.emit("Config file found. Loading it. " + Globals.userdata.config_file)
+		Globals.userdata.load_config()
+	else:
+		add_to_text_label.emit("Config file not found. Making default file. " + Globals.userdata.config_file)
+		Globals.userdata.make_default_config()
+		
+	add_to_text_label.emit("Applying settings from config file")
+	Globals.theme.set_theme(Globals.userdata.config.get_value("colours", "theme"))
 	add_to_text_label.emit("Initialization finished")
 	return true
 
@@ -161,4 +170,5 @@ func _on_main_start_init():
 	await run_all()
 	await get_tree().create_timer(1).timeout
 	hide()
+	$"..".reset_colours()
 	init_finished.emit()
