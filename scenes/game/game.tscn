@@ -116,6 +116,7 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Go to main menu
 Keyboard shortcuts: p/q"
+focus_mode = 0
 shortcut = SubResource("Shortcut_2ji08")
 shortcut_in_tooltip = false
 text = "Menu"
@@ -139,17 +140,20 @@ columns = 4
 [node name="ButtonFineToggle" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Toggle fine control on or off"
+focus_mode = 0
 toggle_mode = true
 text = "F"
 
 [node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move top view to the left"
+focus_mode = 0
 text = "⥪"
 
 [node name="ButtonMoveRightNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move top view to the right"
+focus_mode = 0
 text = "⥬"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
@@ -159,6 +163,7 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Move top and bottom view to the left
 Keyboard shortcut: Left"
+focus_mode = 0
 shortcut = SubResource("Shortcut_xgvof")
 shortcut_in_tooltip = false
 text = "⇇"
@@ -167,6 +172,7 @@ text = "⇇"
 layout_mode = 2
 tooltip_text = "Move top view right and bottom view left
 Keyboard shortcut: Up"
+focus_mode = 0
 shortcut = SubResource("Shortcut_3s5re")
 shortcut_in_tooltip = false
 text = "↺"
@@ -175,6 +181,7 @@ text = "↺"
 layout_mode = 2
 tooltip_text = "Move top view left and bottom view right
 Keyboard shortcut: Down"
+focus_mode = 0
 shortcut = SubResource("Shortcut_g4tv5")
 shortcut_in_tooltip = false
 text = "↻"
@@ -183,6 +190,7 @@ text = "↻"
 layout_mode = 2
 tooltip_text = "Move top and bottom view to the right
 Keyboard shortcut: Right"
+focus_mode = 0
 shortcut = SubResource("Shortcut_hq06d")
 shortcut_in_tooltip = false
 text = "⇉"
@@ -193,11 +201,13 @@ layout_mode = 2
 [node name="ButtonMoveNoneLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move bottom view to the left"
+focus_mode = 0
 text = "⥫"
 
 [node name="ButtonMoveNoneRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move bottom view to the right"
+focus_mode = 0
 text = "⥭"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
@@ -223,6 +233,7 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Zoom out
 Keyboard shortcut: -"
+focus_mode = 0
 shortcut = SubResource("Shortcut_rytnn")
 shortcut_in_tooltip = false
 text = "-"
@@ -231,6 +242,7 @@ text = "-"
 layout_mode = 2
 tooltip_text = "Reset view to default
 Keyboard shortcut: ="
+focus_mode = 0
 shortcut = SubResource("Shortcut_t1pu1")
 shortcut_in_tooltip = false
 text = "⭤"
@@ -239,6 +251,7 @@ text = "⭤"
 layout_mode = 2
 tooltip_text = "Zoom in
 Keyboard shortcut: +"
+focus_mode = 0
 shortcut = SubResource("Shortcut_k003o")
 shortcut_in_tooltip = false
 text = "+"
@@ -247,6 +260,7 @@ text = "+"
 layout_mode = 2
 tooltip_text = "Zoom in to base-pair level
 Keyboard shortcut: 0 (zero)"
+focus_mode = 0
 shortcut = SubResource("Shortcut_7fmgm")
 shortcut_in_tooltip = false
 text = "+bp"
@@ -296,11 +310,13 @@ layout_mode = 2
 [node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
 layout_mode = 2
 tooltip_text = "Reverse complement each contig in the top genome"
+focus_mode = 0
 text = "Top"
 
 [node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
 layout_mode = 2
 tooltip_text = "Reverse complement each contig in the bottom genome"
+focus_mode = 0
 text = "Bottom"
 
 [node name="HSeparatorBottom" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
