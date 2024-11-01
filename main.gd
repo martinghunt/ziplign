@@ -52,7 +52,6 @@ func reset_colours():
 
 	set_filedialog_colors($LoadProject/LoadDialog)
 	set_filedialog_colors($SaveProject/SaveDialog)
-
 	$BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	$Game/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	$Game/ColorRect2.color = Globals.theme.colours["ui"]["panel_bg"]
@@ -64,9 +63,12 @@ func reset_colours():
 		$Init/StatusRichTextLabel,
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText,
 		$NewProject/MainVBoxContainer/InfoRichTextLabel,
+		$Game/ColorRect/ProcessingLabel,
 	]
 	for x in ui_text_to_set:
 		x.add_theme_color_override("default_color", Globals.theme.colours["ui"]["text"])
+
+	$Game/ColorRect/ProcessingLabel.add_theme_color_override("font_color", Globals.theme.colours["ui"]["text"])
 
 	var children_to_set = [
 		$MainMenu/MainContainer/MainVBoxContainer,

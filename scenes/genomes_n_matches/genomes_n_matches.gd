@@ -15,12 +15,13 @@ var bottom_genome
 var x_zoom = 1
 var top_x = 0
 var bottom_x = 0
-var global_top = 80 + Globals.y_offset_not_paused
-var global_bottom = 590 + Globals.y_offset_not_paused
+var global_top = 82 + Globals.y_offset_not_paused
+var global_bottom = 588 + Globals.y_offset_not_paused
 var genome_height = 60
 var top_scrollbar_value = 0
 var bottom_scrollbar_value = 0
 var max_genome_x = 0
+var color_rect_z_index = 0
 
 
 func set_matches():
@@ -63,6 +64,8 @@ func _ready():
 	matches.connect("moved_to_selected_match", _on_moved_to_selected_match)
 	matches.connect("match_selected", _on_match_selected)
 	matches.connect("match_deselected", _on_match_deselected)
+	$"../../../../ColorRect/ProcessingLabel".position.y = 0.5 * (global_top + global_bottom) - 20 - Globals.y_offset_not_paused
+	$"../../../../ColorRect/ProcessingLabel".position.x = Globals.controls_width + 10
 
 
 func get_default_x_zoom():
@@ -190,7 +193,28 @@ func move_top_and_bottom(top_frac, bottom_frac):
 	shift_bottom(d * bottom_frac / bottom_genome.last_contig_end)
 
 
+func start_processing_overlay():
+	Globals.paused = true
+	color_rect_z_index = $"../../../../ColorRect".z_index
+	$"../../../../ColorRect".z_index = 2000
+	$"../../../../ColorRect".color.a = 0.5
+	$"../../../../ColorRect/ProcessingLabel".show()
+	get_tree().set_pause(true)
+
+
+func stop_processing_overlay():
+	$"../../../../ColorRect".color.a = 1
+	$"../../../../ColorRect".z_index = color_rect_z_index
+	$"../../../../ColorRect/ProcessingLabel".hide()
+	await get_tree().create_timer(0.1).timeout
+	Globals.paused = false
+	get_tree().set_pause(false)
+	
+
 func reverse_complement(to_rev):
+	start_processing_overlay()
+	await get_tree().create_timer(0.1).timeout
+	
 	if to_rev == "top":
 		Globals.proj_data.reverse_complement_genome("top")
 	elif to_rev == "bottom":
@@ -206,6 +230,8 @@ func reverse_complement(to_rev):
 		matches.matches[matches.selected].select()
 		matches.move_to_selected()
 		_on_match_selected(currently_selected)
+	
+	stop_processing_overlay()
 
 
 func _on_button_move_left_left_pressed():
@@ -228,7 +254,7 @@ func _on_game_window_resized():
 	matches.update_hide_and_show()
 	top_genome.reset_contig_coords()
 	bottom_genome.reset_contig_coords()
-
+	$"../../ColorRect".size.x = get_viewport().get_visible_rect().size.x + 10
 
 func _on_revcomp_top_button_pressed():
 	reverse_complement("top")

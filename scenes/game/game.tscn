@@ -79,6 +79,14 @@ offset_bottom = 700.0
 mouse_filter = 1
 color = Color(0.427451, 1, 1, 1)
 
+[node name="ProcessingLabel" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 30
+text = "Processing. Please wait..."
+vertical_alignment = 2
+
 [node name="ColorRect2" type="ColorRect" parent="."]
 z_index = 300
 layout_mode = 0
@@ -265,6 +273,7 @@ layout_mode = 2
 
 [node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 1
 
 [node name="BoxContainer" type="Control" parent="MainHBoxContainer"]
 layout_mode = 2
@@ -272,7 +281,6 @@ size_flags_horizontal = 3
 mouse_filter = 1
 
 [node name="ColorRect" type="ColorRect" parent="MainHBoxContainer/BoxContainer"]
-visible = false
 custom_minimum_size = Vector2(900, 550)
 layout_mode = 2
 offset_right = 900.0
