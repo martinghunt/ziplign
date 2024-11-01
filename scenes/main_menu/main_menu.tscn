@@ -46,9 +46,12 @@ layout_mode = 2
 
 [node name="ResumeButton" type="Button" parent="MainContainer/MainVBoxContainer"]
 layout_mode = 2
+tooltip_text = "Return to looking at genomes
+Keyboard shorcut: r"
 theme_override_font_sizes/font_size = 30
 disabled = true
 shortcut = SubResource("Shortcut_ow52b")
+shortcut_in_tooltip = false
 text = "Resume"
 
 [node name="NewButton" type="Button" parent="MainContainer/MainVBoxContainer"]

@@ -2,6 +2,12 @@ extends Node2D
 
 signal start_init
 
+func set_tooltip_theme(node):
+	node.theme = Theme.new()
+	node.theme.set_stylebox("panel", "TooltipPanel", Globals.tooltip_style)
+	node.theme.set_color("font_color", "TooltipLabel", Globals.theme.colours["text"]) 
+	node.theme.set_font("font", "TooltipLabel", Globals.fonts["dejavu"]) 
+
 
 func set_font_color(node):
 	node.add_theme_color_override("font_color", Globals.theme.colours["ui"]["text"])
@@ -93,6 +99,19 @@ func reset_colours():
 	sbar.get_theme_stylebox("grabber_highlight").bg_color = Globals.theme.colours["ui"]["button_highlight"]
 	sbar.get_theme_stylebox("grabber_pressed").bg_color = Globals.theme.colours["ui"]["button_pressed"]
 	
+	var to_set_tooltip = [
+		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar,
+		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar,
+		$Game/MainHBoxContainer/VBoxContainer/PauseButton,
+	]
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer.get_children())
+	to_set_tooltip.append_array($MainMenu/MainContainer/MainVBoxContainer.get_children())
+	for x in to_set_tooltip:
+		set_tooltip_theme(x)
+
 	var optb = $Settings/CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton
 	optb.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	optb.get_theme_stylebox("hover").bg_color = Globals.theme.colours["ui"]["button_highlight"]

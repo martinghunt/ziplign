@@ -106,7 +106,10 @@ layout_mode = 2
 
 [node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
+tooltip_text = "Go to main menu
+Keyboard shortcuts: p/q"
 shortcut = SubResource("Shortcut_2ji08")
+shortcut_in_tooltip = false
 text = "Menu"
 
 [node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -127,22 +130,34 @@ alignment = 1
 
 [node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move top and bottom view to the left
+Keyboard shortcut: Left"
 shortcut = SubResource("Shortcut_xgvof")
+shortcut_in_tooltip = false
 text = "⇇"
 
 [node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move top view right and bottom view left
+Keyboard shortcut: Up"
 shortcut = SubResource("Shortcut_3s5re")
+shortcut_in_tooltip = false
 text = "↺"
 
 [node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move top view left and bottom view right
+Keyboard shortcut: Down"
 shortcut = SubResource("Shortcut_g4tv5")
+shortcut_in_tooltip = false
 text = "↻"
 
 [node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move top and bottom view to the right
+Keyboard shortcut: Right"
 shortcut = SubResource("Shortcut_hq06d")
+shortcut_in_tooltip = false
 text = "⇉"
 
 [node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -163,22 +178,34 @@ layout_mode = 2
 
 [node name="ButtonZoomMinus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+tooltip_text = "Zoom out
+Keyboard shortcut: -"
 shortcut = SubResource("Shortcut_rytnn")
+shortcut_in_tooltip = false
 text = "-"
 
 [node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+tooltip_text = "Reset view to default
+Keyboard shortcut: ="
 shortcut = SubResource("Shortcut_t1pu1")
+shortcut_in_tooltip = false
 text = "⭤"
 
 [node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+tooltip_text = "Zoom in
+Keyboard shortcut: +"
 shortcut = SubResource("Shortcut_k003o")
+shortcut_in_tooltip = false
 text = "+"
 
 [node name="ButtonZoomBp" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
+tooltip_text = "Zoom in to base-pair level
+Keyboard shortcut: 0 (zero)"
 shortcut = SubResource("Shortcut_7fmgm")
+shortcut_in_tooltip = false
 text = "+bp"
 
 [node name="HSeparator3" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -197,7 +224,7 @@ text = "Min length"
 
 [node name="FiltMinLengthLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
-tooltip_text = "Mininum match length to show in bp"
+tooltip_text = "Only show matches that are above this length"
 context_menu_enabled = false
 script = ExtResource("4_6ydgx")
 
@@ -207,6 +234,7 @@ text = "Min % identity"
 
 [node name="FiltMinIdentityLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
+tooltip_text = "Only show matches with at least this percent identity"
 script = ExtResource("5_2v3gj")
 
 [node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -224,10 +252,12 @@ layout_mode = 2
 
 [node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
 layout_mode = 2
+tooltip_text = "Reverse complement each contig in the top genome"
 text = "Top"
 
 [node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
 layout_mode = 2
+tooltip_text = "Reverse complement each contig in the bottom genome"
 text = "Bottom"
 
 [node name="HSeparatorBottom" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
