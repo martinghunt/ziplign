@@ -132,9 +132,23 @@ theme_override_font_sizes/font_size = 20
 text = "Move"
 horizontal_alignment = 1
 
-[node name="BoxContainer" type="BoxContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer"]
+[node name="BoxContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer"]
 layout_mode = 2
-alignment = 1
+columns = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+
+[node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "⥪"
+
+[node name="ButtonMoveRightNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "⥬"
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
 
 [node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
@@ -167,6 +181,20 @@ Keyboard shortcut: Right"
 shortcut = SubResource("Shortcut_hq06d")
 shortcut_in_tooltip = false
 text = "⇉"
+
+[node name="MarginContainer4" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+
+[node name="ButtonMoveNoneLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "⥫"
+
+[node name="ButtonMoveNoneRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
+text = "⥭"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -343,10 +371,14 @@ script = ExtResource("3_nnddm")
 [connection signal="new_project_go" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_new_project_go"]
 [connection signal="window_resized" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_window_resized"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_left_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_right_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_left_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveNoneLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_none_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveNoneRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_none_right_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomMinus" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_minus_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomReset" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomPlus" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_plus_pressed"]

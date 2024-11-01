@@ -234,6 +234,14 @@ func reverse_complement(to_rev):
 	stop_processing_overlay()
 
 
+func _on_button_move_left_none_pressed():
+	move_top_and_bottom(-0.5, 0)
+
+
+func _on_button_move_right_none_pressed():
+	move_top_and_bottom(0.5, 0)
+
+
 func _on_button_move_left_left_pressed():
 	move_top_and_bottom(-0.5, -0.5)
 	
@@ -248,6 +256,14 @@ func _on_button_move_right_left_pressed():
 
 func _on_button_move_right_right_pressed():
 	move_top_and_bottom(0.5, 0.5)
+
+
+func _on_button_move_none_left_pressed():
+	move_top_and_bottom(0, -0.5)
+
+
+func _on_button_move_none_right_pressed():
+	move_top_and_bottom(0, 0.5)
 
 
 func _on_game_window_resized():
