@@ -57,11 +57,9 @@ func set_polygon_coords():
 
 
 func gff2tooltip(a: Array):
-	return str(a[0]) + "-" + str(a[1]) + "\n" \
+	return parent_ctg.name() + ": " + str(a[0] + 1) + "-" + str(a[1] + 1) + "\n" \
 		+ "type=" + a[2] + "\n" \
 		+ "tags=" + str(a[4])
-
-
 
 
 func _init(gff_data_list, new_top, new_bottom, parent_contig):
@@ -97,7 +95,7 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	if name_label.text == "":
 		name_label.text = "UNKNOWN"
 		
-	name_label.set_tooltip_text(name_label.text + " " + gff2tooltip(gff_data))
+	name_label.set_tooltip_text(name_label.text + "\n" + gff2tooltip(gff_data))
 	set_polygon_coords()
 	add_child(static_body_2d)
 	static_body_2d.add_child(coll_poly)

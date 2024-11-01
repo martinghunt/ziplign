@@ -100,7 +100,8 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 		add_child(annot_polys[-1])
 
 
-
+func name():
+	return Globals.proj_data.genome_seqs[top_or_bottom]["names"][id]
 
 func shift(x_move):
 	x_offset += x_move
