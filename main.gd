@@ -55,7 +55,7 @@ func reset_colours():
 	$BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	$Game/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	$Game/ColorRect2.color = Globals.theme.colours["ui"]["panel_bg"]
-	$Game/MainHBoxContainer/BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["panel_bg"]
+	$Game/MainHBoxContainer/BoxContainer/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/ColorRect.color = Globals.theme.colours["ui"]["general_bg"]
 	
 	var ui_text_to_set = [
