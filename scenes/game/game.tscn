@@ -136,15 +136,20 @@ horizontal_alignment = 1
 layout_mode = 2
 columns = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonFineToggle" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Toggle fine control on or off"
+toggle_mode = true
+text = "F"
 
 [node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move top view to the left"
 text = "⥪"
 
 [node name="ButtonMoveRightNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move top view to the right"
 text = "⥬"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
@@ -187,10 +192,12 @@ layout_mode = 2
 
 [node name="ButtonMoveNoneLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move bottom view to the left"
 text = "⥫"
 
 [node name="ButtonMoveNoneRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
+tooltip_text = "Move bottom view to the right"
 text = "⥭"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
@@ -371,6 +378,7 @@ script = ExtResource("3_nnddm")
 [connection signal="new_project_go" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_new_project_go"]
 [connection signal="window_resized" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_window_resized"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="toggled" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonFineToggle" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_fine_toggle_toggled"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_left_pressed"]

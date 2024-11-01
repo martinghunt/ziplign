@@ -22,6 +22,7 @@ var top_scrollbar_value = 0
 var bottom_scrollbar_value = 0
 var max_genome_x = 0
 var color_rect_z_index = 0
+var button_move_dist = 0.5
 
 
 func set_matches():
@@ -234,36 +235,43 @@ func reverse_complement(to_rev):
 	stop_processing_overlay()
 
 
+func _on_button_fine_toggle_toggled(toggled_on):
+	if toggled_on:
+		button_move_dist = 0.02
+	else:
+		button_move_dist = 0.5
+
+
 func _on_button_move_left_none_pressed():
-	move_top_and_bottom(-0.5, 0)
+	move_top_and_bottom(-button_move_dist, 0)
 
 
 func _on_button_move_right_none_pressed():
-	move_top_and_bottom(0.5, 0)
+	move_top_and_bottom(button_move_dist, 0)
 
 
 func _on_button_move_left_left_pressed():
-	move_top_and_bottom(-0.5, -0.5)
+	move_top_and_bottom(-button_move_dist, -button_move_dist)
 	
 
 func _on_button_move_left_right_pressed():
-	move_top_and_bottom(0.25, -0.25)
+	move_top_and_bottom(0.5 * button_move_dist, -0.5 * button_move_dist)
 
 
 func _on_button_move_right_left_pressed():
-	move_top_and_bottom(-0.25, 0.25)
+	move_top_and_bottom(-0.5 * button_move_dist, 0.5 * button_move_dist)
 
 
 func _on_button_move_right_right_pressed():
-	move_top_and_bottom(0.5, 0.5)
+	move_top_and_bottom(button_move_dist, button_move_dist)
 
 
 func _on_button_move_none_left_pressed():
-	move_top_and_bottom(0, -0.5)
+	move_top_and_bottom(0, -button_move_dist)
 
 
 func _on_button_move_none_right_pressed():
-	move_top_and_bottom(0, 0.5)
+	move_top_and_bottom(0, button_move_dist)
 
 
 func _on_game_window_resized():
