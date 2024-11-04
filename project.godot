@@ -15,9 +15,9 @@ config/version="0.0.1-dev"
 run/main_scene="res://main.tscn"
 config/use_custom_user_dir=true
 config/features=PackedStringArray("4.3", "Forward Plus")
-boot_splash/image="res://tna.png"
+boot_splash/image="res://tna_splash.png"
 boot_splash/use_filter=false
-config/icon="res://icon.svg"
+config/icon="res://tna_logo.png"
 boot_splash/minimum_display_time=1500
 
 [autoload]
