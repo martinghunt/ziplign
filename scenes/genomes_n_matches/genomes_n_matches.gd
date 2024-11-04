@@ -23,6 +23,7 @@ var bottom_scrollbar_value = 0
 var max_genome_x = 0
 var color_rect_z_index = 0
 var button_move_dist = 0.5
+var saved_views = {}
 
 
 func set_matches():
@@ -296,3 +297,32 @@ func _on_filt_min_length_line_edit_min_match_length_changed(value):
 func _on_filt_min_identity_line_edit_min_match_pc_id_changed(value):
 	Globals.match_min_show_pc_id = value
 	matches.update_hide_and_show()
+
+
+func save_view(i):
+	saved_views[i] = {
+		"zoom": x_zoom,
+		"top_scrollbar": top_scrollbar_value,
+		"bottom_scrollbar": bottom_scrollbar_value,
+	}
+
+
+func load_view(i):
+	set_x_zoom(saved_views[i]["zoom"])
+	_on_right_top_scrollbar_value_changed(saved_views[i]["top_scrollbar"])
+	hscrollbar_set_top_value.emit(saved_views[i]["top_scrollbar"])
+	_on_right_bottom_scrollbar_value_changed(saved_views[i]["bottom_scrollbar"])
+	hscrollbar_set_bottom_value.emit(saved_views[i]["bottom_scrollbar"])
+
+
+func _unhandled_input(event):
+	if Globals.paused:
+		return
+	
+	if event is InputEventKey:
+		for i in range(1, 10):
+			if event.is_action_released("view_" + str(i)):
+				if event.is_shift_pressed():
+					save_view(i)
+				elif i in saved_views:
+					load_view(i)
