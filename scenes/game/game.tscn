@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=29 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -14,6 +14,12 @@ action = &"pause"
 
 [sub_resource type="Shortcut" id="Shortcut_2ji08"]
 events = [SubResource("InputEventAction_oek1a")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_etpq2"]
+action = &"fine_toggle"
+
+[sub_resource type="Shortcut" id="Shortcut_cgse3"]
+events = [SubResource("InputEventAction_etpq2")]
 
 [sub_resource type="InputEventAction" id="InputEventAction_vxsve"]
 action = &"genomes_tl_bl"
@@ -140,9 +146,12 @@ columns = 4
 
 [node name="ButtonFineToggle" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
-tooltip_text = "Toggle fine control on or off"
+tooltip_text = "Toggle fine control on or off
+Keyboard shortcut: f"
 focus_mode = 0
 toggle_mode = true
+shortcut = SubResource("Shortcut_cgse3")
+shortcut_in_tooltip = false
 text = "F"
 
 [node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
