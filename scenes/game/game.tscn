@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=27 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/game/TopCoordsText.gd" id="2_ef7jy"]
 [ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
+[ext_resource type="FontFile" uid="uid://rpg5lwtg0iok" path="res://fonts/tnaicons.otf" id="4_queha"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_oek1a"]
@@ -148,13 +149,15 @@ text = "F"
 layout_mode = 2
 tooltip_text = "Move top view to the left"
 focus_mode = 0
-text = "⥪"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "A"
 
 [node name="ButtonMoveRightNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move top view to the right"
 focus_mode = 0
-text = "⥬"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "B"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
@@ -164,36 +167,40 @@ layout_mode = 2
 tooltip_text = "Move top and bottom view to the left
 Keyboard shortcut: Left"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_xgvof")
 shortcut_in_tooltip = false
-text = "⇇"
+text = "C"
 
 [node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move top view right and bottom view left
 Keyboard shortcut: Up"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_3s5re")
 shortcut_in_tooltip = false
-text = "↺"
+text = "D"
 
 [node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move top view left and bottom view right
 Keyboard shortcut: Down"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_g4tv5")
 shortcut_in_tooltip = false
-text = "↻"
+text = "E"
 
 [node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move top and bottom view to the right
 Keyboard shortcut: Right"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_hq06d")
 shortcut_in_tooltip = false
-text = "⇉"
+text = "F"
 
 [node name="MarginContainer4" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
@@ -202,13 +209,15 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Move bottom view to the left"
 focus_mode = 0
-text = "⥫"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "G"
 
 [node name="ButtonMoveNoneRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
 tooltip_text = "Move bottom view to the right"
 focus_mode = 0
-text = "⥭"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "H"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
 layout_mode = 2
@@ -234,27 +243,30 @@ layout_mode = 2
 tooltip_text = "Zoom out
 Keyboard shortcut: -"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_rytnn")
 shortcut_in_tooltip = false
-text = "-"
+text = "I"
 
 [node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
 tooltip_text = "Reset view to default
 Keyboard shortcut: ="
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_t1pu1")
 shortcut_in_tooltip = false
-text = "⭤"
+text = "J"
 
 [node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
 tooltip_text = "Zoom in
 Keyboard shortcut: +"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_k003o")
 shortcut_in_tooltip = false
-text = "+"
+text = "K"
 
 [node name="ButtonZoomBp" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
 layout_mode = 2
@@ -263,7 +275,7 @@ Keyboard shortcut: 0 (zero)"
 focus_mode = 0
 shortcut = SubResource("Shortcut_7fmgm")
 shortcut_in_tooltip = false
-text = "+bp"
+text = "bp"
 
 [node name="HSeparator3" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
