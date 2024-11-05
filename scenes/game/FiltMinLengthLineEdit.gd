@@ -16,3 +16,4 @@ func _on_text_submitted(new_text):
 			min_l = 0
 		min_match_length_changed.emit(min_l)
 	text = str(min_l)
+	release_focus()
