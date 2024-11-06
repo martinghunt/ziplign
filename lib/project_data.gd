@@ -19,7 +19,7 @@ var genome_seqs = {"top": {}, "bottom": {}}
 var blast_matches = []
 var annotation = {"top": {}, "bottom": {}}
 var data_loaded = false
-
+var blast_program = "blastn"
 
 
 func _init():
@@ -101,7 +101,7 @@ func load_annotation_files():
 
 
 func run_blast():
-	blast_lib.run_blast(root_dir)
+	blast_lib.run_blast(root_dir, blast_program)
 
 
 func save_as_serialized_file(outfile):
