@@ -53,6 +53,8 @@ var install_ok = false
 var config_file = OS.get_user_data_dir().path_join("config")
 var config_file_exists = false
 var config = ConfigFile.new()
+var tnahelper_version = "unknown"
+var blastn_version = "unknown"
 
 
 func does_example_data_exist():
@@ -85,6 +87,33 @@ func get_architecture():
 
 var os = get_os()
 var arch = get_architecture()
+
+
+func run_os_execute_get_output(to_execute, options):
+	print("Running: ", to_execute, " ", " ".join(options))
+	var output = []
+	var exit_code = OS.execute(to_execute, options, output, true)
+	if exit_code != 0:
+		print("Error running ", to_execute, ". output: ", output)
+	return output[0].rstrip("\n").rstrip("\r").split("\n")
+
+
+func set_tnahelper_version():
+	tnahelper_version = "unknown"
+	var output = run_os_execute_get_output(tnahelper, ["-v"])
+	if len(output) == 1:
+		var fields = output[0].rstrip("\r").split(" ")
+		if len(fields) == 3 and fields[0] == "tnahelper" and fields[1] == "version":
+			tnahelper_version = fields[2]
+
+
+func set_blastn_version():
+	blastn_version = "unknown"
+	var output = run_os_execute_get_output(blastn, ["-version"])
+	if len(output) > 0:
+		var fields = output[0].rstrip("\r").split(" ")
+		if len(fields) == 2 and fields[0] == "blastn:":
+			blastn_version = fields[1]
 
 
 func check_all_paths():

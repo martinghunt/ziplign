@@ -104,6 +104,9 @@ func run_all():
 		await get_tree().create_timer(0.1).timeout
 		add_to_text_label.emit("tnahelper downloaded: " + Globals.userdata.tnahelper)
 	
+	Globals.userdata.set_tnahelper_version()
+	add_to_text_label.emit("tnahelper version: " + Globals.userdata.tnahelper_version)
+	
 	var blast_ok = true
 	if Globals.userdata.makeblastdb_exists:
 		add_to_text_label.emit("makeblastdb found: " + Globals.userdata.makeblastdb)
@@ -113,6 +116,7 @@ func run_all():
 		
 	if Globals.userdata.blastn_exists:
 		add_to_text_label.emit("blastn found: " + Globals.userdata.blastn)
+		Globals.userdata.set_blastn_version()
 	else:
 		blast_ok = false
 		add_to_text_label.emit("blastn not found: " + Globals.userdata.blastn)

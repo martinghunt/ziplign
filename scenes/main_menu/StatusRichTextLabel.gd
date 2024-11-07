@@ -10,6 +10,9 @@ func regenerate_text():
 	text = "" # otherwise text isn't actually cleared in the next line
 	text = "TNA Version: " + ProjectSettings.get_setting("application/config/version")
 	append_text("\nRunning on " + Globals.userdata.os + "/" + Globals.userdata.arch)
+	append_text("\ntnahelper version: " + Globals.userdata.tnahelper_version)
+	append_text("\nblastn version: " + Globals.userdata.blastn_version)
+
 	if Globals.userdata.install_ok:
 		append_text("\nInstall status: ok")
 	if not Globals.userdata.install_ok:
