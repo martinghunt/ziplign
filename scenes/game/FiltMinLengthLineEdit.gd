@@ -2,7 +2,7 @@ extends LineEdit
 
 signal min_match_length_changed
 
-var min_l = 0
+var min_l = Globals.match_min_show_length
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

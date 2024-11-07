@@ -2,7 +2,7 @@ extends LineEdit
 
 signal min_match_pc_id_changed
 
-var min_id = 0
+var min_id = Globals.match_min_show_pc_id
 
 func _ready():
 	text = str(min_id)
