@@ -20,6 +20,11 @@ func set_children_font(node):
 		set_font_color(x)
 
 
+func set_caret_theme(node):
+	node.add_theme_color_override("caret_color", Globals.theme.colours["ui"]["text"])
+	node.add_theme_constant_override("caret_width", 3)
+	node.set_caret_blink_enabled(true)
+
 func set_filedialog_colors(dialog):
 	dialog.get_theme_stylebox("panel").bg_color = Globals.theme.colours["ui"]["general_bg"]
 	set_children_font(dialog.get_vbox())
@@ -128,6 +133,17 @@ func reset_colours():
 	ledit.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	Globals.tooltip_style.bg_color = Globals.theme.colours["ui"]["panel_bg"]
 	Globals.tooltip_style.border_color = Globals.theme.colours["text"]
+	
+	var to_set_caret = [
+		$NewProject/MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit,
+		$NewProject/MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit,
+		$NewProject/MainVBoxContainer/CompareContainer/CompareLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit,
+	]
+	for node in to_set_caret:
+		set_caret_theme(node)
+	
 	
 func _ready():
 	reset_colours()

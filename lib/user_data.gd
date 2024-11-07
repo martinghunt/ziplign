@@ -55,6 +55,7 @@ var config_file_exists = false
 var config = ConfigFile.new()
 var tnahelper_version = "unknown"
 var blastn_version = "unknown"
+var blast_options = "-evalue 0.1"
 
 
 func does_example_data_exist():

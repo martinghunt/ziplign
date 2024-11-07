@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://o6vk13fe8nhl"]
+[gd_scene load_steps=8 format=3 uid="uid://o6vk13fe8nhl"]
 
 [ext_resource type="Script" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
 [ext_resource type="Script" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
 [ext_resource type="Script" path="res://scenes/new_project/GoButton.gd" id="4_n1phj"]
 [ext_resource type="Script" path="res://scenes/new_project/InfoRichTextLabel.gd" id="5_4kmm3"]
+[ext_resource type="Script" path="res://scenes/new_project/compare_line_edit.gd" id="5_ulwbr"]
 
 [node name="NewProject" type="Control"]
 layout_mode = 3
@@ -72,9 +73,9 @@ text = "Blast options            "
 [node name="CompareLineEdit" type="LineEdit" parent="MainVBoxContainer/CompareContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "to be implemented"
-editable = false
+text = "Put blast options here"
 expand_to_text_length = true
+script = ExtResource("5_ulwbr")
 
 [node name="CancelOrGoContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
@@ -128,6 +129,8 @@ script = ExtResource("5_4kmm3")
 [connection signal="update_top_genome_filename" from="." to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_new_project_update_top_genome_filename"]
 [connection signal="text_submitted" from="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" to="." method="_on_top_genome_line_edit_text_submitted"]
 [connection signal="text_submitted" from="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" to="." method="_on_bottom_genome_line_edit_text_submitted"]
+[connection signal="focus_exited" from="MainVBoxContainer/CompareContainer/CompareLineEdit" to="MainVBoxContainer/CompareContainer/CompareLineEdit" method="_on_focus_exited"]
+[connection signal="text_submitted" from="MainVBoxContainer/CompareContainer/CompareLineEdit" to="MainVBoxContainer/CompareContainer/CompareLineEdit" method="_on_text_submitted"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/OpenFileManagerButton" to="." method="_on_open_file_manager_button_pressed"]
