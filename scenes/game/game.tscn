@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=31 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
 [ext_resource type="FontFile" uid="uid://rpg5lwtg0iok" path="res://fonts/tnaicons.otf" id="4_queha"]
+[ext_resource type="Script" path="res://scenes/game/mult_matches_v_box_container.gd" id="5_0mmw2"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
+[ext_resource type="Script" path="res://scenes/game/mult_matches_item_list.gd" id="5_c5uwd"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_oek1a"]
 action = &"pause"
@@ -99,7 +101,6 @@ z_index = 300
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 729.0
-mouse_filter = 1
 color = Color(0.817581, 0.53318, 0.923651, 1)
 
 [node name="MainHBoxContainer" type="HBoxContainer" parent="."]
@@ -343,6 +344,49 @@ text = "Bottom"
 [node name="HSeparatorBottom" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="MultMatchesVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_0mmw2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer"]
+layout_mode = 2
+
+[node name="UpButton" type="Button" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "U"
+
+[node name="DownButton" type="Button" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "D"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch_mode = 0
+
+[node name="CloseButton" type="Button" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "X"
+
+[node name="MultiMatchesScrollContainer" type="ScrollContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MultMatchesItemList" type="ItemList" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer"]
+custom_minimum_size = Vector2(100, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+max_text_lines = 2
+fixed_column_width = 95
+icon_mode = 0
+script = ExtResource("5_c5uwd")
+
 [node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 1
@@ -434,9 +478,15 @@ script = ExtResource("3_nnddm")
 [connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" method="_on_text_submitted"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompTopButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_top_button_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompBottomButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
+[connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/UpButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_up_button_button_up"]
+[connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/DownButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_down_button_button_up"]
+[connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/CloseButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer" method="_on_close_button_button_up"]
+[connection signal="item_selected" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_item_selected"]
+[connection signal="selected_a_match" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_mult_matches_item_list_selected_a_match"]
 [connection signal="value_changed" from="MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_right_top_scrollbar_value_changed"]
 [connection signal="hscrollbar_set_bottom_value" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar" method="_on_genomes_n_matches_hscrollbar_set_bottom_value"]
 [connection signal="hscrollbar_set_top_value" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar" method="_on_genomes_n_matches_hscrollbar_set_top_value"]
 [connection signal="match_deselected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_match_deselected"]
 [connection signal="match_selected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_match_selected"]
+[connection signal="multimatch_list_found" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer" method="_on_genomes_n_matches_multimatch_list_found"]
 [connection signal="value_changed" from="MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_right_bottom_scrollbar_value_changed"]

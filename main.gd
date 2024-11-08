@@ -95,6 +95,8 @@ func reset_colours():
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer,
+		#$Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer,
 	]
 	for x in children_to_set:
 		set_children_font(x)
@@ -144,6 +146,10 @@ func reset_colours():
 	for node in to_set_caret:
 		set_caret_theme(node)
 	
+	var l = $Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList
+	l.add_theme_color_override("font_color", Globals.theme.colours["ui"]["text"])
+	l.add_theme_color_override("font_selected_color", Globals.theme.colours["ui"]["text"])
+	l.set_colors()
 	
 func _ready():
 	reset_colours()

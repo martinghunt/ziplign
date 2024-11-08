@@ -182,3 +182,9 @@ func set_data_loaded():
 
 func has_annotation():
 	return len(annotation["top"]) > 0 or len(annotation["bottom"]) < 0
+
+
+
+func get_match_text(match_id):
+	var d = blast_matches[match_id]
+	return d["qry"] + ":" + str(d["qstart"]) + "-" + str(d["qend"]) + " / " + d["ref"] + ":" + str(d["rstart"]) + "-" + str(d["rend"])  + " / pcid:" + str(d["pc"])

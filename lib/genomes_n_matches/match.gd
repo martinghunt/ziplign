@@ -85,7 +85,7 @@ func _init(new_id, new_start1, new_end1, new_start2, new_end2, new_is_revcomp, n
 	add_child(outline2)
 	static_body_2d.mouse_entered.connect(_on_mouse_entered)
 	static_body_2d.mouse_exited.connect(_on_mouse_exited)
-
+	
 
 func set_polygon_coords():
 	if is_revcomp:
@@ -294,6 +294,13 @@ func set_x_lefts(new_top, new_bottom):
 	x_left_start1 = new_top + Globals.controls_width
 	x_left_start2 = new_bottom + Globals.controls_width
 	set_polygon_coords()
+
+
+func intersects_range(left, right, is_top):
+	if is_top:
+		return right >= get_x_top_left_coords() and left <= get_x_top_right_coords()
+	else:
+		return right >= get_x_bottom_left_coords() and left <= get_x_bottom_right_coords()
 
 
 func bring_to_top():

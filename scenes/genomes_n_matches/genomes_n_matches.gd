@@ -4,6 +4,7 @@ signal hscrollbar_set_top_value
 signal hscrollbar_set_bottom_value
 signal match_selected
 signal match_deselected
+signal multimatch_list_found
 
 const Matches = preload("res://lib/genomes_n_matches/genome_matches.gd")
 const GenomeClass = preload("res://lib/genomes_n_matches/genome.gd")
@@ -24,6 +25,15 @@ var max_genome_x = 0
 var color_rect_z_index = 0
 var button_move_dist = 0.5
 var saved_views = {}
+
+var dragging = 0
+var selected = []  # Array of selected units.
+var dragging_rect = Polygon2D.new()
+var y_drag_top_top = 0
+var y_drag_top_bottom = 0
+var y_drag_bottom_top = 0
+var y_drag_bottom_bottom = 0
+
 
 
 func set_matches():
@@ -68,7 +78,22 @@ func _ready():
 	matches.connect("match_deselected", _on_match_deselected)
 	$"../../../../ColorRect/ProcessingLabel".position.y = 0.5 * (global_top + global_bottom) - 20 - Globals.y_offset_not_paused
 	$"../../../../ColorRect/ProcessingLabel".position.x = Globals.controls_width + 10
-
+	y_drag_top_top = top_genome.tracks_y["coords_top"] - 13
+	y_drag_top_bottom = top_genome.bottom + 5
+	y_drag_bottom_top = bottom_genome.top - 5
+	y_drag_bottom_bottom = bottom_genome.tracks_y["coords_bottom"] + 12
+	add_child(dragging_rect)
+	dragging_rect.hide()
+	dragging_rect.color = Globals.theme.colours["ui"]["text"]
+	dragging_rect.color.a = 0.3
+	dragging_rect.polygon = [
+		Vector2(0, 0),
+		Vector2(0, 0),
+		Vector2(0, 0),
+		Vector2(0, 0),
+	]
+	dragging_rect.z_index = 10
+	
 
 func get_default_x_zoom():
 	return Globals.genomes_viewport_width / (1.05 * max_genome_x)
@@ -315,6 +340,16 @@ func load_view(i):
 	hscrollbar_set_bottom_value.emit(saved_views[i]["bottom_scrollbar"])
 
 
+func y_drag_in_genome(y):
+	var actual_y = y + Globals.y_offset_not_paused
+	if y_drag_top_top <= actual_y and actual_y <= y_drag_top_bottom:
+		return 1
+	elif y_drag_bottom_top <= actual_y and actual_y <= y_drag_bottom_bottom:
+		return 2
+	else:
+		return 0
+		
+
 func _unhandled_input(event):
 	if Globals.paused:
 		return
@@ -326,3 +361,48 @@ func _unhandled_input(event):
 					save_view(i)
 				elif i in saved_views:
 					load_view(i)
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			if selected.size() == 0:
+				var drag_start = event.position
+				dragging = y_drag_in_genome(drag_start.y)
+				if dragging == 0:
+					return
+
+				dragging_rect.polygon[0].x = drag_start.x - 50 - 2 * Globals.controls_width
+				for i in [1, 2, 3]:
+					dragging_rect.polygon[i].x = dragging_rect.polygon[0].x
+				
+				if dragging == 1:
+					dragging_rect.polygon[0].y = y_drag_top_top - Globals.y_offset_not_paused
+					dragging_rect.polygon[2].y = y_drag_top_bottom - Globals.y_offset_not_paused
+				elif dragging == 2:
+					dragging_rect.polygon[0].y = y_drag_bottom_top - Globals.y_offset_not_paused
+					dragging_rect.polygon[2].y = y_drag_bottom_bottom - Globals.y_offset_not_paused
+				dragging_rect.polygon[1].y = dragging_rect.polygon[0].y
+				dragging_rect.polygon[3].y = dragging_rect.polygon[2].y
+				dragging_rect.show()
+		elif dragging > 0:
+			dragging_rect.hide()
+			var start = dragging_rect.polygon[0].x + 50 + 2 * Globals.controls_width
+			var end = dragging_rect.polygon[1].x + 50 + 2 * Globals.controls_width
+			var match_ids = matches.get_matches_in_range(min(start, end), max(start, end), dragging==1)
+			if len(match_ids) > 0:
+				multimatch_list_found.emit(match_ids)
+			dragging = 0
+			queue_redraw()
+	elif event is InputEventMouseMotion and dragging:
+		queue_redraw()
+
+func _draw():
+	if dragging > 0:
+		var end = get_global_mouse_position()
+		end.x -= 50 + 2 * Globals.controls_width
+		dragging_rect.polygon[1].x = end.x
+		dragging_rect.polygon[2].x = end.x
+
+
+func _on_mult_matches_item_list_selected_a_match(i):
+	matches.set_selected_match(i)
+	match_selected.emit(i)
+	matches.move_to_selected()

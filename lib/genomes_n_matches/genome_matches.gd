@@ -68,6 +68,14 @@ func set_top_bottom_coords(y_top, y_bottom):
 		m.set_top_bottom_coords(y_top, y_bottom)
 
 
+func get_matches_in_range(start, end, is_top):
+	var found = []
+	for m in matches:
+		if m.is_visible() and m.intersects_range(start, end, is_top):
+			found.append(m.id)
+	return found
+
+
 func _ready():
 	for m in matches:
 		add_child(m)
@@ -86,8 +94,16 @@ func deselect():
 	if selected != -1:
 		matches[selected].deselect()
 		selected = -1
+		match_deselected.emit()
 		
 
+
+func set_selected_match(match_id):
+	deselect()
+	matches[match_id].select()
+	selected = match_id
+	match_selected.emit(match_id)
+	
 
 func _unhandled_input(event):
 	if Globals.paused:
