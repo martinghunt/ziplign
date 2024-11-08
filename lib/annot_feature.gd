@@ -82,10 +82,10 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	name_label.set_mouse_filter(Control.MOUSE_FILTER_PASS)
 	name_label.set_vertical_alignment(VERTICAL_ALIGNMENT_CENTER)
 	name_label.clip_text = true
-	name_label.theme = Theme.new()
-	name_label.theme.set_stylebox("panel", "TooltipPanel", Globals.tooltip_style)
-	name_label.theme.set_color("font_color", "TooltipLabel", Globals.theme.colours["text"]) 
-	name_label.theme.set_font("font", "TooltipLabel", Globals.fonts["dejavu"]) 
+	#name_label.theme = Theme.new()
+	#name_label.theme.set_stylebox("panel", "TooltipPanel", Globals.tooltip_style)
+	#name_label.theme.set_color("font_color", "TooltipLabel", Globals.theme.colours["text"]) 
+	#name_label.theme.set_font("font", "TooltipLabel", Globals.fonts["dejavu"]) 
 	
 	
 	for k in ["Name", "name", "ID"]:
@@ -95,7 +95,7 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	if name_label.text == "":
 		name_label.text = "UNKNOWN"
 		
-	name_label.set_tooltip_text(name_label.text + "\n" + gff2tooltip(gff_data))
+	#name_label.set_tooltip_text(name_label.text + "\n" + gff2tooltip(gff_data))
 	set_polygon_coords()
 	add_child(static_body_2d)
 	static_body_2d.add_child(coll_poly)

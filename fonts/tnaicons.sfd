@@ -22,7 +22,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1730736249
-ModificationTime: 1730799511
+ModificationTime: 1731091523
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -47,7 +47,7 @@ FitToEm: 0
 WinInfo: 48 16 6
 BeginPrivate: 0
 EndPrivate
-BeginChars: 256 11
+BeginChars: 256 14
 
 StartChar: A
 Encoding: 65 65 0
@@ -110,19 +110,19 @@ VStem: 8 125<117 435>
 LayerCount: 2
 Fore
 SplineSet
-8 540 m 5
- 832 540 l 5
- 740 688 l 4
- 995 512 l 5
- 995 478 l 5
- 740 298 l 4
- 832 435 l 5
- 133 435 l 5
- 133 117 l 5
- 991 115 l 5
- 991 1 l 5
- 8 1 l 5
- 8 540 l 5
+8 540 m 1
+ 832 540 l 1
+ 740 688 l 0
+ 995 512 l 1
+ 995 478 l 1
+ 740 298 l 0
+ 832 435 l 1
+ 133 435 l 1
+ 133 117 l 1
+ 991 115 l 1
+ 991 1 l 1
+ 8 1 l 1
+ 8 540 l 1
 EndSplineSet
 Validated: 1
 EndChar
@@ -247,20 +247,20 @@ HStem: 42 105<5 832> 464 112<5 995>
 LayerCount: 2
 Fore
 SplineSet
-5 147 m 5
- 832 147 l 5
- 740 295 l 4
- 995 119 l 5
- 995 85 l 5
- 740 -95 l 4
- 832 42 l 5
- 5 42 l 5
- 5 147 l 5
-5 576 m 5
- 995 576 l 5
- 995 464 l 5
- 5 464 l 5
- 5 576 l 5
+5 147 m 1
+ 832 147 l 1
+ 740 295 l 0
+ 995 119 l 1
+ 995 85 l 1
+ 740 -95 l 0
+ 832 42 l 1
+ 5 42 l 1
+ 5 147 l 1
+5 576 m 1
+ 995 576 l 1
+ 995 464 l 1
+ 5 464 l 1
+ 5 576 l 1
 EndSplineSet
 Validated: 1
 EndChar
@@ -340,6 +340,73 @@ SplineSet
  1000 -110 l 5
  935 -110 l 5
  935 691 l 5
+EndSplineSet
+Validated: 1
+EndChar
+
+StartChar: L
+Encoding: 76 76 11
+Width: 1000
+Flags: W
+HStem: 501 21G<296.118 311.783 639.826 658.196>
+VStem: 419 105<-164 593>
+LayerCount: 2
+Fore
+SplineSet
+524 -164 m 1
+ 419 -164 l 1
+ 419 593 l 1
+ 282 501 l 0
+ 462 756 l 1
+ 496 756 l 1
+ 672 501 l 0
+ 524 593 l 1
+ 524 -164 l 1
+EndSplineSet
+Validated: 1
+EndChar
+
+StartChar: M
+Encoding: 77 77 12
+Width: 1000
+Flags: W
+VStem: 440.046 104.994<66.1788 751.062> 447.77 104.995<-4.82812 680.141>
+LayerCount: 2
+Fore
+SplineSet
+440.045898438 751.061523438 m 5x80
+ 545.040039062 752.1328125 l 5x80
+ 552.764648438 -4.828125 l 5
+ 688.818359375 88.5654296875 l 4
+ 511.4296875 -168.2578125 l 5
+ 477.431640625 -168.604492188 l 5
+ 298.838867188 84.5859375 l 4
+ 447.76953125 -5.8994140625 l 5x40
+ 440.045898438 751.061523438 l 5x80
+EndSplineSet
+Validated: 524289
+EndChar
+
+StartChar: N
+Encoding: 78 78 13
+Width: 1000
+HStem: 572 20G<260 308.257 721.812 765.857>
+LayerCount: 2
+Fore
+SplineSet
+743 592 m 25
+ 823 522 l 1
+ 593 310 l 1
+ 823 102 l 1
+ 743 28 l 1
+ 519 228 l 1
+ 284 18 l 1
+ 214 106 l 1
+ 455 310 l 1
+ 200 522 l 1
+ 284 592 l 1
+ 529 390 l 1
+ 743 592 l 25
 EndSplineSet
 Validated: 1
 EndChar

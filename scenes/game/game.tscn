@@ -99,6 +99,7 @@ vertical_alignment = 2
 [node name="ColorRect2" type="ColorRect" parent="."]
 z_index = 300
 layout_mode = 0
+offset_left = -6.0
 offset_right = 128.0
 offset_bottom = 729.0
 color = Color(0.817581, 0.53318, 0.923651, 1)
@@ -354,12 +355,14 @@ layout_mode = 2
 [node name="UpButton" type="Button" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "U"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "L"
 
 [node name="DownButton" type="Button" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "D"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "M"
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -369,7 +372,8 @@ stretch_mode = 0
 [node name="CloseButton" type="Button" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "X"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "N"
 
 [node name="MultiMatchesScrollContainer" type="ScrollContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer"]
 custom_minimum_size = Vector2(0, 200)
