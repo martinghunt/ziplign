@@ -16,13 +16,14 @@ func regenerate_text():
 	if Globals.userdata.install_ok:
 		append_text("\nInstall status: ok")
 	if not Globals.userdata.install_ok:
-		var lookup = {true: "ok", false: "[color=red]not found[/color]"}
+		var lookup = {true: "found", false: "[color=red]not found[/color]"}
 		append_text("\n[color=red]Install status: bad![/color]")
 		append_text("\nFolder/file checks:")
 		append_text("\n  Data folder - " + lookup[Globals.userdata.data_dir_exists])
 		append_text("\n  tnahelper - " + lookup[Globals.userdata.tnahelper_exists])
 		append_text("\n  makeblastdb - " + lookup[Globals.userdata.makeblastdb_exists])
 		append_text("\n  blastn - " + lookup[Globals.userdata.blastn_exists])
+		append_text("\n  blastn version - " + lookup[Globals.userdata.blastn_version != "unknown"])
 		append_text("\n  Example data - " + lookup[Globals.userdata.example_data_exists])
 
 

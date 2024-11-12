@@ -126,13 +126,15 @@ func check_all_paths():
 	print("blastn exists:", blastn_exists)
 	makeblastdb_exists = FileAccess.file_exists(makeblastdb)
 	print("makeblastdb exists:", makeblastdb_exists)
+	set_blastn_version()
+	print("blastn version:", blastn_version)
 	tnahelper_exists = FileAccess.file_exists(tnahelper)
 	print("tnahelper exists:", tnahelper_exists)
 	example_data_exists = does_example_data_exist()
 	print("example data found:", example_data_exists)
 	config_file_exists = FileAccess.file_exists(config_file)
 	print("config file found:", config_file_exists)
-	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists and example_data_exists and config_file_exists
+	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists and example_data_exists and config_file_exists and blastn_version != "unknown"
 	
 	
 func make_default_config():

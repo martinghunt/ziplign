@@ -117,6 +117,8 @@ func run_all():
 	if Globals.userdata.blastn_exists:
 		add_to_text_label.emit("blastn found: " + Globals.userdata.blastn)
 		Globals.userdata.set_blastn_version()
+		blast_ok = Globals.userdata.blastn_version != "unknown"
+		add_to_text_label.emit("blastn version: ", Globals.userdata.blastn_version)
 	else:
 		blast_ok = false
 		add_to_text_label.emit("blastn not found: " + Globals.userdata.blastn)
@@ -124,7 +126,7 @@ func run_all():
 	await get_tree().create_timer(0.1).timeout
 	
 	if not blast_ok:
-		add_to_text_label.emit("Some blast programs not found. Downloading...")
+		add_to_text_label.emit("Some blast programs not found, or version unknown. Downloading...")
 		var opts = ["download_binaries", "--outdir", Globals.userdata.bin]
 		var stderr = []
 		await get_tree().create_timer(0.1).timeout
