@@ -57,6 +57,17 @@ func chmod_make_executable(filename):
 		return false
 
 
+func size_of_blast_tarball():
+	var dir = DirAccess.open(Globals.userdata.bin)
+	for filename in dir.get_files():
+		if filename.begins_with("ncbi-blast") and filename.ends_with(".tar.gz"):
+			var f = FileAccess.open(Globals.userdata.bin.path_join(filename), FileAccess.READ)
+			var size_mb = f.get_length() / (1024 * 1024) 
+			print(filename, ", ", size_mb, "M")
+			return size_mb
+	return 0
+			
+
 func run_all():
 	add_to_text_label.emit("TNA Version: " + ProjectSettings.get_setting("application/config/version"))
 	add_to_text_label.emit("Running on " + Globals.userdata.os + "/" + Globals.userdata.arch)	
@@ -125,6 +136,7 @@ func run_all():
 	
 	await get_tree().create_timer(0.1).timeout
 	
+	
 	if not blast_ok:
 		add_to_text_label.emit("Some blast programs not found, or version unknown. Downloading...")
 		var opts = ["download_binaries", "--outdir", Globals.userdata.bin]
@@ -132,8 +144,17 @@ func run_all():
 		await get_tree().create_timer(0.1).timeout
 		add_to_text_label.emit("Running: " + Globals.userdata.tnahelper + " " + " ".join(opts))
 		add_to_text_label.emit("[b]This may take some time, depending on internet bandwidth[/b]")
+		add_to_text_label.emit("Size of downloaded file (is up to around 200M total size): ")
 		await get_tree().create_timer(0.1).timeout
-		var exit_code = OS.execute(Globals.userdata.tnahelper, opts, stderr, true)
+		var thread = Thread.new()
+		thread.start(OS.execute.bind(Globals.userdata.tnahelper, opts, stderr, true))
+		while thread.is_alive():
+			await get_tree().create_timer(3).timeout
+			add_to_text_label.emit(" " + str(size_of_blast_tarball()) + "M", false)
+		var exit_code = thread.wait_to_finish()
+		add_to_text_label.emit("... blast downloaded")
+		await get_tree().create_timer(0.1).timeout
+
 		for x in stderr:
 			print(x + "\n")
 		if exit_code != 0:

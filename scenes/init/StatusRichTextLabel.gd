@@ -1,6 +1,7 @@
 extends RichTextLabel
 
 
-func _on_init_add_to_text_label(t):
+func _on_init_add_to_text_label(t, add_newline=true):
 	append_text(t)
-	append_text("\n")
+	if add_newline:
+		append_text("\n")
