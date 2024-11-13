@@ -82,7 +82,8 @@ func _ready():
 	y_drag_top_bottom = top_genome.bottom + 5
 	y_drag_bottom_top = bottom_genome.top - 5
 	y_drag_bottom_bottom = bottom_genome.tracks_y["coords_bottom"] + 12
-	add_child(dragging_rect)
+	if dragging_rect.get_parent() == null:
+		add_child(dragging_rect)
 	dragging_rect.hide()
 	dragging_rect.color = Globals.theme.colours["ui"]["text"]
 	dragging_rect.color.a = 0.3
@@ -169,8 +170,8 @@ func _on_button_zoom_plus_pressed():
 func _on_button_zoom_bp_pressed():
 	set_x_zoom(1.01 * Globals.zoom_to_show_bp)
 
-func _on_moved_to_selected_match(selected):
-	var s = matches.matches[selected]
+func _on_moved_to_selected_match(selected_id):
+	var s = matches.matches[selected_id]
 	var x_top = min(s.start1, s.end1) * x_zoom - 20
 	var x_bottom = x_zoom * s.start2 - 20
 	top_genome.set_x_left(-x_top)
@@ -184,8 +185,8 @@ func _on_moved_to_selected_match(selected):
 	bottom_scrollbar_value = x
 
 
-func _on_match_selected(selected):
-	match_selected.emit(selected)
+func _on_match_selected(selected_id):
+	match_selected.emit(selected_id)
 
 
 func _on_match_deselected():

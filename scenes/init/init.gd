@@ -62,7 +62,7 @@ func size_of_blast_tarball():
 	for filename in dir.get_files():
 		if filename.begins_with("ncbi-blast") and filename.ends_with(".tar.gz"):
 			var f = FileAccess.open(Globals.userdata.bin.path_join(filename), FileAccess.READ)
-			var size_mb = f.get_length() / (1024 * 1024) 
+			var size_mb = int(float(f.get_length()) / (1024 * 1024))
 			print(filename, ", ", size_mb, "M")
 			return size_mb
 	return 0
