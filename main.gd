@@ -155,8 +155,7 @@ func reset_colours():
 		node.add_theme_color_override("font_selected_color", Globals.theme.colours["ui"]["panel_bg"])
 	
 	for node in to_set_text_boxes:
-		var x = StyleBoxEmpty.new()
-		node.add_theme_stylebox_override("focus", x)
+		node.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	
 	var l = $Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList
 	l.add_theme_color_override("font_color", Globals.theme.colours["ui"]["text"])
