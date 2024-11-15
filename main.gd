@@ -146,6 +146,19 @@ func reset_colours():
 	for node in to_set_caret:
 		set_caret_theme(node)
 	
+	var to_set_text_boxes = [
+		$MainMenu/StatusRichTextLabel,
+		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText,
+	]
+	for node in to_set_caret + to_set_text_boxes:
+		node.add_theme_color_override("selection_color", Globals.theme.colours["ui"]["text"])
+		node.add_theme_color_override("font_selected_color", Globals.theme.colours["ui"]["panel_bg"])
+	
+	for node in to_set_text_boxes:
+		print("focus stylebox? ", node.get_theme_stylebox("focus"))
+		var x = StyleBoxEmpty.new()
+		node.add_theme_stylebox_override("focus", x)
+	
 	var l = $Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList
 	l.add_theme_color_override("font_color", Globals.theme.colours["ui"]["text"])
 	l.add_theme_color_override("font_selected_color", Globals.theme.colours["ui"]["text"])
