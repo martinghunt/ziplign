@@ -155,7 +155,6 @@ func reset_colours():
 		node.add_theme_color_override("font_selected_color", Globals.theme.colours["ui"]["panel_bg"])
 	
 	for node in to_set_text_boxes:
-		print("focus stylebox? ", node.get_theme_stylebox("focus"))
 		var x = StyleBoxEmpty.new()
 		node.add_theme_stylebox_override("focus", x)
 	
