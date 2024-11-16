@@ -281,7 +281,8 @@ func reverse_complement(to_rev, contig_id=null):
 		stop_processing_overlay()
 		return
 	
-
+	top_genome.deselect_contig()
+	bottom_genome.deselect_contig()
 	var currently_selected = matches.selected
 	var current_zoom = x_zoom
 	_on_game_new_project_go()
@@ -294,6 +295,7 @@ func reverse_complement(to_rev, contig_id=null):
 		_on_match_selected(currently_selected)
 	
 	stop_processing_overlay()
+	
 
 
 func _on_button_fine_toggle_toggled(toggled_on):
