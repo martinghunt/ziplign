@@ -4,7 +4,11 @@ signal hscrollbar_set_top_value
 signal hscrollbar_set_bottom_value
 signal match_selected
 signal match_deselected
+signal contig_selected
+signal contig_deselected
 signal multimatch_list_found
+signal enable_contig_ops
+
 
 const Matches = preload("res://lib/genomes_n_matches/genome_matches.gd")
 const GenomeClass = preload("res://lib/genomes_n_matches/genome.gd")
@@ -25,9 +29,9 @@ var max_genome_x = 0
 var color_rect_z_index = 0
 var button_move_dist = 0.5
 var saved_views = {}
+var contig_selected_is_top = true
 
 var dragging = 0
-var selected = []  # Array of selected units.
 var dragging_rect = Polygon2D.new()
 var y_drag_top_top = 0
 var y_drag_top_bottom = 0
@@ -76,6 +80,10 @@ func _ready():
 	matches.connect("moved_to_selected_match", _on_moved_to_selected_match)
 	matches.connect("match_selected", _on_match_selected)
 	matches.connect("match_deselected", _on_match_deselected)
+	top_genome.connect("contig_selected", _on_contig_selected)
+	top_genome.connect("contig_deselected", _on_contig_deselected)
+	bottom_genome.connect("contig_selected", _on_contig_selected)
+	bottom_genome.connect("contig_deselected", _on_contig_deselected)
 	$"../../../../ColorRect/ProcessingLabel".position.y = 0.5 * (global_top + global_bottom) - 20 - Globals.y_offset_not_paused
 	$"../../../../ColorRect/ProcessingLabel".position.x = Globals.controls_width + 10
 	y_drag_top_top = top_genome.tracks_y["coords_top"] - 13
@@ -187,10 +195,30 @@ func _on_moved_to_selected_match(selected_id):
 
 func _on_match_selected(selected_id):
 	match_selected.emit(selected_id)
-
+	top_genome.deselect_contig()
+	bottom_genome.deselect_contig()
+	enable_contig_ops.emit(false)
+	
 
 func _on_match_deselected():
 	match_deselected.emit()
+
+
+func _on_contig_selected(top_or_bottom):
+	if top_or_bottom == "top":
+		bottom_genome.deselect_contig()
+		contig_selected.emit(top_or_bottom, top_genome.name_of_selected_contig())
+		contig_selected_is_top = true
+	else:
+		top_genome.deselect_contig()
+		contig_selected.emit(top_or_bottom, bottom_genome.name_of_selected_contig())
+		contig_selected_is_top = false
+	enable_contig_ops.emit(true)
+
+
+func _on_contig_deselected(top_or_bottom):
+	contig_deselected.emit()
+	enable_contig_ops.emit(false)
 
 
 func _on_game_new_project_go():
@@ -239,14 +267,20 @@ func stop_processing_overlay():
 	get_tree().set_pause(false)
 	
 
-func reverse_complement(to_rev):
+func reverse_complement(to_rev, contig_id=null):
 	start_processing_overlay()
 	await get_tree().create_timer(0.1).timeout
 	
-	if to_rev == "top":
-		Globals.proj_data.reverse_complement_genome("top")
-	elif to_rev == "bottom":
-		Globals.proj_data.reverse_complement_genome("bottom")
+	if contig_id == null:
+		Globals.proj_data.reverse_complement_genome(to_rev)
+	else:
+		Globals.proj_data.reverse_complement_one_contig(to_rev, contig_id)
+		save_view(10) # cannot be used by the user
+		_on_game_new_project_go()
+		load_view(10)
+		stop_processing_overlay()
+		return
+	
 
 	var currently_selected = matches.selected
 	var current_zoom = x_zoom
@@ -364,33 +398,38 @@ func _unhandled_input(event):
 					load_view(i)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			if selected.size() == 0:
-				var drag_start = event.position
-				dragging = y_drag_in_genome(drag_start.y)
-				if dragging == 0:
-					return
+			var drag_start = event.position
+			dragging = y_drag_in_genome(drag_start.y)
+			if dragging == 0:
+				return
 
-				dragging_rect.polygon[0].x = drag_start.x - 50 - 2 * Globals.controls_width
-				for i in [1, 2, 3]:
-					dragging_rect.polygon[i].x = dragging_rect.polygon[0].x
-				
-				if dragging == 1:
-					dragging_rect.polygon[0].y = y_drag_top_top - Globals.y_offset_not_paused
-					dragging_rect.polygon[2].y = y_drag_top_bottom - Globals.y_offset_not_paused
-				elif dragging == 2:
-					dragging_rect.polygon[0].y = y_drag_bottom_top - Globals.y_offset_not_paused
-					dragging_rect.polygon[2].y = y_drag_bottom_bottom - Globals.y_offset_not_paused
-				dragging_rect.polygon[1].y = dragging_rect.polygon[0].y
-				dragging_rect.polygon[3].y = dragging_rect.polygon[2].y
-				dragging_rect.show()
+			dragging_rect.polygon[0].x = drag_start.x - 50 - 2 * Globals.controls_width
+			for i in [1, 2, 3]:
+				dragging_rect.polygon[i].x = dragging_rect.polygon[0].x
+			
+			if dragging == 1:
+				dragging_rect.polygon[0].y = y_drag_top_top - Globals.y_offset_not_paused
+				dragging_rect.polygon[2].y = y_drag_top_bottom - Globals.y_offset_not_paused
+			elif dragging == 2:
+				dragging_rect.polygon[0].y = y_drag_bottom_top - Globals.y_offset_not_paused
+				dragging_rect.polygon[2].y = y_drag_bottom_bottom - Globals.y_offset_not_paused
+			dragging_rect.polygon[1].y = dragging_rect.polygon[0].y
+			dragging_rect.polygon[3].y = dragging_rect.polygon[2].y
+			dragging_rect.show()
 		elif dragging > 0:
 			dragging_rect.hide()
 			var start = dragging_rect.polygon[0].x + 50 + 2 * Globals.controls_width
 			var end = dragging_rect.polygon[1].x + 50 + 2 * Globals.controls_width
-			var match_ids = matches.get_matches_in_range(min(start, end), max(start, end), dragging==1)
-			if len(match_ids) > 0:
-				multimatch_list_found.emit(match_ids)
+			if start != end:
+				var match_ids = matches.get_matches_in_range(min(start, end), max(start, end), dragging==1)
+				top_genome.deselect_contig()
+				bottom_genome.deselect_contig()
+				contig_deselected.emit()
+				enable_contig_ops.emit(false)
+				if len(match_ids) > 0:
+					multimatch_list_found.emit(match_ids)
 			dragging = 0
+
 			queue_redraw()
 	elif event is InputEventMouseMotion and dragging:
 		queue_redraw()
@@ -407,3 +446,21 @@ func _on_mult_matches_item_list_selected_a_match(i):
 	matches.set_selected_match(i)
 	match_selected.emit(i)
 	matches.move_to_selected()
+
+
+func name_of_selected_contig():
+	if contig_selected_is_top:
+		return top_genome.name_of_selected_contig()
+	else:
+		return bottom_genome.name_of_selected_contig()
+
+
+func _on_rev_button_pressed():
+	if contig_selected_is_top:
+		var selected_contig_id = top_genome.selected_contig
+		await reverse_complement("top", name_of_selected_contig())
+		top_genome.select_contig(selected_contig_id)
+	else:
+		var selected_contig_id = bottom_genome.selected_contig
+		await reverse_complement("bottom", name_of_selected_contig())
+		bottom_genome.select_contig(selected_contig_id)

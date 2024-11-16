@@ -87,8 +87,8 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	# comment out for now to stop doing anything on mouse hover
 	# or selecting, because haven't implemented doing anything with
 	# selected contig
-	#static_body_2d.mouse_entered.connect(_on_mouse_entered)
-	#tatic_body_2d.mouse_exited.connect(_on_mouse_exited)
+	static_body_2d.mouse_entered.connect(_on_mouse_entered)
+	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	gff_features = annotation
 	for feature in gff_features:
 		var f_top = gene_fwd_top
@@ -166,16 +166,21 @@ func select():
 	selected = true
 	poly.color = Globals.theme.colours["contig"]["fill_selected"]
 	centerline.default_color = Globals.theme.colours["contig"]["edge_selected"]
-
+	leftvline.default_color = Globals.theme.colours["contig"]["edge_selected"]
+	rightvline.default_color = Globals.theme.colours["contig"]["edge_selected"]
 
 func deselect():
 	selected = false
 	if hovering:
 		poly.color = Globals.theme.colours["contig"]["fill_hover"]
 		centerline.default_color = Globals.theme.colours["contig"]["edge_hover"]
+		leftvline.default_color = Globals.theme.colours["contig"]["edge_hover"]
+		rightvline.default_color = Globals.theme.colours["contig"]["edge_hover"]
 	else:
 		poly.color = fill_color
 		centerline.default_color = Globals.theme.colours["contig"]["edge"]
+		leftvline.default_color = Globals.theme.colours["contig"]["edge"]
+		rightvline.default_color = Globals.theme.colours["contig"]["edge"]
 
 func set_annot_visibility(zoom):
 	for x in annot_polys:

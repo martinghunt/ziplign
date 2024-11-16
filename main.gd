@@ -96,7 +96,8 @@ func reset_colours():
 		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer,
-		#$Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer,
+		$Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2,
 	]
 	for x in children_to_set:
 		set_children_font(x)

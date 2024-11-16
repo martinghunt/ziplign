@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=32 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scenes/game/mult_matches_v_box_container.gd" id="5_0mmw2"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 [ext_resource type="Script" path="res://scenes/game/mult_matches_item_list.gd" id="5_c5uwd"]
+[ext_resource type="Script" path="res://scenes/game/contig_opts_v_box_container.gd" id="7_ubpjk"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_oek1a"]
 action = &"pause"
@@ -346,6 +347,7 @@ text = "Bottom"
 layout_mode = 2
 
 [node name="MultMatchesVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("5_0mmw2")
 
@@ -376,7 +378,7 @@ theme_override_fonts/font = ExtResource("4_queha")
 text = "N"
 
 [node name="MultiMatchesScrollContainer" type="ScrollContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer"]
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
@@ -390,6 +392,32 @@ max_text_lines = 2
 fixed_column_width = 95
 icon_mode = 0
 script = ExtResource("5_c5uwd")
+
+[node name="ContigOptsVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("7_ubpjk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer"]
+layout_mode = 2
+
+[node name="ContigOptsLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Contig Opts"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer"]
+layout_mode = 2
+
+[node name="RevButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "R"
+
+[node name="MoveLeftButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "<"
+
+[node name="MoveRightButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = ">"
 
 [node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
 layout_mode = 2
@@ -420,16 +448,17 @@ layout_mode = 2
 [node name="TopCoordsLabel" type="Label" parent="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
-text = "Selected match:"
+text = "Selected -"
 
 [node name="TopCoordsText" type="RichTextLabel" parent="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
+focus_mode = 2
 theme_override_font_sizes/bold_italics_font_size = 15
 theme_override_font_sizes/italics_font_size = 15
 theme_override_font_sizes/mono_font_size = 15
 theme_override_font_sizes/normal_font_size = 15
 theme_override_font_sizes/bold_font_size = 15
-text = "None"
+text = "Nothing"
 fit_content = true
 autowrap_mode = 0
 selection_enabled = true
@@ -486,7 +515,11 @@ script = ExtResource("3_nnddm")
 [connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/CloseButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer" method="_on_close_button_button_up"]
 [connection signal="item_selected" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_item_selected"]
 [connection signal="selected_a_match" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_mult_matches_item_list_selected_a_match"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2/RevButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_rev_button_pressed"]
 [connection signal="value_changed" from="MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_right_top_scrollbar_value_changed"]
+[connection signal="contig_deselected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_contig_deselected"]
+[connection signal="contig_selected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_contig_selected"]
+[connection signal="enable_contig_ops" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer" method="_on_genomes_n_matches_enable_contig_ops"]
 [connection signal="hscrollbar_set_bottom_value" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar" method="_on_genomes_n_matches_hscrollbar_set_bottom_value"]
 [connection signal="hscrollbar_set_top_value" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar" method="_on_genomes_n_matches_hscrollbar_set_top_value"]
 [connection signal="match_deselected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_match_deselected"]

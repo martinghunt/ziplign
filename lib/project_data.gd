@@ -128,7 +128,7 @@ func load_from_serialized_file(infile):
 	set_data_loaded()
 
 
-func flip_all_blast_matches(top_or_bottom):
+func flip_all_blast_matches(top_or_bottom, contig_name=null):
 	var len_key = ""
 	var start_key = ""
 	var end_key = ""
@@ -142,6 +142,10 @@ func flip_all_blast_matches(top_or_bottom):
 		end_key = "rend"
 		
 	for d in blast_matches:
+		if contig_name != null \
+		and ((top_or_bottom == "top" and d["qry"] != contig_name) \
+			 or (top_or_bottom == "bottom" and d["ref"] != contig_name)):
+			continue
 		d["rev"] = not d["rev"]
 		var new_start = 1 + len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[end_key]
 		d[end_key] = 1 + len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[start_key]
@@ -157,22 +161,33 @@ func flip_all_blast_matches(top_or_bottom):
 				l[2] = new_start
 
 
+func reverse_complement_annotation_one_contig(top_or_bottom, contig_name):
+	if contig_name not in annotation[top_or_bottom]:
+		return
+	var contig_length = len(genome_seqs[top_or_bottom]["seqs"][contig_name])
+	for a in annotation[top_or_bottom][contig_name]:
+		a[3] = not a[3] # flip the strand
+		var start = contig_length - a[1]
+		a[1] = contig_length - a[0]
+		a[0] = start
+
+
 func reverse_complement_annotation(top_or_bottom):
 	for name in annotation[top_or_bottom]:
-		var contig_length = len(genome_seqs[top_or_bottom]["seqs"][name])
-		for a in annotation[top_or_bottom][name]:
-			a[3] = not a[3] # flip the strand
-			var start = contig_length - a[1]
-			a[1] = contig_length - a[0]
-			a[0] = start
-		
-		
+		reverse_complement_annotation_one_contig(top_or_bottom, name)
+
 
 func reverse_complement_genome(top_or_bottom):
 	flip_all_blast_matches(top_or_bottom)
 	reverse_complement_annotation(top_or_bottom)
 	for name in genome_seqs[top_or_bottom]["names"]:
 		genome_seqs[top_or_bottom]["seqs"][name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][name])
+
+
+func reverse_complement_one_contig(top_or_bottom, contig_name):
+	flip_all_blast_matches(top_or_bottom, contig_name)
+	reverse_complement_annotation_one_contig(top_or_bottom, contig_name)
+	genome_seqs[top_or_bottom]["seqs"][contig_name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][contig_name])
 
 
 func set_data_loaded():

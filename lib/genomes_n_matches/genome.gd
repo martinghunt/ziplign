@@ -4,12 +4,14 @@ class_name Genome
 
 const ContigClass = preload("contig.gd")
 
+signal contig_selected
+signal contig_deselected
 
 var contigs = {}
 var base_contig_pos = {}
 var contig_names = []
 var hover_matches = {}
-var selected = -1
+var selected_contig = -1
 var contig_space = 20
 var top = 5
 var bottom = 30
@@ -332,22 +334,42 @@ func screen_x_pos_to_genome_contig_and_pos(screen_x):
 	return draw_pos_to_genome_and_contig_pos(x)
 
 
+func name_of_selected_contig():
+	if selected_contig == -1:
+		return ""
+	else:
+		return contig_names[selected_contig]
+
+	
+func deselect_contig():
+	if selected_contig != -1:
+		contigs[contig_names[selected_contig]].deselect()
+		selected_contig = -1
+		contig_deselected.emit(top_or_bottom)
+
+
+func select_contig(contig_id):
+	contigs[contig_names[contig_id]].select()
+	selected_contig = contig_id
+	contig_selected.emit(top_or_bottom)
+
+
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				if len(hover_matches) == 1:
-					var match_id = hover_matches.keys()[0]
-					if selected != -1 and selected == match_id:
+					var contig_id = hover_matches.keys()[0]
+					if selected_contig != -1 and selected_contig == contig_id:
 						return
-					contigs[contig_names[selected]].deselect()
-					contigs[contig_names[match_id]].select()
-					selected = match_id
+					contigs[contig_names[selected_contig]].deselect()
+					select_contig(contig_id)
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
-				if selected in hover_matches:
-					contigs[contig_names[selected]].deselect()
-					selected = -1
+				if selected_contig in hover_matches:
+					contigs[contig_names[selected_contig]].deselect()
+					selected_contig = -1
+					contig_deselected.emit(top_or_bottom)
 
 
 func on_mouse_in_contig(match_id):
