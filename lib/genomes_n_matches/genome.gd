@@ -87,6 +87,10 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		start += contig_space + clength
 
 
+func number_of_contigs():
+	return len(contig_names)
+
+
 func contig_length_from_index(i):
 	return len(Globals.proj_data.genome_seqs[top_or_bottom]["seqs"][contig_names[i]])
 

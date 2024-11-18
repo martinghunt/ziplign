@@ -190,6 +190,22 @@ func reverse_complement_one_contig(top_or_bottom, contig_name):
 	genome_seqs[top_or_bottom]["seqs"][contig_name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][contig_name])
 
 
+func move_contig(top_or_bottom, from_i, to_i):
+	if from_i == to_i \
+	  or to_i < 0 or to_i > len(genome_seqs[top_or_bottom]["names"]) \
+	  or from_i < 0 or from_i > len(genome_seqs[top_or_bottom]["names"]):
+		return
+	
+	if abs(from_i - to_i) == 1:
+		# no need to pop/insert, just swap the elements. More efficient
+		var name = genome_seqs[top_or_bottom]["names"][from_i]
+		genome_seqs[top_or_bottom]["names"][from_i] = genome_seqs[top_or_bottom]["names"][to_i]
+		genome_seqs[top_or_bottom]["names"][to_i] = name
+	else:
+		var name = genome_seqs[top_or_bottom]["names"].pop_at(from_i)
+		genome_seqs[top_or_bottom]["names"].insert(to_i, name)
+
+
 func set_data_loaded():
 	data_loaded = true
 	project_data_loaded.emit()

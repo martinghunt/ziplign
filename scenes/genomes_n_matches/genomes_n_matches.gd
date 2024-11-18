@@ -265,7 +265,28 @@ func stop_processing_overlay():
 	await get_tree().create_timer(0.1).timeout
 	Globals.paused = false
 	get_tree().set_pause(false)
+
+
+func move_selected_contig(to_i):
+	start_processing_overlay()
+	await get_tree().create_timer(0.1).timeout
+	save_view(10)
 	
+	if contig_selected_is_top:
+		await Globals.proj_data.move_contig("top", top_genome.selected_contig, to_i)
+	else:
+		await Globals.proj_data.move_contig("bottom", bottom_genome.selected_contig, to_i)
+	
+	_on_game_new_project_go()
+	load_view(10)
+	
+	if contig_selected_is_top:
+		top_genome.select_contig(to_i)
+	else:
+		bottom_genome.select_contig(to_i)
+		
+	stop_processing_overlay()
+
 
 func reverse_complement(to_rev, contig_id=null):
 	start_processing_overlay()
@@ -466,3 +487,48 @@ func _on_rev_button_pressed():
 		var selected_contig_id = bottom_genome.selected_contig
 		await reverse_complement("bottom", name_of_selected_contig())
 		bottom_genome.select_contig(selected_contig_id)
+
+
+func number_of_contigs_in_selected_contig_genome():
+	if contig_selected_is_top:
+		return top_genome.number_of_contigs()
+	else:
+		return bottom_genome.number_of_contigs()
+
+
+func get_selected_contig_id():
+	if contig_selected_is_top:
+		return top_genome.selected_contig
+	else:
+		return bottom_genome.selected_contig
+
+
+
+func _on_move_start_button_pressed():
+	var selected_contig_id = get_selected_contig_id()
+	if selected_contig_id == 0:
+		return
+	move_selected_contig(0)
+
+
+func _on_move_left_button_pressed():
+	var selected_contig_id = get_selected_contig_id()
+	if selected_contig_id == 0:
+		return
+	move_selected_contig(selected_contig_id - 1)
+
+
+func _on_move_right_button_pressed():
+	var selected_contig_id = get_selected_contig_id()
+	var number_of_contigs = number_of_contigs_in_selected_contig_genome()
+	if selected_contig_id >= number_of_contigs - 1:
+		return
+	move_selected_contig(selected_contig_id + 1)
+
+
+func _on_move_end_button_pressed():
+	var selected_contig_id = get_selected_contig_id()
+	var number_of_contigs = number_of_contigs_in_selected_contig_genome()
+	if selected_contig_id >= number_of_contigs - 1:
+		return
+	move_selected_contig(number_of_contigs - 1)

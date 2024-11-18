@@ -409,15 +409,36 @@ layout_mode = 2
 
 [node name="RevButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2"]
 layout_mode = 2
+tooltip_text = "Reverse complement"
+theme_override_fonts/font = ExtResource("4_queha")
 text = "R"
 
-[node name="MoveLeftButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer"]
 layout_mode = 2
-text = "<"
 
-[node name="MoveRightButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2"]
+[node name="MoveStartButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = ">"
+tooltip_text = "Move to start of genome"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "T"
+
+[node name="MoveLeftButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Move to left of previous contig"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "S"
+
+[node name="MoveRightButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Move to right of next contig"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "U"
+
+[node name="MoveEndButton" type="Button" parent="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Move to end of genome"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "V"
 
 [node name="VSeparator" type="VSeparator" parent="MainHBoxContainer"]
 layout_mode = 2
@@ -516,6 +537,10 @@ script = ExtResource("3_nnddm")
 [connection signal="item_selected" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_item_selected"]
 [connection signal="selected_a_match" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_mult_matches_item_list_selected_a_match"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2/RevButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_rev_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3/MoveStartButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_move_start_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3/MoveLeftButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_move_left_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3/MoveRightButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_move_right_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer3/MoveEndButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_move_end_button_pressed"]
 [connection signal="value_changed" from="MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_right_top_scrollbar_value_changed"]
 [connection signal="contig_deselected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_contig_deselected"]
 [connection signal="contig_selected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_contig_selected"]
