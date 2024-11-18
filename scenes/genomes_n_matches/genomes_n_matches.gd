@@ -443,7 +443,9 @@ func _unhandled_input(event):
 			dragging_rect.hide()
 			var start = dragging_rect.polygon[0].x + 50 + 2 * Globals.controls_width
 			var end = dragging_rect.polygon[1].x + 50 + 2 * Globals.controls_width
-			if start != end:
+			# You'd expect start != end here, but doing it this way makes it
+			# easier to select a contig
+			if abs(start - end) > 1:
 				var match_ids = matches.get_matches_in_range(min(start, end), max(start, end), dragging==1)
 				top_genome.deselect_contig()
 				bottom_genome.deselect_contig()
