@@ -54,9 +54,15 @@ layout_mode = 2
 
 [node name="OpenDataDirButton" type="Button" parent="CenterContainer/VBoxContainer/OpenDataDirContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0qsbv")
+theme_override_font_sizes/font_size = 30
+text = "4"
+script = ExtResource("3_jpjef")
+
+[node name="OpenDataDirLabel" type="Label" parent="CenterContainer/VBoxContainer/OpenDataDirContainer"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Open TNA data folder"
-script = ExtResource("3_jpjef")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/TopHBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="item_selected" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" method="_on_item_selected"]
