@@ -122,14 +122,19 @@ mouse_filter = 0
 [node name="HSeparatorTop" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer"]
+[node name="TopGridContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Go to main menu
+
+[node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer/TopGridContainer"]
+layout_mode = 2
+tooltip_text = "Return to main menu
 Keyboard shortcuts: p/q"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
 shortcut = SubResource("Shortcut_2ji08")
 shortcut_in_tooltip = false
-text = "Menu"
+text = "3"
 
 [node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -523,7 +528,7 @@ script = ExtResource("3_nnddm")
 
 [connection signal="new_project_go" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_new_project_go"]
 [connection signal="window_resized" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_window_resized"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/TopGridContainer/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveRightNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_left_pressed"]

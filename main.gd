@@ -84,10 +84,12 @@ func reset_colours():
 		$NewProject/MainVBoxContainer/BottomGenomeContainer,
 		$NewProject/MainVBoxContainer/CompareContainer,
 		$Settings/CenterContainer/VBoxContainer,
+		$Settings/CenterContainer/VBoxContainer/TopHBoxContainer,
 		$Settings/CenterContainer/VBoxContainer/ThemeVBoxContainer,
 		$Settings/CenterContainer/VBoxContainer/OpenDataDirContainer,
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/TopGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer,
@@ -111,7 +113,7 @@ func reset_colours():
 	var to_set_tooltip = [
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar,
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar,
-		$Game/MainHBoxContainer/VBoxContainer/PauseButton,
+		$Game/MainHBoxContainer/VBoxContainer/TopGridContainer/PauseButton,
 	]
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer.get_children())

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=5 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
+[ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_0qsbv"]
 [ext_resource type="Script" path="res://scenes/settings/ThemeOptionButton.gd" id="2_4nf2k"]
 [ext_resource type="Script" path="res://scenes/settings/OpenDataDirButton.gd" id="3_jpjef"]
 
@@ -21,10 +22,19 @@ offset_bottom = 40.0
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="TopHBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer/TopHBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0qsbv")
+theme_override_font_sizes/font_size = 30
+text = "3"
+
+[node name="ReturnLabel" type="Label" parent="CenterContainer/VBoxContainer/TopHBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Back to main menu"
+text = "back to main menu"
 
 [node name="ThemeVBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -48,7 +58,7 @@ theme_override_font_sizes/font_size = 30
 text = "Open TNA data folder"
 script = ExtResource("3_jpjef")
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/TopHBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="item_selected" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" method="_on_item_selected"]
 [connection signal="theme_updated" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="." method="_on_theme_option_button_theme_updated"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" to="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" method="_on_pressed"]
