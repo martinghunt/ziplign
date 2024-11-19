@@ -88,13 +88,11 @@ func reset_colours():
 		$Settings/CenterContainer/VBoxContainer/OpenDataDirContainer,
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer,
-		$Game/MainHBoxContainer/VBoxContainer/NavigationVBoxContainer,
-		$Game/MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer,
-		$Game/MainHBoxContainer/VBoxContainer/VBoxContainer,
-		$Game/MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer,
+		$Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer,
-		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer,
-		$Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/HBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/RevcompGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer2,
@@ -115,9 +113,9 @@ func reset_colours():
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar,
 		$Game/MainHBoxContainer/VBoxContainer/PauseButton,
 	]
-	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer.get_children())
-	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer.get_children())
-	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/RevcompGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer.get_children())
 	to_set_tooltip.append_array($MainMenu/MainContainer/MainVBoxContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer.get_children())

@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scenes/game/TopCoordsText.gd" id="2_ef7jy"]
 [ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
-[ext_resource type="FontFile" uid="uid://rpg5lwtg0iok" path="res://fonts/tnaicons.otf" id="4_queha"]
+[ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="4_queha"]
 [ext_resource type="Script" path="res://scenes/game/mult_matches_v_box_container.gd" id="5_0mmw2"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 [ext_resource type="Script" path="res://scenes/game/mult_matches_item_list.gd" id="5_c5uwd"]
@@ -17,12 +17,6 @@ action = &"pause"
 
 [sub_resource type="Shortcut" id="Shortcut_2ji08"]
 events = [SubResource("InputEventAction_oek1a")]
-
-[sub_resource type="InputEventAction" id="InputEventAction_etpq2"]
-action = &"fine_toggle"
-
-[sub_resource type="Shortcut" id="Shortcut_cgse3"]
-events = [SubResource("InputEventAction_etpq2")]
 
 [sub_resource type="InputEventAction" id="InputEventAction_vxsve"]
 action = &"genomes_tl_bl"
@@ -48,23 +42,29 @@ action = &"genomes_tr_br"
 [sub_resource type="Shortcut" id="Shortcut_hq06d"]
 events = [SubResource("InputEventAction_b0dax")]
 
+[sub_resource type="InputEventAction" id="InputEventAction_etpq2"]
+action = &"fine_toggle"
+
+[sub_resource type="Shortcut" id="Shortcut_cgse3"]
+events = [SubResource("InputEventAction_etpq2")]
+
 [sub_resource type="InputEventAction" id="InputEventAction_ufr1h"]
 action = &"zoom_minus"
 
 [sub_resource type="Shortcut" id="Shortcut_rytnn"]
 events = [SubResource("InputEventAction_ufr1h")]
 
-[sub_resource type="InputEventAction" id="InputEventAction_470f2"]
-action = &"zoom_reset"
-
-[sub_resource type="Shortcut" id="Shortcut_t1pu1"]
-events = [SubResource("InputEventAction_470f2")]
-
 [sub_resource type="InputEventAction" id="InputEventAction_okxiq"]
 action = &"zoom_plus"
 
 [sub_resource type="Shortcut" id="Shortcut_k003o"]
 events = [SubResource("InputEventAction_okxiq")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_470f2"]
+action = &"zoom_reset"
+
+[sub_resource type="Shortcut" id="Shortcut_t1pu1"]
+events = [SubResource("InputEventAction_470f2")]
 
 [sub_resource type="InputEventAction" id="InputEventAction_stosh"]
 action = &"zoom_bp"
@@ -134,47 +134,36 @@ text = "Menu"
 [node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="NavigationVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="MoveLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Move"
-horizontal_alignment = 1
-
-[node name="BoxContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer"]
+[node name="NavigationGridContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 columns = 4
 
-[node name="ButtonFineToggle" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="MoveIconLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
-tooltip_text = "Toggle fine control on or off
-Keyboard shortcut: f"
-focus_mode = 0
-toggle_mode = true
-shortcut = SubResource("Shortcut_cgse3")
-shortcut_in_tooltip = false
-text = "F"
+tooltip_text = "Controls for moving the view of the genomes"
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
+text = "1"
 
-[node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move top view to the left"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
 text = "A"
 
-[node name="ButtonMoveRightNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveRightNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move top view to the right"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
 text = "B"
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 
-[node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveLeftLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move top and bottom view to the left
 Keyboard shortcut: Left"
@@ -184,7 +173,7 @@ shortcut = SubResource("Shortcut_xgvof")
 shortcut_in_tooltip = false
 text = "C"
 
-[node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveLeftRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move top view right and bottom view left
 Keyboard shortcut: Up"
@@ -194,7 +183,7 @@ shortcut = SubResource("Shortcut_3s5re")
 shortcut_in_tooltip = false
 text = "D"
 
-[node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveRightLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move top view left and bottom view right
 Keyboard shortcut: Down"
@@ -204,7 +193,7 @@ shortcut = SubResource("Shortcut_g4tv5")
 shortcut_in_tooltip = false
 text = "E"
 
-[node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveRightRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move top and bottom view to the right
 Keyboard shortcut: Right"
@@ -214,43 +203,48 @@ shortcut = SubResource("Shortcut_hq06d")
 shortcut_in_tooltip = false
 text = "F"
 
-[node name="MarginContainer4" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonFineToggle" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
+tooltip_text = "Toggle fine control on or off
+Keyboard shortcut: f"
+focus_mode = 0
+toggle_mode = true
+shortcut = SubResource("Shortcut_cgse3")
+shortcut_in_tooltip = false
+text = "F"
 
-[node name="ButtonMoveNoneLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveNoneLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move bottom view to the left"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
 text = "G"
 
-[node name="ButtonMoveNoneRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="ButtonMoveNoneRight" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 tooltip_text = "Move bottom view to the right"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
 text = "H"
 
-[node name="MarginContainer3" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+[node name="ZoomGridContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
-alignment = 1
+columns = 4
 
-[node name="ZoomLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="ZoomLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_queha")
 theme_override_font_sizes/font_size = 20
-text = "Zoom"
+text = "2"
 horizontal_alignment = 1
 
-[node name="ZoomHBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="ButtonZoomMinus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+[node name="ButtonZoomMinus" type="Button" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
 layout_mode = 2
 tooltip_text = "Zoom out
 Keyboard shortcut: -"
@@ -260,17 +254,7 @@ shortcut = SubResource("Shortcut_rytnn")
 shortcut_in_tooltip = false
 text = "I"
 
-[node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
-layout_mode = 2
-tooltip_text = "Reset view to default
-Keyboard shortcut: ="
-focus_mode = 0
-theme_override_fonts/font = ExtResource("4_queha")
-shortcut = SubResource("Shortcut_t1pu1")
-shortcut_in_tooltip = false
-text = "J"
-
-[node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+[node name="ButtonZoomPlus" type="Button" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
 layout_mode = 2
 tooltip_text = "Zoom in
 Keyboard shortcut: +"
@@ -280,7 +264,23 @@ shortcut = SubResource("Shortcut_k003o")
 shortcut_in_tooltip = false
 text = "K"
 
-[node name="ButtonZoomBp" type="Button" parent="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
+layout_mode = 2
+
+[node name="ButtonZoomReset" type="Button" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
+layout_mode = 2
+tooltip_text = "Reset view to default
+Keyboard shortcut: ="
+focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
+shortcut = SubResource("Shortcut_t1pu1")
+shortcut_in_tooltip = false
+text = "J"
+
+[node name="ButtonZoomBp" type="Button" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
 layout_mode = 2
 tooltip_text = "Zoom in to base-pair level
 Keyboard shortcut: 0 (zero)"
@@ -292,14 +292,52 @@ text = "bp"
 [node name="HSeparator3" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="RevcompGridContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+columns = 4
+
+[node name="RevcompLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/RevcompGridContainer"]
+layout_mode = 2
+tooltip_text = "Reverse complement"
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
+text = "R"
+
+[node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompGridContainer"]
+layout_mode = 2
+tooltip_text = "Reverse complement each contig in the top genome"
+focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
+text = "Z"
+
+[node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompGridContainer"]
+layout_mode = 2
+tooltip_text = "Reverse complement each contig in the bottom genome"
+focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
+text = "Y"
+
+[node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+
 [node name="FilterVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="FilterLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
-text = "Filter matches"
 
-[node name="MinLengthLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
+[node name="IconLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Filter which matches are visible"
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
+text = "O"
+
+[node name="MinLengthLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Min length"
 
@@ -318,36 +356,10 @@ layout_mode = 2
 tooltip_text = "Only show matches with at least this percent identity"
 script = ExtResource("5_2v3gj")
 
-[node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="RevcompVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="RevcompLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer"]
-layout_mode = 2
-text = "Reverse comp"
-
-[node name="RecvompHBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer"]
-layout_mode = 2
-
-[node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
-layout_mode = 2
-tooltip_text = "Reverse complement each contig in the top genome"
-focus_mode = 0
-text = "Top"
-
-[node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer"]
-layout_mode = 2
-tooltip_text = "Reverse complement each contig in the bottom genome"
-focus_mode = 0
-text = "Bottom"
-
 [node name="HSeparatorBottom" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="MultMatchesVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 script = ExtResource("5_0mmw2")
 
@@ -378,12 +390,12 @@ theme_override_fonts/font = ExtResource("4_queha")
 text = "N"
 
 [node name="MultiMatchesScrollContainer" type="ScrollContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer"]
-custom_minimum_size = Vector2(0, 170)
+custom_minimum_size = Vector2(0, 210)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
 [node name="MultMatchesItemList" type="ItemList" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer"]
-custom_minimum_size = Vector2(100, 120)
+custom_minimum_size = Vector2(100, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -512,25 +524,25 @@ script = ExtResource("3_nnddm")
 [connection signal="new_project_go" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_new_project_go"]
 [connection signal="window_resized" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_window_resized"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
-[connection signal="toggled" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonFineToggle" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_fine_toggle_toggled"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_none_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_left_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveLeftRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_right_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_left_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveRightRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_right_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveNoneLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_none_left_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationVBoxContainer/BoxContainer/ButtonMoveNoneRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_none_right_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomMinus" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_minus_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomReset" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomPlus" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_plus_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/VBoxContainer/ZoomHBoxContainer/ButtonZoomBp" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_bp_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveRightNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_none_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveRightLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveRightRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_right_pressed"]
+[connection signal="toggled" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonFineToggle" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_fine_toggle_toggled"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveNoneLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_none_left_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveNoneRight" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_none_right_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ZoomGridContainer/ButtonZoomMinus" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_minus_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ZoomGridContainer/ButtonZoomPlus" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_plus_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ZoomGridContainer/ButtonZoomReset" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_reset_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ZoomGridContainer/ButtonZoomBp" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_bp_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompGridContainer/RevcompTopButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_top_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompGridContainer/RevcompBottomButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
 [connection signal="min_match_length_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_length_line_edit_min_match_length_changed"]
 [connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" method="_on_text_submitted"]
 [connection signal="min_match_pc_id_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_identity_line_edit_min_match_pc_id_changed"]
 [connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" method="_on_text_submitted"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompTopButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_top_button_pressed"]
-[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompVBoxContainer/RecvompHBoxContainer/RevcompBottomButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
 [connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/UpButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_up_button_button_up"]
 [connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/DownButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList" method="_on_down_button_button_up"]
 [connection signal="button_up" from="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer/CloseButton" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer" method="_on_close_button_button_up"]
