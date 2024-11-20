@@ -77,12 +77,9 @@ func reset_colours():
 
 	var children_to_set = [
 		$MainMenu/MainContainer/MainVBoxContainer,
-		$NewProject/MainVBoxContainer/CancelOrGoContainer,
-		$NewProject/MainVBoxContainer/TestDataContainer,
+		$NewProject/MainVBoxContainer/HBoxContainer,
+		$NewProject/MainVBoxContainer/GridContainer,
 		$NewProject/MainVBoxContainer/StatusGenomeContainer,
-		$NewProject/MainVBoxContainer/TopGenomeContainer,
-		$NewProject/MainVBoxContainer/BottomGenomeContainer,
-		$NewProject/MainVBoxContainer/CompareContainer,
 		$Settings/CenterContainer/VBoxContainer,
 		$Settings/CenterContainer/VBoxContainer/TopHBoxContainer,
 		$Settings/CenterContainer/VBoxContainer/ThemeVBoxContainer,
@@ -121,6 +118,7 @@ func reset_colours():
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer.get_children())
 	to_set_tooltip.append_array($MainMenu/MainContainer/MainVBoxContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer.get_children())
+	to_set_tooltip.append_array($NewProject/MainVBoxContainer/HBoxContainer.get_children())
 	for x in to_set_tooltip:
 		set_tooltip_theme(x)
 
@@ -140,9 +138,9 @@ func reset_colours():
 	Globals.tooltip_style.border_color = Globals.theme.colours["text"]
 	
 	var to_set_caret = [
-		$NewProject/MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit,
-		$NewProject/MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit,
-		$NewProject/MainVBoxContainer/CompareContainer/CompareLineEdit,
+		$NewProject/MainVBoxContainer/GridContainer/TopGenomeLineEdit,
+		$NewProject/MainVBoxContainer/GridContainer/BottomGenomeLineEdit,
+		$NewProject/MainVBoxContainer/GridContainer/CompareLineEdit,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit,
 	]
@@ -159,7 +157,7 @@ func reset_colours():
 	
 	for node in to_set_text_boxes:
 		node.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	
+
 	var l = $Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer/MultMatchesItemList
 	l.add_theme_color_override("font_color", Globals.theme.colours["ui"]["text"])
 	l.add_theme_color_override("font_selected_color", Globals.theme.colours["ui"]["text"])

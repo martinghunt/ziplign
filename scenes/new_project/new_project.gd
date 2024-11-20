@@ -9,9 +9,7 @@ signal append_to_info_text
 signal clear_info_text
 signal enable_go_button
 signal set_status_text
-signal reset_status_text
-signal set_top_genome_line_edit_enable
-signal set_bottom_genome_line_edit_enable
+signal reset_compare_line_edit
 
 var filename1 = ""
 var filename2 = ""
@@ -30,36 +28,50 @@ func clear_fields():
 	update_bottom_genome_filename.emit("")
 	enable_go_button.emit(false)
 	clear_info_text.emit()
-	reset_status_text.emit()
-	set_top_genome_line_edit_enable.emit(true)
-	set_bottom_genome_line_edit_enable.emit(false)
+	reset_compare_line_edit.emit()
+	update_status_text()
 
 func set_filename1(filename):
 	filename1 = filename
 	update_top_genome_filename.emit(filename1)
-	set_top_genome_line_edit_enable.emit(false)
-	set_status_text.emit("Add bottom genome: drap n drop or put filename in the box")
-	set_bottom_genome_line_edit_enable.emit(true)
 
 
 func set_filename2(filename):
 	filename2 = filename
 	update_bottom_genome_filename.emit(filename2)
-	enable_go_button.emit(true)
-	set_bottom_genome_line_edit_enable.emit(false)
-	set_status_text.emit("Genomes added. Good to go!")
+
+
+func update_go_button():
+	enable_go_button.emit(filename1 != "" and filename2 != "")
+
+
+func update_status_text():
+	if filename1 == "" and filename2 == "":
+		set_status_text.emit("Need both genomes. Drag+drop, or type and press enter to confirm")
+	elif filename1 == "":
+		set_status_text.emit("Top genome required. Drag+drop or type + press enter in the box")
+	elif filename2 == "":
+		set_status_text.emit("Bottom genome required. Drag+drop or type + press enter in the box")
+	else:
+		set_status_text.emit("Ready to go. Press the start button")
 
 
 func on_files_dropped(files):
-	if len(files) != 1:
-		return
-	if filename1 == "":
+	if len(files) == 1:
+		var mouse_y = get_global_mouse_position().y
+		var y_cutoff = $MainVBoxContainer/GridContainer/BottomGenomeLineEdit.global_position.y
+		if mouse_y < y_cutoff:
+			set_filename1(files[0])
+		else:
+			set_filename2(files[0])
+	elif len(files) == 2:
 		set_filename1(files[0])
-	elif filename2 == "":
-		set_filename2(files[0])
+		set_filename2(files[1])
+
+	update_go_button()
+	update_status_text()
 
 
-	
 func _on_go_button_pressed():
 	# see https://github.com/godotengine/godot/issues/73296
 	# found adding all these timeouts made the text label update.
@@ -116,10 +128,14 @@ func _on_cancel_button_pressed():
 
 func _on_top_genome_line_edit_text_submitted(new_text):
 	set_filename1(new_text)
+	update_go_button()
+	update_status_text()
 
 
 func _on_bottom_genome_line_edit_text_submitted(new_text):
 	set_filename2(new_text)
+	update_go_button()
+	update_status_text()
 
 
 func _on_reset_button_pressed():
@@ -128,3 +144,11 @@ func _on_reset_button_pressed():
 
 func _on_open_file_manager_button_pressed():
 	OS.shell_show_in_file_manager(Globals.userdata.home_dir)
+
+
+func _on_top_genome_line_edit_text_changed(new_text):
+	_on_top_genome_line_edit_text_submitted(new_text)
+
+
+func _on_bottom_genome_line_edit_text_changed(new_text):
+	_on_bottom_genome_line_edit_text_submitted(new_text)

@@ -1,6 +1,6 @@
 extends Label
 
-var default_text = "Add top genome: drag-n-drop or put filename in the box"
+var default_text = ""
 
 
 func reset_text():
@@ -13,7 +13,3 @@ func _ready():
 
 func _on_new_project_set_status_text(t):
 	text = t
-
-
-func _on_new_project_reset_status_text():
-	reset_text()

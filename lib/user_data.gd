@@ -56,7 +56,7 @@ var config = ConfigFile.new()
 var tnahelper_version = "unknown"
 var blastn_version = "unknown"
 var blast_options = "-evalue 0.1"
-
+var default_blast_options = "-evalue 0.1"
 
 func does_example_data_exist():
 	if DirAccess.dir_exists_absolute(example_data_dir):

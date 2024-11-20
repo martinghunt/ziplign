@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://o6vk13fe8nhl"]
+[gd_scene load_steps=9 format=3 uid="uid://o6vk13fe8nhl"]
 
 [ext_resource type="Script" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
+[ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_3uycm"]
 [ext_resource type="Script" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
 [ext_resource type="Script" path="res://scenes/new_project/StatusLabel.gd" id="2_rom0h"]
 [ext_resource type="Script" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
@@ -19,8 +20,42 @@ script = ExtResource("1_cvvaa")
 
 [node name="MainVBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1110.0
+offset_bottom = 430.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainVBoxContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="MainVBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Back to main menu"
+theme_override_fonts/font = ExtResource("2_3uycm")
+theme_override_font_sizes/font_size = 40
+text = "3"
+
+[node name="ResetButton" type="Button" parent="MainVBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Reset all fields"
+theme_override_fonts/font = ExtResource("2_3uycm")
+theme_override_font_sizes/font_size = 40
+text = "6"
+
+[node name="OpenFileManagerButton" type="Button" parent="MainVBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Open file browser"
+theme_override_fonts/font = ExtResource("2_3uycm")
+theme_override_font_sizes/font_size = 40
+text = "4"
+
+[node name="UseTestDataButton" type="Button" parent="MainVBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Use built-in test data"
+theme_override_fonts/font = ExtResource("2_3uycm")
+theme_override_font_sizes/font_size = 40
+text = "7"
+
+[node name="HSeparator" type="HSeparator" parent="MainVBoxContainer"]
+layout_mode = 2
 
 [node name="StatusGenomeContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
@@ -31,83 +66,63 @@ theme_override_font_sizes/font_size = 30
 text = "default text"
 script = ExtResource("2_rom0h")
 
+[node name="Label" type="Label" parent="MainVBoxContainer/StatusGenomeContainer"]
+layout_mode = 2
+
 [node name="HSeparator6" type="HSeparator" parent="MainVBoxContainer"]
 layout_mode = 2
 
-[node name="TopGenomeContainer" type="HBoxContainer" parent="MainVBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MainVBoxContainer"]
 layout_mode = 2
+columns = 2
 
-[node name="TopGenomeLabel" type="Label" parent="MainVBoxContainer/TopGenomeContainer"]
+[node name="TopGenomeLabel" type="Label" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Top genome file       "
+text = "Top genome file "
 
-[node name="TopGenomeLineEdit" type="LineEdit" parent="MainVBoxContainer/TopGenomeContainer"]
+[node name="TopGenomeLineEdit" type="LineEdit" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
-expand_to_text_length = true
 script = ExtResource("2_ed3tn")
 
-[node name="BottomGenomeContainer" type="HBoxContainer" parent="MainVBoxContainer"]
-layout_mode = 2
-
-[node name="BottomGenomeLabel" type="Label" parent="MainVBoxContainer/BottomGenomeContainer"]
+[node name="BottomGenomeLabel" type="Label" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Bottom genome file"
+text = "Bottom genome file "
 
-[node name="BottomGenomeLineEdit" type="LineEdit" parent="MainVBoxContainer/BottomGenomeContainer"]
+[node name="BottomGenomeLineEdit" type="LineEdit" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-expand_to_text_length = true
 script = ExtResource("3_4xijc")
 
-[node name="CompareContainer" type="HBoxContainer" parent="MainVBoxContainer"]
-layout_mode = 2
-
-[node name="CompareLabel" type="Label" parent="MainVBoxContainer/CompareContainer"]
+[node name="CompareLabel" type="Label" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Blast options            "
+text = "Blast options "
 
-[node name="CompareLineEdit" type="LineEdit" parent="MainVBoxContainer/CompareContainer"]
+[node name="CompareLineEdit" type="LineEdit" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Put blast options here"
-expand_to_text_length = true
 script = ExtResource("5_ulwbr")
 
-[node name="CancelOrGoContainer" type="HBoxContainer" parent="MainVBoxContainer"]
-layout_mode = 2
-
-[node name="CancelButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
+[node name="Label" type="Label" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Cancel"
+text = "Start"
 
-[node name="ResetButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
+[node name="GoButton" type="Button" parent="MainVBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("2_3uycm")
 theme_override_font_sizes/font_size = 30
-text = "Reset"
-
-[node name="OpenFileManagerButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "File browser"
-
-[node name="GoButton" type="Button" parent="MainVBoxContainer/CancelOrGoContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Go! Go! Go!"
+text = "5"
 script = ExtResource("4_n1phj")
 
-[node name="TestDataContainer" type="HBoxContainer" parent="MainVBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="MainVBoxContainer"]
 layout_mode = 2
-
-[node name="UseTestDataButton" type="Button" parent="MainVBoxContainer/TestDataContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Use test data"
 
 [node name="InfoRichTextLabel" type="RichTextLabel" parent="MainVBoxContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 100)
@@ -120,21 +135,21 @@ script = ExtResource("5_4kmm3")
 
 [connection signal="append_to_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_append_to_info_text"]
 [connection signal="clear_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_clear_info_text"]
-[connection signal="enable_go_button" from="." to="MainVBoxContainer/CancelOrGoContainer/GoButton" method="_on_new_project_enable_go_button"]
-[connection signal="reset_status_text" from="." to="MainVBoxContainer/StatusGenomeContainer/StatusLabel" method="_on_new_project_reset_status_text"]
-[connection signal="set_bottom_genome_line_edit_enable" from="." to="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" method="_on_new_project_set_bottom_genome_line_edit_enable"]
+[connection signal="enable_go_button" from="." to="MainVBoxContainer/GridContainer/GoButton" method="_on_new_project_enable_go_button"]
+[connection signal="reset_compare_line_edit" from="." to="MainVBoxContainer/GridContainer/CompareLineEdit" method="_on_new_project_reset_compare_line_edit"]
 [connection signal="set_status_text" from="." to="MainVBoxContainer/StatusGenomeContainer/StatusLabel" method="_on_new_project_set_status_text"]
-[connection signal="set_top_genome_line_edit_enable" from="." to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_new_project_set_top_genome_line_edit_enable"]
-[connection signal="update_bottom_genome_filename" from="." to="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" method="_on_new_project_update_bottom_genome_filename"]
-[connection signal="update_top_genome_filename" from="." to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_new_project_update_top_genome_filename"]
-[connection signal="text_submitted" from="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" to="." method="_on_top_genome_line_edit_text_submitted"]
-[connection signal="text_submitted" from="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" to="." method="_on_bottom_genome_line_edit_text_submitted"]
-[connection signal="focus_exited" from="MainVBoxContainer/CompareContainer/CompareLineEdit" to="MainVBoxContainer/CompareContainer/CompareLineEdit" method="_on_focus_exited"]
-[connection signal="text_submitted" from="MainVBoxContainer/CompareContainer/CompareLineEdit" to="MainVBoxContainer/CompareContainer/CompareLineEdit" method="_on_text_submitted"]
-[connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
-[connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/ResetButton" to="." method="_on_reset_button_pressed"]
-[connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/OpenFileManagerButton" to="." method="_on_open_file_manager_button_pressed"]
-[connection signal="pressed" from="MainVBoxContainer/CancelOrGoContainer/GoButton" to="." method="_on_go_button_pressed"]
-[connection signal="pressed" from="MainVBoxContainer/TestDataContainer/UseTestDataButton" to="MainVBoxContainer/TopGenomeContainer/TopGenomeLineEdit" method="_on_use_test_data_button_pressed"]
-[connection signal="pressed" from="MainVBoxContainer/TestDataContainer/UseTestDataButton" to="MainVBoxContainer/BottomGenomeContainer/BottomGenomeLineEdit" method="_on_use_test_data_button_pressed"]
-[connection signal="pressed" from="MainVBoxContainer/TestDataContainer/UseTestDataButton" to="MainVBoxContainer/CancelOrGoContainer/GoButton" method="_on_use_test_data_button_pressed"]
+[connection signal="update_bottom_genome_filename" from="." to="MainVBoxContainer/GridContainer/BottomGenomeLineEdit" method="_on_new_project_update_bottom_genome_filename"]
+[connection signal="update_top_genome_filename" from="." to="MainVBoxContainer/GridContainer/TopGenomeLineEdit" method="_on_new_project_update_top_genome_filename"]
+[connection signal="pressed" from="MainVBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/HBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/HBoxContainer/OpenFileManagerButton" to="." method="_on_open_file_manager_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/HBoxContainer/UseTestDataButton" to="MainVBoxContainer/GridContainer/TopGenomeLineEdit" method="_on_use_test_data_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/HBoxContainer/UseTestDataButton" to="MainVBoxContainer/GridContainer/BottomGenomeLineEdit" method="_on_use_test_data_button_pressed"]
+[connection signal="pressed" from="MainVBoxContainer/HBoxContainer/UseTestDataButton" to="MainVBoxContainer/GridContainer/GoButton" method="_on_use_test_data_button_pressed"]
+[connection signal="text_changed" from="MainVBoxContainer/GridContainer/TopGenomeLineEdit" to="." method="_on_top_genome_line_edit_text_changed"]
+[connection signal="text_submitted" from="MainVBoxContainer/GridContainer/TopGenomeLineEdit" to="." method="_on_top_genome_line_edit_text_submitted"]
+[connection signal="text_changed" from="MainVBoxContainer/GridContainer/BottomGenomeLineEdit" to="." method="_on_bottom_genome_line_edit_text_changed"]
+[connection signal="text_submitted" from="MainVBoxContainer/GridContainer/BottomGenomeLineEdit" to="." method="_on_bottom_genome_line_edit_text_submitted"]
+[connection signal="focus_exited" from="MainVBoxContainer/GridContainer/CompareLineEdit" to="MainVBoxContainer/GridContainer/CompareLineEdit" method="_on_focus_exited"]
+[connection signal="text_submitted" from="MainVBoxContainer/GridContainer/CompareLineEdit" to="MainVBoxContainer/GridContainer/CompareLineEdit" method="_on_text_submitted"]
+[connection signal="pressed" from="MainVBoxContainer/GridContainer/GoButton" to="." method="_on_go_button_pressed"]
