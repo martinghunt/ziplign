@@ -194,10 +194,10 @@ func _on_moved_to_selected_match(selected_id):
 
 
 func _on_match_selected(selected_id):
-	match_selected.emit(selected_id)
 	top_genome.deselect_contig()
 	bottom_genome.deselect_contig()
 	enable_contig_ops.emit(false)
+	match_selected.emit(selected_id)
 	
 
 func _on_match_deselected():

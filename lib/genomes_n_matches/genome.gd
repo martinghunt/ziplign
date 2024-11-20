@@ -359,6 +359,9 @@ func select_contig(contig_id):
 
 
 func _unhandled_input(event):
+	if Globals.paused:
+		return
+		
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
@@ -368,6 +371,10 @@ func _unhandled_input(event):
 						return
 					contigs[contig_names[selected_contig]].deselect()
 					select_contig(contig_id)
+				else:
+					deselect_contig()
+					
+					
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
 				if selected_contig in hover_matches:
