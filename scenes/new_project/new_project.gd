@@ -47,11 +47,11 @@ func update_go_button():
 
 func update_status_text():
 	if filename1 == "" and filename2 == "":
-		set_status_text.emit("Need both genomes. Drag+drop, or type and press enter to confirm")
+		set_status_text.emit("Need both genomes. Drag+drop, or type in the boxes")
 	elif filename1 == "":
-		set_status_text.emit("Top genome required. Drag+drop or type + press enter in the box")
+		set_status_text.emit("Top genome required. Drag+drop or type in the box")
 	elif filename2 == "":
-		set_status_text.emit("Bottom genome required. Drag+drop or type + press enter in the box")
+		set_status_text.emit("Bottom genome required. Drag+drop or type in the box")
 	else:
 		set_status_text.emit("Ready to go. Press the start button")
 
