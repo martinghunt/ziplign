@@ -213,10 +213,11 @@ layout_mode = 2
 tooltip_text = "Toggle fine control on or off
 Keyboard shortcut: f"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 toggle_mode = true
 shortcut = SubResource("Shortcut_cgse3")
 shortcut_in_tooltip = false
-text = "F"
+text = "8"
 
 [node name="ButtonMoveNoneLeft" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
 layout_mode = 2
@@ -290,9 +291,10 @@ layout_mode = 2
 tooltip_text = "Zoom in to base-pair level
 Keyboard shortcut: 0 (zero)"
 focus_mode = 0
+theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_7fmgm")
 shortcut_in_tooltip = false
-text = "bp"
+text = "9"
 
 [node name="HSeparator3" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
