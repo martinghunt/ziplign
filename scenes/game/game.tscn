@@ -308,7 +308,6 @@ layout_mode = 2
 tooltip_text = "Reverse complement"
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("4_queha")
-theme_override_font_sizes/font_size = 20
 text = "R"
 
 [node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompGridContainer"]
@@ -316,7 +315,6 @@ layout_mode = 2
 tooltip_text = "Reverse complement each contig in the top genome"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
-theme_override_font_sizes/font_size = 20
 text = "Z"
 
 [node name="RevcompBottomButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompGridContainer"]
@@ -324,7 +322,6 @@ layout_mode = 2
 tooltip_text = "Reverse complement each contig in the bottom genome"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
-theme_override_font_sizes/font_size = 20
 text = "Y"
 
 [node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
@@ -397,12 +394,12 @@ theme_override_fonts/font = ExtResource("4_queha")
 text = "N"
 
 [node name="MultiMatchesScrollContainer" type="ScrollContainer" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer"]
-custom_minimum_size = Vector2(0, 210)
+custom_minimum_size = Vector2(0, 235)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
 [node name="MultMatchesItemList" type="ItemList" parent="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/MultiMatchesScrollContainer"]
-custom_minimum_size = Vector2(100, 200)
+custom_minimum_size = Vector2(100, 230)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0

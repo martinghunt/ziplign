@@ -31,7 +31,7 @@ func _http_request_completed(result, _response_code, _headers, _body):
 
 
 func download_tnahelper():
-	var url = "https://github.com/martinghunt/tnahelper/releases/latest/download/tnahelper_"
+	var url = "https://github.com/martinghunt/tnahelper/releases/download/v0.3.2/tnahelper_"
 	if Globals.userdata.os == "mac":
 		url += "darwin_"
 	else:
@@ -50,10 +50,10 @@ func download_tnahelper():
 func chmod_make_executable(filename):
 	var exit_code = OS.execute("chmod", ["+x", filename])
 	if exit_code == 0:
-		add_to_text_label.emit("Made executable: ", filename)
+		add_to_text_label.emit("Made executable: " + filename)
 		return true
 	else:
-		add_to_text_label.emit("Error making executable: ", filename)
+		add_to_text_label.emit("Error making executable: " + filename)
 		return false
 
 
