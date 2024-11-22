@@ -6,6 +6,7 @@ const ContigClass = preload("contig.gd")
 
 signal contig_selected
 signal contig_deselected
+signal move_to_pos
 
 var contigs = {}
 var base_contig_pos = {}
@@ -367,6 +368,11 @@ func _unhandled_input(event):
 			if event.pressed:
 				if len(hover_matches) == 1:
 					var contig_id = hover_matches.keys()[0]
+					if event.is_double_click():
+						var genome_and_comtig_pos = draw_pos_to_genome_and_contig_pos(event.position.x)
+						move_to_pos.emit(top_or_bottom, event.position.x)
+						deselect_contig()
+						return
 					if selected_contig != -1 and selected_contig == contig_id:
 						return
 					contigs[contig_names[selected_contig]].deselect()

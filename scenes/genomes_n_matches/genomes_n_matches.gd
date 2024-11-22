@@ -84,6 +84,8 @@ func _ready():
 	top_genome.connect("contig_deselected", _on_contig_deselected)
 	bottom_genome.connect("contig_selected", _on_contig_selected)
 	bottom_genome.connect("contig_deselected", _on_contig_deselected)
+	top_genome.connect("move_to_pos", _on_genome_move_to_pos)
+	bottom_genome.connect("move_to_pos", _on_genome_move_to_pos)
 	$"../../../../ColorRect/ProcessingLabel".position.y = 0.5 * (global_top + global_bottom) - 20 - Globals.y_offset_not_paused
 	$"../../../../ColorRect/ProcessingLabel".position.x = Globals.controls_width + 10
 	y_drag_top_top = top_genome.tracks_y["coords_top"] - 13
@@ -534,3 +536,14 @@ func _on_move_end_button_pressed():
 	if selected_contig_id >= number_of_contigs - 1:
 		return
 	move_selected_contig(number_of_contigs - 1)
+
+
+func _on_genome_move_to_pos(top_or_bottom, mouse_x):
+	var window_size = get_viewport().get_visible_rect().size
+	var game_width = window_size.x - Globals.controls_width
+	var middle = Globals.controls_width + 0.5 * game_width
+	var to_move = (mouse_x - middle) / game_width
+	if top_or_bottom == "top":
+		move_top_and_bottom(to_move, 0)
+	else:
+		move_top_and_bottom(0, to_move)
