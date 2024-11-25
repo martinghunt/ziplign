@@ -444,8 +444,13 @@ func _unhandled_input(event):
 	elif event is InputEventPanGesture and event.position.x > Globals.controls_width  - 13 and event.delta.x == 0:
 		if event.delta.y > 0:
 			_on_button_zoom_minus_pressed(0.15, event.position.x - Globals.controls_width)
-		else:
+		elif event.delta.y < 0:
 			_on_button_zoom_plus_pressed(0.15, event.position.x - Globals.controls_width)
+	elif  event is InputEventPanGesture and event.position.x > Globals.controls_width  - 13 and event.delta.y == 0:
+		if event.delta.x > 0:
+			await move_top_and_bottom(0.05, 0.05)
+		elif event.delta.x < 0:
+			await move_top_and_bottom(-0.05, -0.05)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var drag_start = event.position
