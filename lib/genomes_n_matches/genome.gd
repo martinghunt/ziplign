@@ -301,13 +301,18 @@ func reset_contig_coords():
 			
 	zoomed_contigs = new_zoomed
 
+
 func set_x_left(x):
 	x_left = x + Globals.controls_width
 	reset_contig_coords()
 
 
-
-func set_x_zoom(new_x_zoom):
+func set_x_zoom(new_x_zoom, centre=null):
+	if centre == null:
+		centre = Globals.controls_width + 0.5 * (Globals.genomes_viewport_width)
+	else:
+		centre += Globals.controls_width
+	x_left = centre - new_x_zoom * (centre - x_left) / x_zoom
 	x_zoom = new_x_zoom
 	reset_contig_coords()
 
@@ -334,6 +339,7 @@ func draw_pos_to_genome_and_contig_pos(x):
 			return  [i, x - base_contig_pos[contig_names[i]][0]]
 	return [len(contig_names)-1, contig_length_from_index(len(contig_names)-1)]
 
+
 func screen_x_pos_to_genome_contig_and_pos(screen_x):
 	var x = (screen_x / x_zoom) - x_left
 	return draw_pos_to_genome_and_contig_pos(x)
@@ -345,7 +351,7 @@ func name_of_selected_contig():
 	else:
 		return contig_names[selected_contig]
 
-	
+
 func deselect_contig():
 	if selected_contig != -1:
 		contigs[contig_names[selected_contig]].deselect()

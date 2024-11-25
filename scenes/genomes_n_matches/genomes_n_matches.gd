@@ -76,7 +76,6 @@ func _ready():
 	add_child(matches)
 	matches.set_top_bottom_coords(global_top + genome_height + 10, global_bottom - genome_height - 10)
 	max_genome_x = max(top_genome.last_contig_end, bottom_genome.last_contig_end)
-	set_x_zoom(get_default_x_zoom())
 	matches.connect("moved_to_selected_match", _on_moved_to_selected_match)
 	matches.connect("match_selected", _on_match_selected)
 	matches.connect("match_deselected", _on_match_deselected)
@@ -104,19 +103,29 @@ func _ready():
 		Vector2(0, 0),
 	]
 	dragging_rect.z_index = 10
+	_on_button_zoom_reset_pressed()
 	
 
 func get_default_x_zoom():
 	return Globals.genomes_viewport_width / (1.05 * max_genome_x)
 
-func set_x_zoom(zoom):
+func set_x_zoom(zoom, centre=null):
+	#if centre == -1:
+	#	centre = Globals.controls_width + 0.5 * get_viewport().get_visible_rect().size.x
+	if matches.selected != -1:
+		# FIXME
+		pass
+
 	x_zoom = zoom
-	top_genome.set_x_zoom(x_zoom)
-	bottom_genome.set_x_zoom(x_zoom)
-	matches.set_x_zoom(x_zoom)
-	if matches.move_to_selected() == -1:
-		_on_right_top_scrollbar_value_changed(top_scrollbar_value)
-		_on_right_bottom_scrollbar_value_changed(bottom_scrollbar_value)
+	top_genome.set_x_zoom(x_zoom, centre)
+	bottom_genome.set_x_zoom(x_zoom, centre)
+	matches.set_x_zoom(x_zoom, centre)
+	top_x = top_genome.x_left - Globals.controls_width
+	top_scrollbar_value = 100 * (1 - top_x) /  (x_zoom * top_genome.last_contig_end)
+	hscrollbar_set_top_value.emit(top_scrollbar_value)
+	bottom_x = bottom_genome.x_left - Globals.controls_width
+	bottom_scrollbar_value = 100 * (1 - bottom_x) /  (x_zoom * bottom_genome.last_contig_end)
+	hscrollbar_set_bottom_value.emit(bottom_scrollbar_value)
 
 
 func _on_right_top_scrollbar_value_changed(value):
@@ -136,6 +145,7 @@ func _on_right_bottom_scrollbar_value_changed(value):
 func _on_button_zoom_reset_pressed():
 	matches.deselect()
 	match_deselected.emit()
+	set_x_zoom(get_default_x_zoom())
 	top_genome.set_x_left(1)
 	bottom_genome.set_x_left(1)
 	matches.set_top_x_left(1)
@@ -144,37 +154,37 @@ func _on_button_zoom_reset_pressed():
 	hscrollbar_set_bottom_value.emit(0)
 	top_scrollbar_value = 0
 	bottom_scrollbar_value = 0
-	set_x_zoom(get_default_x_zoom())
 
 
-func _on_button_zoom_minus_pressed():
+
+func _on_button_zoom_minus_pressed(multiplier = 1, centre=null):
 	if x_zoom <= max(get_default_x_zoom() / 2, 0.00011):
 		pass
 	elif x_zoom <= 0.0011:
-		set_x_zoom(x_zoom - 0.0001)
+		set_x_zoom(x_zoom - multiplier * 0.0001, centre)
 	elif x_zoom <= 0.011:
-		set_x_zoom(x_zoom - 0.001)
+		set_x_zoom(x_zoom - multiplier * 0.001, centre)
 	elif x_zoom <= 0.11:
-		set_x_zoom(x_zoom - 0.01)
+		set_x_zoom(x_zoom - multiplier * 0.01, centre)
 	elif x_zoom <= 1:
-		set_x_zoom(x_zoom - 0.1)
+		set_x_zoom(x_zoom - multiplier * 0.1, centre)
 	else:
-		set_x_zoom(x_zoom - 1)
+		set_x_zoom(x_zoom - multiplier * 1, centre)
 
 
-func _on_button_zoom_plus_pressed():
+func _on_button_zoom_plus_pressed(multiplier = 1, centre=null):
 	if x_zoom >= 20:
 		pass
 	elif x_zoom >= 1:
-		set_x_zoom(x_zoom + 1)
+		set_x_zoom(x_zoom + multiplier * 1, centre)
 	elif x_zoom >= 0.1:
-		set_x_zoom(x_zoom + 0.1)
+		set_x_zoom(x_zoom + multiplier * 0.1, centre)
 	elif x_zoom >= 0.01:
-		set_x_zoom(x_zoom + 0.01)
+		set_x_zoom(x_zoom + multiplier * 0.01, centre)
 	elif x_zoom >= 0.001:
-		set_x_zoom(x_zoom + 0.001)
+		set_x_zoom(x_zoom + multiplier * 0.001, centre)
 	else:
-		set_x_zoom(x_zoom + 0.0001)
+		set_x_zoom(x_zoom + multiplier * 0.0001, centre)
 
 	
 func _on_button_zoom_bp_pressed():
@@ -182,8 +192,8 @@ func _on_button_zoom_bp_pressed():
 
 func _on_moved_to_selected_match(selected_id):
 	var s = matches.matches[selected_id]
-	var x_top = min(s.start1, s.end1) * x_zoom - 20
-	var x_bottom = x_zoom * s.start2 - 20
+	var x_top = - 0.5 * Globals.genomes_viewport_width + min(s.start1, s.end1) * x_zoom
+	var x_bottom = - 0.5 * Globals.genomes_viewport_width + x_zoom * s.start2
 	top_genome.set_x_left(-x_top)
 	bottom_genome.set_x_left(-x_bottom)
 	matches.set_x_lefts(-x_top, -x_bottom)
@@ -234,12 +244,16 @@ func _on_game_new_project_go():
 
 
 func shift_top(x_shift):
+	if x_shift == 0:
+		return
 	top_scrollbar_value += x_shift
 	_on_right_top_scrollbar_value_changed(top_scrollbar_value)
 	hscrollbar_set_top_value.emit(top_scrollbar_value)
 
 
 func shift_bottom(x_shift):
+	if x_shift == 0:
+		return
 	bottom_scrollbar_value += x_shift
 	_on_right_bottom_scrollbar_value_changed(bottom_scrollbar_value)
 	hscrollbar_set_bottom_value.emit(bottom_scrollbar_value)
@@ -247,8 +261,10 @@ func shift_bottom(x_shift):
 
 func move_top_and_bottom(top_frac, bottom_frac):
 	var d = 80 * get_viewport().get_visible_rect().size.x / x_zoom
-	shift_top(d * top_frac / top_genome.last_contig_end)
-	shift_bottom(d * bottom_frac / bottom_genome.last_contig_end)
+	if top_frac != 0:
+		shift_top(d * top_frac / top_genome.last_contig_end)
+	if bottom_frac != 0:
+		shift_bottom(d * bottom_frac / bottom_genome.last_contig_end)
 
 
 func start_processing_overlay():
@@ -421,6 +437,15 @@ func _unhandled_input(event):
 					save_view(i)
 				elif i in saved_views:
 					load_view(i)
+	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		_on_button_zoom_minus_pressed(0.2, event.position.x - Globals.controls_width)
+	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		_on_button_zoom_plus_pressed(0.2, event.position.x - Globals.controls_width)
+	elif event is InputEventPanGesture and event.position.x > Globals.controls_width  - 13 and event.delta.x == 0:
+		if event.delta.y > 0:
+			_on_button_zoom_minus_pressed(0.15, event.position.x - Globals.controls_width)
+		else:
+			_on_button_zoom_plus_pressed(0.15, event.position.x - Globals.controls_width)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var drag_start = event.position

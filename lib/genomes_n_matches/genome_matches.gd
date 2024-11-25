@@ -29,9 +29,15 @@ func update_hide_and_show():
 		m.update_visibility()
 
 
-func set_x_zoom(new_x_zoom):
+func set_x_zoom(new_x_zoom, centre=null):
+	if centre == null:
+		centre = 0.5 * (Globals.genomes_viewport_width)
+	x_left_bottom = centre - new_x_zoom * (centre - x_left_bottom) / x_zoom
+	x_left_top = centre - new_x_zoom * (centre - x_left_top) / x_zoom
 	x_zoom = new_x_zoom
 	for m in matches:
+		m.x_left_start1 = x_left_top + Globals.controls_width
+		m.x_left_start2 = x_left_bottom + Globals.controls_width
 		m.set_x_zoom(x_zoom)
 
 
@@ -57,8 +63,6 @@ func move_to_selected():
 	if selected == -1:
 		return -1
 
-	set_top_x_left(-matches[selected].x_left_start1)
-	set_bottom_x_left(-matches[selected].x_left_start2)
 	moved_to_selected_match.emit(selected)
 	return selected
 
@@ -111,10 +115,10 @@ func _unhandled_input(event):
 		
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed or event.double_click:
+			if event.pressed:
 				if len(hover_matches) >= 1:
 					var match_id = hover_matches[-1]
-					if selected != -1 and selected == match_id:
+					if selected != -1 and selected == match_id and event.is_double_click():
 						moved_to_selected_match.emit(selected)
 						return
 					matches[selected].deselect()
