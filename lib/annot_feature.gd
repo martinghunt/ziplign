@@ -79,7 +79,7 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
 	name_label.add_theme_font_override("font", Globals.fonts["dejavu"])
 	name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)
-	name_label.set_mouse_filter(Control.MOUSE_FILTER_PASS)
+	#name_label.set_mouse_filter(Control.MOUSE_FILTER_PASS)
 	name_label.set_vertical_alignment(VERTICAL_ALIGNMENT_CENTER)
 	name_label.clip_text = true
 	#name_label.theme = Theme.new()
