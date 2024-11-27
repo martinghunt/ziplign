@@ -201,7 +201,6 @@ func _on_main_start_init():
 	print("Detected screen size: ", screen_size.x, "x", screen_size.y)
 	print("Resize TNA window to: ", wanted_width, "x", wanted_height)
 	DisplayServer.window_set_size(Vector2i(wanted_width, wanted_height))
-	var top_left_for_center_x = screen_size.x / 2 - wanted_width
 	DisplayServer.window_set_position(Vector2((screen_size.x - wanted_width) / 2, (screen_size.y - wanted_height) / 2))
 	show()
 	await run_all()

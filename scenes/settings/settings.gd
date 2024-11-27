@@ -7,12 +7,14 @@ func _ready():
 	hide()
 
 func _on_return_button_pressed():
+	Globals.userdata.save_config()
 	hide()
 	return_to_main_menu.emit()
 
 
 func _on_main_menu_open_settings():
-	$CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton.set_selected_to_match_theme()
+	$VBoxContainer/GridContainer/ThemeOptionButton.set_selected_to_match_theme()
+	$VBoxContainer/GridContainer/MouseWheelSensLineEdit._ready()
 	show()
 
 func _on_theme_option_button_theme_updated():

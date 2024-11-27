@@ -37,8 +37,8 @@ var y_drag_top_top = 0
 var y_drag_top_bottom = 0
 var y_drag_bottom_top = 0
 var y_drag_bottom_bottom = 0
-
-
+var max_allowed_zoom = 20
+var min_allowed_zoom = 0.0
 
 func set_matches():
 	var coords = []
@@ -103,6 +103,7 @@ func _ready():
 		Vector2(0, 0),
 	]
 	dragging_rect.z_index = 10
+	min_allowed_zoom = max(get_default_x_zoom() / 2, 0.00011)
 	_on_button_zoom_reset_pressed()
 	
 
@@ -111,7 +112,16 @@ func get_default_x_zoom():
 
 
 func set_x_zoom(zoom, centre=null):
-	x_zoom = zoom
+	if x_zoom == zoom:
+		return
+	
+	if zoom <= min_allowed_zoom:
+		x_zoom = min_allowed_zoom
+	elif zoom >= max_allowed_zoom:
+		x_zoom = max_allowed_zoom
+	else:
+		x_zoom = zoom
+
 	top_genome.set_x_zoom(x_zoom, centre)
 	bottom_genome.set_x_zoom(x_zoom, centre)
 	matches.set_x_zoom(x_zoom, centre)
@@ -155,7 +165,7 @@ func _on_button_zoom_reset_pressed():
 
 
 func _on_button_zoom_minus_pressed(multiplier = 1, centre=null):
-	if x_zoom <= max(get_default_x_zoom() / 2, 0.00011):
+	if x_zoom <= min_allowed_zoom:
 		pass
 	elif x_zoom <= 0.0011:
 		set_x_zoom(x_zoom - multiplier * 0.0001, centre)
@@ -170,7 +180,7 @@ func _on_button_zoom_minus_pressed(multiplier = 1, centre=null):
 
 
 func _on_button_zoom_plus_pressed(multiplier = 1, centre=null):
-	if x_zoom >= 20:
+	if x_zoom >= max_allowed_zoom:
 		pass
 	elif x_zoom >= 1:
 		set_x_zoom(x_zoom + multiplier * 1, centre)
@@ -225,7 +235,7 @@ func _on_contig_selected(top_or_bottom):
 	enable_contig_ops.emit(true)
 
 
-func _on_contig_deselected(top_or_bottom):
+func _on_contig_deselected():
 	contig_deselected.emit()
 	enable_contig_ops.emit(false)
 
@@ -435,19 +445,17 @@ func _unhandled_input(event):
 				elif i in saved_views:
 					load_view(i)
 	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-		_on_button_zoom_minus_pressed(0.2, event.position.x - Globals.controls_width)
+		await _on_button_zoom_minus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.2, event.position.x - Globals.controls_width)
 	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.button_index == MOUSE_BUTTON_WHEEL_UP:
-		_on_button_zoom_plus_pressed(0.2, event.position.x - Globals.controls_width)
-	elif event is InputEventPanGesture and event.position.x > Globals.controls_width  - 13 and event.delta.x == 0:
-		if event.delta.y > 0:
-			_on_button_zoom_minus_pressed(0.15, event.position.x - Globals.controls_width)
-		elif event.delta.y < 0:
-			_on_button_zoom_plus_pressed(0.15, event.position.x - Globals.controls_width)
-	elif  event is InputEventPanGesture and event.position.x > Globals.controls_width  - 13 and event.delta.y == 0:
-		if event.delta.x > 0:
-			await move_top_and_bottom(0.05, 0.05)
-		elif event.delta.x < 0:
-			await move_top_and_bottom(-0.05, -0.05)
+		await _on_button_zoom_plus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.2, event.position.x - Globals.controls_width)
+	elif event is InputEventPanGesture and event.position.x > Globals.controls_width - 13:
+		if Globals.userdata.config.get_value("trackpad", "v_sens") > 0 and event.delta.x == 0:
+			if event.delta.y > 0:
+				await _on_button_zoom_minus_pressed(event.delta.y * Globals.userdata.config.get_value("trackpad", "v_sens"), event.position.x - Globals.controls_width)
+			elif event.delta.y < 0:
+				await _on_button_zoom_plus_pressed(-event.delta.y * Globals.userdata.config.get_value("trackpad", "v_sens"), event.position.x - Globals.controls_width)
+		elif Globals.userdata.config.get_value("trackpad", "h_sens") > 0 and event.delta.y == 0:
+			await move_top_and_bottom(Globals.userdata.config.get_value("trackpad", "h_sens") * event.delta.x, Globals.userdata.config.get_value("trackpad", "h_sens") * event.delta.x)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var drag_start = event.position

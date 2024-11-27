@@ -2,6 +2,17 @@ extends Node
 
 class_name UserData
 
+
+var default_config = {
+	"colours": {"theme": "Light"},
+	"mouse": {"wheel_sens": 1},
+	"trackpad": {
+		"v_sens": 1,
+		"h_sens": 1,
+	}
+}
+
+
 func get_os():
 	var got_os = OS.get_name()
 	match got_os:
@@ -75,7 +86,6 @@ func does_example_data_exist():
 	return true
 
 
-
 func get_architecture():
 	var got_arch = Engine.get_architecture_name()
 	if "x86" in got_arch or "arm" in got_arch:
@@ -139,17 +149,27 @@ func check_all_paths():
 	
 func make_default_config():
 	config.clear()
-	config.set_value("colours", "theme", "Light")
+	for section in default_config:
+		for key in default_config[section]:
+			config.set_value(section, key, default_config[section][key])
 	config.save(config_file)
 
 
 func load_config():
 	config.load(config_file)
-
+	var any_missing = false
+	for section in default_config:
+		for key in default_config[section]:
+			if not config.has_section_key(section, key):
+				config.set_value(section, key, default_config[section][key])
+				any_missing = true
+	
+	if any_missing:
+		save_config()
+		
 
 func save_config():
 	config.save(config_file)
-
 
 
 func _init():

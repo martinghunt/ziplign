@@ -234,11 +234,11 @@ func clear_nt_labels():
 	nt_labels.clear()
 	
 
-func update_annot_visiblity_recalc_all(x_zoom):
+func update_annot_visiblity_recalc_all(zoom):
 	for cname in contigs:
-		contigs[cname].set_annot_visibility(x_zoom)
+		contigs[cname].set_annot_visibility(zoom)
 
-func update_annot_visibility(old_x_zoom, old_x_left, window_resize=false):
+func update_annot_visibility(old_x_zoom, old_x_left):
 	var new_range_start = 0
 	var new_range_end = Globals.controls_width + Globals.genomes_viewport_width
 	var old_range_start = (x_left - old_x_left) * x_zoom / old_x_zoom
@@ -273,7 +273,7 @@ func reset_contig_coords(old_x_zoom, old_x_left, window_resize=false):
 		contigs[cname].set_start_end(x_left + base_contig_pos[cname][0] * x_zoom, x_left + base_contig_pos[cname][1] * x_zoom)
 		#contigs[cname].set_annot_visibility(x_zoom)
 
-	update_annot_visibility(old_x_zoom, old_x_left, window_resize)
+	update_annot_visibility(old_x_zoom, old_x_left)
 
 	var result = draw_pos_to_genome_and_contig_pos(-x_left / x_zoom)
 	left_genome_index = result[0]
@@ -414,7 +414,7 @@ func _unhandled_input(event):
 				if len(hover_matches) == 1:
 					var contig_id = hover_matches.keys()[0]
 					if event.is_double_click():
-						var genome_and_comtig_pos = draw_pos_to_genome_and_contig_pos(event.position.x)
+						#var genome_and_comtig_pos = draw_pos_to_genome_and_contig_pos(event.position.x)
 						move_to_pos.emit(top_or_bottom, event.position.x)
 						deselect_contig()
 						return

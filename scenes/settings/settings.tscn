@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=8 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
 [ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_0qsbv"]
 [ext_resource type="Script" path="res://scenes/settings/ThemeOptionButton.gd" id="2_4nf2k"]
 [ext_resource type="Script" path="res://scenes/settings/OpenDataDirButton.gd" id="3_jpjef"]
+[ext_resource type="Script" path="res://scenes/settings/mouse_wheel_sens_line_edit.gd" id="5_8s1xb"]
+[ext_resource type="Script" path="res://scenes/settings/trackpad_zoom_sens_line_edit.gd" id="6_y1n4g"]
+[ext_resource type="Script" path="res://scenes/settings/trackpad_lr_sens_line_edit.gd" id="7_ev6cu"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -14,57 +17,98 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qtfdy")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 492.0
+offset_bottom = 142.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="TopHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="TopHBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer/TopHBoxContainer"]
+[node name="ReturnButton" type="Button" parent="VBoxContainer/TopHBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_0qsbv")
 theme_override_font_sizes/font_size = 30
 text = "3"
 
-[node name="ReturnLabel" type="Label" parent="CenterContainer/VBoxContainer/TopHBoxContainer"]
+[node name="ReturnLabel" type="Label" parent="VBoxContainer/TopHBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "back to main menu"
 
-[node name="ThemeVBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
+columns = 2
 
-[node name="ThemeLabel" type="Label" parent="CenterContainer/VBoxContainer/ThemeVBoxContainer"]
+[node name="ThemeLabel" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 text = "Theme"
 
-[node name="ThemeOptionButton" type="OptionButton" parent="CenterContainer/VBoxContainer/ThemeVBoxContainer"]
+[node name="ThemeOptionButton" type="OptionButton" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 script = ExtResource("2_4nf2k")
 
-[node name="OpenDataDirContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="OpenDataDirLabel" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Open TNA data folder"
 
-[node name="OpenDataDirButton" type="Button" parent="CenterContainer/VBoxContainer/OpenDataDirContainer"]
+[node name="OpenDataDirButton" type="Button" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_0qsbv")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 text = "4"
 script = ExtResource("3_jpjef")
 
-[node name="OpenDataDirLabel" type="Label" parent="CenterContainer/VBoxContainer/OpenDataDirContainer"]
+[node name="MouseWheelSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Open TNA data folder"
+theme_override_font_sizes/font_size = 25
+text = "Mouse wheel sensitivity"
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/TopHBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
-[connection signal="item_selected" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" method="_on_item_selected"]
-[connection signal="theme_updated" from="CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton" to="." method="_on_theme_option_button_theme_updated"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" to="CenterContainer/VBoxContainer/OpenDataDirContainer/OpenDataDirButton" method="_on_pressed"]
+[node name="MouseWheelSensLineEdit" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+select_all_on_focus = true
+script = ExtResource("5_8s1xb")
+
+[node name="TrackpadZoomSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Trackpad zoom sensitivity"
+
+[node name="TrackpadZoomSensLineEdit" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+select_all_on_focus = true
+script = ExtResource("6_y1n4g")
+
+[node name="TrackpadLRSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Trackpad left/right sensitivity"
+
+[node name="TrackpadLRSensLineEdit" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+select_all_on_focus = true
+script = ExtResource("7_ev6cu")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="pressed" from="VBoxContainer/TopHBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="item_selected" from="VBoxContainer/GridContainer/ThemeOptionButton" to="VBoxContainer/GridContainer/ThemeOptionButton" method="_on_item_selected"]
+[connection signal="theme_updated" from="VBoxContainer/GridContainer/ThemeOptionButton" to="." method="_on_theme_option_button_theme_updated"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/OpenDataDirButton" to="VBoxContainer/GridContainer/OpenDataDirButton" method="_on_pressed"]
+[connection signal="focus_exited" from="VBoxContainer/GridContainer/MouseWheelSensLineEdit" to="VBoxContainer/GridContainer/MouseWheelSensLineEdit" method="_on_focus_exited"]
+[connection signal="text_submitted" from="VBoxContainer/GridContainer/MouseWheelSensLineEdit" to="VBoxContainer/GridContainer/MouseWheelSensLineEdit" method="_on_text_submitted"]
+[connection signal="focus_exited" from="VBoxContainer/GridContainer/TrackpadZoomSensLineEdit" to="VBoxContainer/GridContainer/TrackpadZoomSensLineEdit" method="_on_focus_exited"]
+[connection signal="text_submitted" from="VBoxContainer/GridContainer/TrackpadZoomSensLineEdit" to="VBoxContainer/GridContainer/TrackpadZoomSensLineEdit" method="_on_text_submitted"]
+[connection signal="focus_exited" from="VBoxContainer/GridContainer/TrackpadLRSensLineEdit" to="VBoxContainer/GridContainer/TrackpadLRSensLineEdit" method="_on_focus_exited"]
+[connection signal="text_submitted" from="VBoxContainer/GridContainer/TrackpadLRSensLineEdit" to="VBoxContainer/GridContainer/TrackpadLRSensLineEdit" method="_on_text_submitted"]

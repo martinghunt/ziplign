@@ -80,10 +80,9 @@ func reset_colours():
 		$NewProject/MainVBoxContainer/HBoxContainer,
 		$NewProject/MainVBoxContainer/GridContainer,
 		$NewProject/MainVBoxContainer/StatusGenomeContainer,
-		$Settings/CenterContainer/VBoxContainer,
-		$Settings/CenterContainer/VBoxContainer/TopHBoxContainer,
-		$Settings/CenterContainer/VBoxContainer/ThemeVBoxContainer,
-		$Settings/CenterContainer/VBoxContainer/OpenDataDirContainer,
+		$Settings/VBoxContainer,
+		$Settings/VBoxContainer/TopHBoxContainer,
+		$Settings/VBoxContainer/GridContainer,
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/TopGridContainer,
@@ -122,7 +121,7 @@ func reset_colours():
 	for x in to_set_tooltip:
 		set_tooltip_theme(x)
 
-	var optb = $Settings/CenterContainer/VBoxContainer/ThemeVBoxContainer/ThemeOptionButton
+	var optb = $Settings/VBoxContainer/GridContainer/ThemeOptionButton
 	optb.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	optb.get_theme_stylebox("hover").bg_color = Globals.theme.colours["ui"]["button_highlight"]
 	set_font_color(optb)

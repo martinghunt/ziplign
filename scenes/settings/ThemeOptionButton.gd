@@ -22,4 +22,3 @@ func _on_item_selected(index):
 		Globals.reload_needed = true
 		theme_updated.emit()
 		Globals.userdata.config.set_value("colours", "theme", names[index])
-		Globals.userdata.save_config()
