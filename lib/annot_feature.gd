@@ -26,8 +26,15 @@ func is_rev():
 	return gff_data[3]
 
 
+func is_on_screen():
+	return -Globals.controls_width <= poly.polygon[1].x \
+		and poly.polygon[0].x <= Globals.controls_width + Globals.genomes_viewport_width
+
+
 func set_visibility(zoom):
-	if zoom > Globals.zoom_to_show_annot_all \
+	if not is_on_screen():
+		hide()
+	elif zoom > Globals.zoom_to_show_annot_all \
 		or (zoom > Globals.zoom_to_show_annot_500 and (gff_data[1] - gff_data[0]) >= 500) \
 		or (zoom > Globals.zoom_to_show_annot_1k and (gff_data[1] - gff_data[0]) >= 1000) \
 		or (zoom > Globals.zoom_to_show_annot_2k and (gff_data[1] - gff_data[0]) >= 2000):

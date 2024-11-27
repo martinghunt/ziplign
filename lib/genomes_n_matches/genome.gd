@@ -233,11 +233,47 @@ func clear_nt_labels():
 		l.free()
 	nt_labels.clear()
 	
+
+func update_annot_visiblity_recalc_all(x_zoom):
+	for cname in contigs:
+		contigs[cname].set_annot_visibility(x_zoom)
+
+func update_annot_visibility(old_x_zoom, old_x_left, window_resize=false):
+	var new_range_start = 0
+	var new_range_end = Globals.controls_width + Globals.genomes_viewport_width
+	var old_range_start = (x_left - old_x_left) * x_zoom / old_x_zoom
+	var old_range_end = old_range_start + new_range_end * x_zoom / old_x_zoom
+
+	if old_range_start <= new_range_end and new_range_start <= old_range_end:
+		var left_start = min(old_range_start, new_range_start)
+		var right_end = max(old_range_end, new_range_end)
+		
+		if old_x_zoom != x_zoom:
+			for cname in contigs:
+				contigs[cname].update_annot_visibility_in_range(left_start, right_end, x_zoom)
+		else:
+			var left_end = max(old_range_start, new_range_start)
+			var right_start = min(old_range_end, new_range_end)
+			for cname in contigs:
+				contigs[cname].update_annot_visibility_in_range(left_start, left_end, x_zoom)
+				contigs[cname].update_annot_visibility_in_range(right_start, right_end, x_zoom)
+	else:
+		for cname in contigs:
+			contigs[cname].update_annot_visibility_in_range(old_range_start, old_range_end, x_zoom)
+			contigs[cname].update_annot_visibility_in_range(new_range_start, new_range_end, x_zoom)
+			#contigs[cname].set_annot_visibility(x_zoom)
+
 	
-func reset_contig_coords():
+func reset_contig_coords(old_x_zoom, old_x_left, window_resize=false):
+	if window_resize:
+		old_x_zoom = x_zoom
+		old_x_left = x_left
+		
 	for cname in contigs:
 		contigs[cname].set_start_end(x_left + base_contig_pos[cname][0] * x_zoom, x_left + base_contig_pos[cname][1] * x_zoom)
-		contigs[cname].set_annot_visibility(x_zoom)
+		#contigs[cname].set_annot_visibility(x_zoom)
+
+	update_annot_visibility(old_x_zoom, old_x_left, window_resize)
 
 	var result = draw_pos_to_genome_and_contig_pos(-x_left / x_zoom)
 	left_genome_index = result[0]
@@ -303,8 +339,9 @@ func reset_contig_coords():
 
 
 func set_x_left(x):
+	var old_x_left = x_left
 	x_left = x + Globals.controls_width
-	reset_contig_coords()
+	reset_contig_coords(x_zoom, old_x_left)
 
 
 func set_x_zoom(new_x_zoom, centre=null):
@@ -312,9 +349,11 @@ func set_x_zoom(new_x_zoom, centre=null):
 		centre = Globals.controls_width + 0.5 * (Globals.genomes_viewport_width)
 	else:
 		centre += Globals.controls_width
+	var old_x_left = x_left
 	x_left = centre - new_x_zoom * (centre - x_left) / x_zoom
+	var old_zoom = x_zoom
 	x_zoom = new_x_zoom
-	reset_contig_coords()
+	reset_contig_coords(old_zoom, old_x_left)
 
 
 func _ready():

@@ -99,6 +99,8 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 		annot_polys.append(AnnotFeatureClass.new(feature, f_top, f_bot, self))
 		add_child(annot_polys[-1])
 
+	annot_polys.sort_custom(func(a, b): return a.gff_data[0] < b.gff_data[0])
+
 
 func name():
 	return Globals.proj_data.genome_seqs[top_or_bottom]["names"][id]
@@ -157,6 +159,29 @@ func set_zoomed_view(turn_on):
 			x.set_top_and_bottom(gene_fwd_top, gene_fwd_bottom)
 
 
+func find_first_annot_before_pos(pos):
+	if len(annot_polys) == 0 \
+		or annot_polys[0].poly.polygon[0].x > pos:
+		return -1
+	if annot_polys[-1].poly.polygon[0].x < pos:
+		return len(annot_polys) - 1
+	var i = 0
+	var j = len(annot_polys) - 1
+
+	while i < j:
+		var k = ceili(0.5 *(i + j))
+		if annot_polys[k].poly.polygon[0].x > pos:
+			if k > 0 and annot_polys[k-1].poly.polygon[0].x <= pos:
+				return k - 1
+			j = k
+		elif annot_polys[k].poly.polygon[0].x == pos:
+			return k
+		else:
+			i = k
+
+	return -1
+
+
 func set_start_end(new_start, new_end):
 	x_start = new_start
 	x_end = new_end
@@ -181,6 +206,18 @@ func deselect():
 		centerline.default_color = Globals.theme.colours["contig"]["edge"]
 		leftvline.default_color = Globals.theme.colours["contig"]["edge"]
 		rightvline.default_color = Globals.theme.colours["contig"]["edge"]
+
+
+func update_annot_visibility_in_range(start, end, x_zoom):
+	if len(annot_polys) == 0 \
+	or start > end:
+		return
+
+	var i = find_first_annot_before_pos(end)
+	while i >= 0 and annot_polys[i].poly.polygon[1].x > start - 500:
+		annot_polys[i].set_visibility(x_zoom)
+		i -= 1
+
 
 func set_annot_visibility(zoom):
 	for x in annot_polys:

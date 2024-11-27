@@ -109,13 +109,8 @@ func _ready():
 func get_default_x_zoom():
 	return Globals.genomes_viewport_width / (1.05 * max_genome_x)
 
-func set_x_zoom(zoom, centre=null):
-	#if centre == -1:
-	#	centre = Globals.controls_width + 0.5 * get_viewport().get_visible_rect().size.x
-	if matches.selected != -1:
-		# FIXME
-		pass
 
+func set_x_zoom(zoom, centre=null):
 	x_zoom = zoom
 	top_genome.set_x_zoom(x_zoom, centre)
 	bottom_genome.set_x_zoom(x_zoom, centre)
@@ -154,6 +149,8 @@ func _on_button_zoom_reset_pressed():
 	hscrollbar_set_bottom_value.emit(0)
 	top_scrollbar_value = 0
 	bottom_scrollbar_value = 0
+	top_genome.update_annot_visiblity_recalc_all(x_zoom)
+	bottom_genome.update_annot_visiblity_recalc_all(x_zoom)
 
 
 
@@ -378,8 +375,8 @@ func _on_button_move_none_right_pressed():
 
 func _on_game_window_resized():
 	matches.update_hide_and_show()
-	top_genome.reset_contig_coords()
-	bottom_genome.reset_contig_coords()
+	top_genome.reset_contig_coords(-1, -1, true)
+	bottom_genome.reset_contig_coords(-1, -1, true)
 	$"../../ColorRect".size.x = get_viewport().get_visible_rect().size.x + 10
 
 func _on_revcomp_top_button_pressed():
