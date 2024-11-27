@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=10 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
 [ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_0qsbv"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scenes/settings/trackpad_zoom_sens_line_edit.gd" id="6_y1n4g"]
 [ext_resource type="Script" path="res://scenes/settings/trackpad_lr_sens_line_edit.gd" id="7_ev6cu"]
 [ext_resource type="Script" path="res://scenes/settings/trackpad_pinch_sens_line_edit.gd" id="8_xtnio"]
+[ext_resource type="Script" path="res://scenes/settings/blast_share_usage_button.gd" id="9_uqo3k"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -106,6 +107,18 @@ text = "Trackpad pinch sensitivity"
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 script = ExtResource("8_xtnio")
+
+[node name="BlastShareUsageLabel" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Share BLAST usage with NCBI"
+
+[node name="BlastShareUsageButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+toggle_mode = true
+text = "On"
+script = ExtResource("9_uqo3k")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 visible = false

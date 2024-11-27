@@ -17,6 +17,7 @@ func _on_main_menu_open_settings():
 	$VBoxContainer/GridContainer/MouseWheelSensLineEdit._ready()
 	$VBoxContainer/GridContainer/TrackpadZoomSensLineEdit._ready()
 	$VBoxContainer/GridContainer/TrackpadLRSensLineEdit._ready()
+	$VBoxContainer/GridContainer/BlastShareUsageButton._ready()
 	show()
 
 func _on_theme_option_button_theme_updated():

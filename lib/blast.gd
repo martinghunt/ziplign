@@ -1,8 +1,12 @@
 func run_blast(proj_dir, blast_program):
 	var opts = ["blast", "-t", blast_program, "-b", Globals.userdata.bin, "-o", proj_dir]
+	if Globals.userdata.config.get_value("blast", "share_data"):
+		opts.append("--send_usage_report")
+
 	if len(Globals.userdata.blast_options) > 0:
 		opts.append("--")
-		opts.append_array(Globals.userdata.blast_options.split(" ", false)) 
+		opts.append_array(Globals.userdata.blast_options.split(" ", false))
+
 	print("opts: ", Globals.userdata.tnahelper, opts)
 	var stderr = []
 	var exit_code = OS.execute(Globals.userdata.tnahelper, opts, stderr, true)

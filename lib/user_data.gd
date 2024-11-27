@@ -10,7 +10,8 @@ var default_config = {
 		"v_sens": 1,
 		"h_sens": 1,
 		"p_sens": 1,
-	}
+	},
+	"blast": {"share_data": false},
 }
 
 

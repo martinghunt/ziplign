@@ -31,7 +31,7 @@ func _http_request_completed(result, _response_code, _headers, _body):
 
 
 func download_tnahelper():
-	var url = "https://github.com/martinghunt/tnahelper/releases/download/v0.3.2/tnahelper_"
+	var url = "https://github.com/martinghunt/tnahelper/releases/download/v0.4.0/tnahelper_"
 	if Globals.userdata.os == "mac":
 		url += "darwin_"
 	else:
