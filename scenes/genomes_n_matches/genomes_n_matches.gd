@@ -456,6 +456,11 @@ func _unhandled_input(event):
 				await _on_button_zoom_plus_pressed(-event.delta.y * Globals.userdata.config.get_value("trackpad", "v_sens"), event.position.x - Globals.controls_width)
 		elif Globals.userdata.config.get_value("trackpad", "h_sens") > 0 and event.delta.y == 0:
 			await move_top_and_bottom(Globals.userdata.config.get_value("trackpad", "h_sens") * event.delta.x, Globals.userdata.config.get_value("trackpad", "h_sens") * event.delta.x)
+	elif event is InputEventMagnifyGesture and event.position.x > Globals.controls_width - 13:
+		if event.factor > 1:
+			await _on_button_zoom_plus_pressed(0.2 * Globals.userdata.config.get_value("trackpad", "p_sens") * event.factor, event.position.x - Globals.controls_width)
+		else:
+			await _on_button_zoom_minus_pressed(0.2 * Globals.userdata.config.get_value("trackpad", "p_sens") * (2 - event.factor), event.position.x - Globals.controls_width)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var drag_start = event.position

@@ -9,6 +9,7 @@ var default_config = {
 	"trackpad": {
 		"v_sens": 1,
 		"h_sens": 1,
+		"p_sens": 1,
 	}
 }
 
