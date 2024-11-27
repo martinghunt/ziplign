@@ -17,3 +17,7 @@ func _on_text_submitted(new_text):
 		min_match_pc_id_changed.emit(min_id)
 	text = str(min_id)
 	release_focus()
+
+
+func _on_focus_exited():
+	_on_text_submitted(text)

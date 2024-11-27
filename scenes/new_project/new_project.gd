@@ -144,11 +144,3 @@ func _on_reset_button_pressed():
 
 func _on_open_file_manager_button_pressed():
 	OS.shell_show_in_file_manager(Globals.userdata.home_dir)
-
-
-func _on_top_genome_line_edit_text_changed(new_text):
-	_on_top_genome_line_edit_text_submitted(new_text)
-
-
-func _on_bottom_genome_line_edit_text_changed(new_text):
-	_on_bottom_genome_line_edit_text_submitted(new_text)
