@@ -52,7 +52,7 @@ Why are the save/load windows slightly blurry?
 
 For the same reason as the tooltips. Please see the previous answer.
 One way around it is to make a custom save/load UI instead of the built-in
-ones the TNA currently uses, which is not worth the effort.
+ones that TNA currently uses, which is not worth the effort.
 
 
 Why not use ACT instead?
