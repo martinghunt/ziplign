@@ -395,7 +395,7 @@ func deselect_contig():
 	if selected_contig != -1:
 		contigs[contig_names[selected_contig]].deselect()
 		selected_contig = -1
-		contig_deselected.emit(top_or_bottom)
+		contig_deselected.emit()
 
 
 func select_contig(contig_id):
@@ -431,7 +431,7 @@ func _unhandled_input(event):
 				if selected_contig in hover_matches:
 					contigs[contig_names[selected_contig]].deselect()
 					selected_contig = -1
-					contig_deselected.emit(top_or_bottom)
+					contig_deselected.emit()
 
 
 func on_mouse_in_contig(match_id):
