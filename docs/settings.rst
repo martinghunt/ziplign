@@ -23,9 +23,13 @@ The options are:
   it to 2. If you want to turn it off completely, then set it to 0 (zero). Large
   values are not recommended, because one wheel movement will make TNA jump
   straight to maximum or minimum zoom.
+* Invert mouse wheel: use this to swap the effect of up/down on the mouse
+  wheel, if you think zoom happens in the wrong direction
 * Trackpad zoom sensitivity: change the sensitivity of two-finger up/down
   movement to zoom using a trackpad. Similarly to the mouse wheel description,
   think of this as a multiplier, with the default being 1.
+* Invert trackpad zoom: use this to swap the effect of up/down on the
+  trackpad, if you think zoom happens in the wrong direction
 * Trackpad left/right sensitivity: change the sensitivity of two-finger
   left/right movement.
 * Trackpad pinch sensitivity: change the sensitivity of pinch-zoom gesture
