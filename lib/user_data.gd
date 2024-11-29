@@ -5,9 +5,13 @@ class_name UserData
 
 var default_config = {
 	"colours": {"theme": "Light"},
-	"mouse": {"wheel_sens": 1},
+	"mouse": {
+		"wheel_sens": 1,
+		"invert_wheel": false,
+	},
 	"trackpad": {
 		"v_sens": 1,
+		"invert_v": false,
 		"h_sens": 1,
 		"p_sens": 1,
 	},

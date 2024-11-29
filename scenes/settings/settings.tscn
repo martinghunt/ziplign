@@ -1,12 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=12 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
 [ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_0qsbv"]
 [ext_resource type="Script" path="res://scenes/settings/ThemeOptionButton.gd" id="2_4nf2k"]
 [ext_resource type="Script" path="res://scenes/settings/OpenDataDirButton.gd" id="3_jpjef"]
 [ext_resource type="Script" path="res://scenes/settings/mouse_wheel_sens_line_edit.gd" id="5_8s1xb"]
+[ext_resource type="Script" path="res://scenes/settings/mouse_wheel_invert_button.gd" id="6_35556"]
 [ext_resource type="Script" path="res://scenes/settings/trackpad_zoom_sens_line_edit.gd" id="6_y1n4g"]
 [ext_resource type="Script" path="res://scenes/settings/trackpad_lr_sens_line_edit.gd" id="7_ev6cu"]
+[ext_resource type="Script" path="res://scenes/settings/trackpad_zoom_invert_button.gd" id="8_hnra4"]
 [ext_resource type="Script" path="res://scenes/settings/trackpad_pinch_sens_line_edit.gd" id="8_xtnio"]
 [ext_resource type="Script" path="res://scenes/settings/blast_share_usage_button.gd" id="9_uqo3k"]
 
@@ -76,6 +78,20 @@ theme_override_font_sizes/font_size = 25
 select_all_on_focus = true
 script = ExtResource("5_8s1xb")
 
+[node name="MouseWheelInvertLabel" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Invert mouse wheel"
+
+[node name="MouseWheelInvertButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("2_0qsbv")
+theme_override_font_sizes/font_size = 25
+toggle_mode = true
+text = "N"
+script = ExtResource("6_35556")
+
 [node name="TrackpadZoomSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
@@ -86,6 +102,20 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 25
 select_all_on_focus = true
 script = ExtResource("6_y1n4g")
+
+[node name="TrackpadZoomInvertLabel" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Invert trackpad zoom"
+
+[node name="TrackpadZoomInvertButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("2_0qsbv")
+theme_override_font_sizes/font_size = 25
+toggle_mode = true
+text = "N"
+script = ExtResource("8_hnra4")
 
 [node name="TrackpadLRSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -116,8 +146,10 @@ text = "Share BLAST usage with NCBI"
 [node name="BlastShareUsageButton" type="Button" parent="VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("2_0qsbv")
+theme_override_font_sizes/font_size = 25
 toggle_mode = true
-text = "On"
+text = "N"
 script = ExtResource("9_uqo3k")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]

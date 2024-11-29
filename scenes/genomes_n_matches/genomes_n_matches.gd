@@ -433,6 +433,15 @@ func y_drag_in_genome(y):
 		return 0
 		
 
+func event_is_wheel_up(event):
+	return (event.button_index == MOUSE_BUTTON_WHEEL_UP and not Globals.userdata.config.get_value("mouse", "invert_wheel")) \
+		or (event.button_index == MOUSE_BUTTON_WHEEL_DOWN and Globals.userdata.config.get_value("mouse", "invert_wheel"))
+
+func event_is_wheel_down(event):
+	return (event.button_index == MOUSE_BUTTON_WHEEL_DOWN and not Globals.userdata.config.get_value("mouse", "invert_wheel")) \
+		or (event.button_index == MOUSE_BUTTON_WHEEL_UP and Globals.userdata.config.get_value("mouse", "invert_wheel"))
+
+
 func _unhandled_input(event):
 	if Globals.paused:
 		return
@@ -444,12 +453,14 @@ func _unhandled_input(event):
 					save_view(i)
 				elif i in saved_views:
 					load_view(i)
-	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event_is_wheel_down(event):
 		await _on_button_zoom_minus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.2, event.position.x - Globals.controls_width)
-	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.button_index == MOUSE_BUTTON_WHEEL_UP:
+	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event_is_wheel_up(event):
 		await _on_button_zoom_plus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.2, event.position.x - Globals.controls_width)
 	elif event is InputEventPanGesture and event.position.x > Globals.controls_width - 13:
 		if Globals.userdata.config.get_value("trackpad", "v_sens") > 0 and event.delta.x == 0:
+			if Globals.userdata.config.get_value("trackpad", "invert_v"):
+				event.delta.y *= -1
 			if event.delta.y > 0:
 				await _on_button_zoom_minus_pressed(event.delta.y * Globals.userdata.config.get_value("trackpad", "v_sens"), event.position.x - Globals.controls_width)
 			elif event.delta.y < 0:
