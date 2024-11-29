@@ -144,7 +144,7 @@ func run_all():
 		await get_tree().create_timer(0.1).timeout
 		add_to_text_label.emit("Running: " + Globals.userdata.tnahelper + " " + " ".join(opts))
 		add_to_text_label.emit("[b]This may take some time, depending on internet bandwidth[/b]")
-		add_to_text_label.emit("Size of downloaded file (is up to around 200M total size): ")
+		add_to_text_label.emit("Size of downloaded file (is up to around 200-250M total size): ")
 		await get_tree().create_timer(0.1).timeout
 		var thread = Thread.new()
 		thread.start(OS.execute.bind(Globals.userdata.tnahelper, opts, stderr, true))
