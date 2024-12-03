@@ -8,10 +8,17 @@ where you can import two genomes to compare.
 Sequence files
 --------------
 
-You can add the top and bottom genome files by:
+You can add the top and bottom genome files with one of:
 
 * dragging and dropping from your file browser into the box
-* or typing the full path to the filename in the box
+* typing the full path to the filename in the box
+* typing in accession in the box. This can be a GenBank/RefSeq
+  accession starting with ``NC_``, ``AC_``, ``NZ_``, or ``NT_``, or an
+  assembly accession starting with ``GCA_`` or ``GCF_``. TNA will first
+  check that what you put in the box is not a file on your computer, then
+  if the accession starts with any of those then it will try to download it
+  when the "start" button is pressed later. It will download a FASTA file and
+  also try to get a GFF file for annotation.
 
 TNA automatically detects the format (and any compression)
 of each sequence file based on its contents, not the name of the file.
@@ -28,6 +35,8 @@ TNA supports these file formats:
 
 TNA can read uncompressed files, and files compressed with gzip, bzip2 and
 xz.
+
+
 
 
 
