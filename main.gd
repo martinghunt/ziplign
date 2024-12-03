@@ -67,7 +67,7 @@ func reset_colours():
 		$MainMenu/StatusRichTextLabel,
 		$Init/StatusRichTextLabel,
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText,
-		$NewProject/MainVBoxContainer/InfoRichTextLabel,
+		$NewProject/MainVBoxContainer/ScrollContainer/InfoRichTextLabel,
 		$Game/ColorRect/ProcessingLabel,
 	]
 	for x in ui_text_to_set:
@@ -164,7 +164,7 @@ func reset_colours():
 	
 func _ready():
 	reset_colours()
-	$NewProject/MainVBoxContainer/InfoRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
+	$NewProject/MainVBoxContainer/ScrollContainer/InfoRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
 	$MainMenu/StatusRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
 	$Init/StatusRichTextLabel.add_theme_font_override("normal_font", Globals.fonts["mono"])
 	$Init/StatusRichTextLabel.add_theme_font_override("bold_font", Globals.fonts["mono_bold"])

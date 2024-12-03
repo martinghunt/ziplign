@@ -13,7 +13,14 @@ signal reset_compare_line_edit
 
 var filename1 = ""
 var filename2 = ""
-
+var ACCESSION_PREFIXES = [
+	"GCA_",
+	"GCF_",
+	"NC_",
+	"AC_",
+	"NZ_",
+	"NT_",
+]
 
 func _ready():
 	hide()
@@ -71,16 +78,27 @@ func on_files_dropped(files):
 	update_go_button()
 	update_status_text()
 
+func looks_like_genome_accession(accession):
+	for p in ACCESSION_PREFIXES:
+		if accession.begins_with(p):
+			return true
+	return false
+
 
 func _on_go_button_pressed():
 	# see https://github.com/godotengine/godot/issues/73296
 	# found adding all these timeouts made the text label update.
 	# Without them it doesn't change
 	await get_tree().process_frame
+	var file_types = {"Top": "file", "Bottom": "file"}
+
 	
 	for l in [[filename1, "Top"], [filename2, "Bottom"]]:
 		if FileAccess.file_exists(l[0]):
 			append_to_info_text.emit(l[1] + " genome file found: " + l[0])
+		elif looks_like_genome_accession(l[0]):
+			append_to_info_text.emit(l[1] + " genome looks like accession, not file. Will try to download")
+			file_types[l[1]] = "accession"
 		else:
 			append_to_info_text.emit("[color=red]" + l[1] + " genome file not found: " + l[0] + "[/color]")
 			set_status_text.emit(l[1] + " genome not found! Reset and try again")
@@ -90,13 +108,33 @@ func _on_go_button_pressed():
 	Globals.proj_data.create(Globals.userdata.current_proj_dir)
 	await get_tree().create_timer(0.1).timeout
 	
-	append_to_info_text.emit("Start importing genomes:\n  " + filename1 + "\n  " + filename2)
+	append_to_info_text.emit("Start importing genomes (takes time if downloading)", false)
 	await get_tree().create_timer(0.1).timeout
-	Globals.proj_data.import_genomes(filename1, filename2)
+	var thread = Thread.new()
+	thread.start(Globals.proj_data.import_genomes.bind(filename1, file_types["Top"], filename2, file_types["Bottom"]))
+	var count = 0
+	while thread.is_alive():
+		await get_tree().create_timer(min(count, 3)).timeout
+		count += 1
+		append_to_info_text.emit(".", false)
+	var errors = thread.wait_to_finish()
+	append_to_info_text.emit("\nImporting finished")
+	var ok = (errors[0] == 0 and errors[1] == 0)
+	append_to_info_text.emit("  top genome ok: " + str(errors[0] == 0))
+	append_to_info_text.emit("  bottom genome ok: " + str(errors[1] == 0))
+	if not ok:
+		append_to_info_text.emit("[color=red]Errors loading genome(s). Cannot continue[/color]")
+		set_status_text.emit("Errors loading genome(s). Reset and try again")
+		return
 	
 	append_to_info_text.emit("Genomes imported. Running blast")
 	await get_tree().create_timer(0.1).timeout
-	Globals.proj_data.run_blast()
+	var result = Globals.proj_data.run_blast()
+	if result[0] != 0:
+		append_to_info_text.emit("Blast output (has errors):\n" + "\n".join(result[1]))
+		append_to_info_text.emit("[color=red]Error running blast[/color]")
+		set_status_text.emit("Error running blast")
+		return
 	
 	append_to_info_text.emit("Blast finished. Loading results")
 	await get_tree().create_timer(0.1).timeout

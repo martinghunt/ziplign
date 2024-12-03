@@ -91,6 +91,8 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	gff_features = annotation
 	for feature in gff_features:
+		if feature[0] == 0 and feature[1] == length_in_bp - 1:
+			continue
 		var f_top = gene_fwd_top
 		var f_bot = gene_fwd_bottom
 		if feature[3]: # is reverse

@@ -21,7 +21,7 @@ script = ExtResource("1_cvvaa")
 [node name="MainVBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_right = 1110.0
-offset_bottom = 430.0
+offset_bottom = 642.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainVBoxContainer"]
 layout_mode = 2
@@ -124,17 +124,24 @@ script = ExtResource("4_n1phj")
 [node name="HSeparator2" type="HSeparator" parent="MainVBoxContainer"]
 layout_mode = 2
 
-[node name="InfoRichTextLabel" type="RichTextLabel" parent="MainVBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="InfoRichTextLabel" type="RichTextLabel" parent="MainVBoxContainer/ScrollContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 100)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 22
 fit_content = true
-scroll_active = false
+scroll_following = true
 script = ExtResource("5_4kmm3")
 
-[connection signal="append_to_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_append_to_info_text"]
-[connection signal="clear_info_text" from="." to="MainVBoxContainer/InfoRichTextLabel" method="_on_new_project_clear_info_text"]
+[connection signal="append_to_info_text" from="." to="MainVBoxContainer/ScrollContainer/InfoRichTextLabel" method="_on_new_project_append_to_info_text"]
+[connection signal="clear_info_text" from="." to="MainVBoxContainer/ScrollContainer/InfoRichTextLabel" method="_on_new_project_clear_info_text"]
 [connection signal="enable_go_button" from="." to="MainVBoxContainer/GridContainer/GoButton" method="_on_new_project_enable_go_button"]
 [connection signal="reset_compare_line_edit" from="." to="MainVBoxContainer/GridContainer/CompareLineEdit" method="_on_new_project_reset_compare_line_edit"]
 [connection signal="set_status_text" from="." to="MainVBoxContainer/StatusGenomeContainer/StatusLabel" method="_on_new_project_set_status_text"]

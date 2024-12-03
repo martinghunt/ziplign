@@ -14,7 +14,7 @@ func run_blast(proj_dir, blast_program):
 		print(x)
 	if exit_code != 0:
 		print("Error running blast")
-	return exit_code
+	return [exit_code, stderr]
 
 
 func load_tsv_file(filename):

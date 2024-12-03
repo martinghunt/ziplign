@@ -76,10 +76,20 @@ func set_paths():
 	blast_db = root_dir.path_join("blast_db")
 
 
-func import_genomes(top_fasta, bottom_fasta):
-	fastaq_lib.to_fasta(top_fasta, genome_top_file_prefix)
-	fastaq_lib.to_fasta(bottom_fasta, genome_bottom_file_prefix)
+func get_genome(filename, file_type, outprefix):
+	if file_type == "file":
+		return fastaq_lib.to_fasta(filename, outprefix)
+	elif file_type == "accession":
+		return fastaq_lib.download_genome(filename, outprefix)
+	else:
+		return -1
 
+func import_genomes(top_fasta, top_type, bottom_fasta, bottom_type):
+	var err1 = get_genome(top_fasta, top_type, genome_top_file_prefix)
+	var err2 = get_genome(bottom_fasta, bottom_type, genome_bottom_file_prefix)
+	print("import_genomes END. going to return: ", [err1, err2])
+	return [err1, err2]
+	
 
 func load_genomes():
 	genome_seqs = {} # saves some ram if project already loaded
@@ -101,7 +111,7 @@ func load_annotation_files():
 
 
 func run_blast():
-	blast_lib.run_blast(root_dir, blast_program)
+	return blast_lib.run_blast(root_dir, blast_program)
 
 
 func save_as_serialized_file(outfile):
