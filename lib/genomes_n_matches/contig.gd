@@ -4,6 +4,8 @@ class_name Contig
 
 signal mouse_in
 signal mouse_out
+signal annot_deselected
+signal annot_selected
 
 const AnnotFeatureClass = preload("res://lib/annot_feature.gd")
 
@@ -28,6 +30,8 @@ var centerline_y = middle
 var id
 var selected = false
 var hovering = false
+var selected_annot = -1
+var annot_hovering = []
 var x_offset = 0
 var x_start
 var x_end
@@ -84,9 +88,6 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	coll_poly.add_child(leftvline)
 	coll_poly.add_child(rightvline)
 	length_in_bp = bp_length
-	# comment out for now to stop doing anything on mouse hover
-	# or selecting, because haven't implemented doing anything with
-	# selected contig
 	static_body_2d.mouse_entered.connect(_on_mouse_entered)
 	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	gff_features = annotation
@@ -98,11 +99,15 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 		if feature[3]: # is reverse
 			f_top = gene_rev_top
 			f_bot = gene_rev_bottom
-		annot_polys.append(AnnotFeatureClass.new(feature, f_top, f_bot, self))
+		annot_polys.append(AnnotFeatureClass.new(len(annot_polys), feature, f_top, f_bot, self))
 		add_child(annot_polys[-1])
+		
 
 	annot_polys.sort_custom(func(a, b): return a.gff_data[0] < b.gff_data[0])
-
+	for i in range(0, len(annot_polys)):
+		annot_polys[i].id = i
+		annot_polys[i].connect("mouse_in", on_mouse_in_annot)
+		annot_polys[i].connect("mouse_out", on_mouse_out_annot)
 
 func name():
 	return Globals.proj_data.genome_seqs[top_or_bottom]["names"][id]
@@ -247,3 +252,43 @@ func _on_mouse_exited():
 		poly.color = fill_color
 		centerline.default_color = Globals.theme.colours["contig"]["edge"]
 	mouse_out.emit(id)
+
+
+func deselect_annot():
+	if selected_annot != -1:
+		annot_polys[selected_annot].deselect()
+		annot_deselected.emit(id, selected_annot)
+		selected_annot = -1
+		
+
+func select_annot(annot_id):
+	annot_polys[annot_id].select()
+	selected_annot = annot_id
+	annot_selected.emit(id, annot_id)
+
+
+func on_mouse_in_annot(annot_id):
+	annot_hovering.append(annot_id)
+	
+	
+func on_mouse_out_annot(annot_id):
+	annot_hovering.erase(annot_id)
+
+
+func _unhandled_input(event):
+	if Globals.paused:
+		return
+		
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				if len(annot_hovering) >= 1:
+					var annot_id = annot_hovering[-1]
+					deselect_annot()
+					select_annot(annot_id)
+				elif len(annot_hovering) == 0 and selected_annot != -1:
+					deselect_annot()
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				if len(annot_hovering) > 0 and selected_annot == annot_hovering[-1]:
+					deselect_annot()

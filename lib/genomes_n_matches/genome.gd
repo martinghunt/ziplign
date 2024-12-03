@@ -6,6 +6,8 @@ const ContigClass = preload("contig.gd")
 
 signal contig_selected
 signal contig_deselected
+signal annot_selected
+signal annot_deselected
 signal move_to_pos
 
 var contigs = {}
@@ -361,7 +363,8 @@ func _ready():
 		add_child(contigs[c])
 		contigs[c].connect("mouse_in", on_mouse_in_contig)
 		contigs[c].connect("mouse_out", on_mouse_out_contig)
-
+		contigs[c].connect("annot_selected", on_annot_selected)
+		contigs[c].connect("annot_deselected", on_annot_deselected)
 
 func clear_all():
 	clear_nt_labels()
@@ -391,6 +394,10 @@ func name_of_selected_contig():
 		return contig_names[selected_contig]
 
 
+func deselect_all_annot():
+	for cname in contigs:
+		contigs[cname].deselect_annot()
+
 func deselect_contig():
 	if selected_contig != -1:
 		contigs[contig_names[selected_contig]].deselect()
@@ -413,6 +420,8 @@ func _unhandled_input(event):
 			if event.pressed:
 				if len(hover_matches) == 1:
 					var contig_id = hover_matches.keys()[0]
+					if len(contigs[contig_names[contig_id]].annot_hovering) > 0:
+						return
 					if event.is_double_click():
 						#var genome_and_comtig_pos = draw_pos_to_genome_and_contig_pos(event.position.x)
 						move_to_pos.emit(top_or_bottom, event.position.x)
@@ -440,3 +449,12 @@ func on_mouse_in_contig(match_id):
 
 func on_mouse_out_contig(match_id):
 	hover_matches.erase(match_id)
+
+
+func on_annot_selected(contig_id, annot_id):
+	deselect_contig()
+	annot_selected.emit(top_or_bottom, contig_id, annot_id)
+
+
+func on_annot_deselected(contig_id, annot_id):
+	annot_deselected.emit(top_or_bottom, contig_id, annot_id)

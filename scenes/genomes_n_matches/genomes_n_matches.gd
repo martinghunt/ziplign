@@ -6,6 +6,8 @@ signal match_selected
 signal match_deselected
 signal contig_selected
 signal contig_deselected
+signal annot_selected
+signal annot_deselected
 signal multimatch_list_found
 signal enable_contig_ops
 
@@ -83,6 +85,10 @@ func _ready():
 	top_genome.connect("contig_deselected", _on_contig_deselected)
 	bottom_genome.connect("contig_selected", _on_contig_selected)
 	bottom_genome.connect("contig_deselected", _on_contig_deselected)
+	top_genome.connect("annot_selected", _on_annot_selected)
+	top_genome.connect("annot_deselected", _on_annot_deselected)
+	bottom_genome.connect("annot_selected", _on_annot_selected)
+	bottom_genome.connect("annot_deselected", _on_annot_deselected)
 	top_genome.connect("move_to_pos", _on_genome_move_to_pos)
 	bottom_genome.connect("move_to_pos", _on_genome_move_to_pos)
 	$"../../../../ColorRect/ProcessingLabel".position.y = 0.5 * (global_top + global_bottom) - 20 - Globals.y_offset_not_paused
@@ -238,6 +244,27 @@ func _on_contig_selected(top_or_bottom):
 func _on_contig_deselected():
 	contig_deselected.emit()
 	enable_contig_ops.emit(false)
+
+
+func _on_annot_selected(top_or_bottom, contig_id, annot_id):
+	enable_contig_ops.emit(false)
+	var contig_name 
+	var annot
+	if top_or_bottom == "top":
+		contig_name = top_genome.contig_names[contig_id]
+		annot = top_genome.contigs[contig_name].annot_polys[annot_id].selected_str()
+	else:
+		contig_name = bottom_genome.contig_names[contig_id]
+		annot = bottom_genome.contigs[contig_name].annot_polys[annot_id].selected_str()
+	annot_selected.emit(top_or_bottom, contig_name, annot_id, annot)
+
+func _on_annot_deselected(top_or_bottom, contig_id, annot_id):
+	var contig_name 
+	if top_or_bottom == "top":
+		contig_name = top_genome.contig_names[contig_id]
+	else:
+		contig_name = bottom_genome.contig_names[contig_id]
+	annot_deselected.emit(top_or_bottom, contig_name, annot_id)
 
 
 func _on_game_new_project_go():
@@ -502,6 +529,8 @@ func _unhandled_input(event):
 				var match_ids = matches.get_matches_in_range(min(start, end), max(start, end), dragging==1)
 				top_genome.deselect_contig()
 				bottom_genome.deselect_contig()
+				top_genome.deselect_all_annot()
+				bottom_genome.deselect_all_annot()
 				contig_deselected.emit()
 				enable_contig_ops.emit(false)
 				if len(match_ids) > 0:

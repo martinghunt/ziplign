@@ -2,6 +2,9 @@ extends StaticBody2D
 
 class_name AnnotFeature
 
+signal mouse_in
+signal mouse_out
+
 var static_body_2d = StaticBody2D.new()
 var coll_poly = CollisionPolygon2D.new()
 var poly = Polygon2D.new()
@@ -12,7 +15,9 @@ var outline_width = 1.5
 var gff_data = []
 var parent_ctg
 var name_label = Label.new()
-
+var hovering = false
+var selected = false
+var id = -1
 
 func set_top_and_bottom(new_top, new_bottom):
 	top = new_top
@@ -69,7 +74,17 @@ func gff2tooltip(a: Array):
 		+ "tags=" + str(a[4])
 
 
-func _init(gff_data_list, new_top, new_bottom, parent_contig):
+func selected_str():
+	var tags = []
+	for k in gff_data[4]:
+		tags.append(k + "=" + gff_data[4][k])
+	return str(gff_data[0] + 1) + "-" + str(gff_data[1] + 1) + \
+	" / type=" + gff_data[2] + \
+	" / " + ";".join(tags) 
+
+
+func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
+	id = new_id
 	gff_data = gff_data_list
 	top = new_top
 	bottom = new_bottom
@@ -82,11 +97,12 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	outline.width = outline_width
 	outline.default_color = Globals.theme.colours["ui"]["text"]
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
-
+	static_body_2d.set_pickable(true)
+	static_body_2d.mouse_entered.connect(_on_mouse_entered)
+	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
 	name_label.add_theme_font_override("font", Globals.fonts["dejavu"])
 	name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)
-	#name_label.set_mouse_filter(Control.MOUSE_FILTER_PASS)
 	name_label.set_vertical_alignment(VERTICAL_ALIGNMENT_CENTER)
 	name_label.clip_text = true
 	#name_label.theme = Theme.new()
@@ -110,3 +126,37 @@ func _init(gff_data_list, new_top, new_bottom, parent_contig):
 	static_body_2d.add_child(outline)
 	add_child(name_label)
 	hide()
+
+
+func select():
+	selected = true
+	if hovering:
+		outline.default_color = Globals.theme.colours["contig"]["edge_selected"]
+	else:
+		outline.default_color = Globals.theme.colours["ui"]["text"]
+		
+	poly.color = Globals.theme.colours["ui"]["text"]
+	name_label.add_theme_color_override("font_color", Globals.theme.colours["ui"]["general_bg"])
+
+func deselect():
+	selected = false	
+	if hovering:
+		outline.default_color = Globals.theme.colours["contig"]["edge_selected"]
+	else:
+		outline.default_color = Globals.theme.colours["ui"]["text"]
+		
+	poly.color = Globals.theme.colours["ui"]["panel_bg"]
+	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
+
+
+func _on_mouse_entered():
+	hovering = true
+	outline.default_color = Globals.theme.colours["contig"]["edge_selected"]
+	mouse_in.emit(id)
+
+
+func _on_mouse_exited():
+	hovering = false
+	if not selected:
+		outline.default_color = Globals.theme.colours["ui"]["text"]
+	mouse_out.emit(id)
