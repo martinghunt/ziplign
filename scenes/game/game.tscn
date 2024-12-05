@@ -1,15 +1,18 @@
-[gd_scene load_steps=32 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=35 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
 [ext_resource type="Script" path="res://scenes/game/RightTopScrollbar.gd" id="1_wnfnh"]
 [ext_resource type="Script" path="res://scenes/game/TopCoordsText.gd" id="2_ef7jy"]
+[ext_resource type="Script" path="res://scenes/game/utils_choice_h_box_container.gd" id="3_nkrq5"]
 [ext_resource type="Script" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
 [ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="4_queha"]
 [ext_resource type="Script" path="res://scenes/game/mult_matches_v_box_container.gd" id="5_0mmw2"]
 [ext_resource type="Script" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 [ext_resource type="Script" path="res://scenes/game/mult_matches_item_list.gd" id="5_c5uwd"]
+[ext_resource type="Script" path="res://scenes/game/sequence_line_edit.gd" id="5_x8olh"]
+[ext_resource type="Script" path="res://scenes/game/annotation_line_edit.gd" id="6_nc8cl"]
 [ext_resource type="Script" path="res://scenes/game/contig_opts_v_box_container.gd" id="7_ubpjk"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_oek1a"]
@@ -120,10 +123,12 @@ layout_mode = 2
 mouse_filter = 0
 
 [node name="HSeparatorTop" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(112, 0)
 layout_mode = 2
 
 [node name="TopGridContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
+columns = 2
 
 [node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer/TopGridContainer"]
 layout_mode = 2
@@ -327,6 +332,24 @@ text = "Y"
 [node name="HSeparator4" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="UtilsChoiceHBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("3_nkrq5")
+
+[node name="FilterButton" type="Button" parent="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer"]
+layout_mode = 2
+tooltip_text = "Switch to filter options panel"
+theme_override_fonts/font = ExtResource("4_queha")
+toggle_mode = true
+text = "O"
+
+[node name="SearchButton" type="Button" parent="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer"]
+layout_mode = 2
+tooltip_text = "Switch to search panel"
+theme_override_fonts/font = ExtResource("4_queha")
+toggle_mode = true
+text = ";"
+
 [node name="FilterVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -359,6 +382,41 @@ text = "Min % identity"
 layout_mode = 2
 tooltip_text = "Only show matches with at least this percent identity"
 script = ExtResource("5_2v3gj")
+
+[node name="SearchVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
+layout_mode = 2
+
+[node name="IconLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Search for annotation or sequences"
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 20
+text = ";"
+
+[node name="SequenceLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Sequence"
+
+[node name="SequenceLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
+layout_mode = 2
+tooltip_text = "Search for nucleotide sequence"
+placeholder_text = "nucleotide seq"
+context_menu_enabled = false
+script = ExtResource("5_x8olh")
+
+[node name="AnnotationLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
+layout_mode = 2
+text = "    Annotation"
+
+[node name="AnnotationLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
+layout_mode = 2
+tooltip_text = "Search in annotation"
+placeholder_text = "search term"
+script = ExtResource("6_nc8cl")
 
 [node name="HSeparatorBottom" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -543,6 +601,8 @@ script = ExtResource("3_nnddm")
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/ZoomGridContainer/ButtonZoomBp" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_zoom_bp_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompGridContainer/RevcompTopButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_top_button_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompGridContainer/RevcompBottomButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
+[connection signal="toggled" from="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer/FilterButton" to="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer" method="_on_filter_button_toggled"]
+[connection signal="toggled" from="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer/SearchButton" to="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer" method="_on_search_button_toggled"]
 [connection signal="focus_exited" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" method="_on_focus_exited"]
 [connection signal="min_match_length_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_length_line_edit_min_match_length_changed"]
 [connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" method="_on_text_submitted"]

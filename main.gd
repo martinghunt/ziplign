@@ -88,6 +88,9 @@ func reset_colours():
 		$Game/MainHBoxContainer/VBoxContainer/TopGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer,
+		$Game/MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/RevcompGridContainer,
@@ -114,7 +117,9 @@ func reset_colours():
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/RevcompGridContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer.get_children())
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer.get_children())
 	to_set_tooltip.append_array($MainMenu/MainContainer/MainVBoxContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer.get_children())
 	to_set_tooltip.append_array($NewProject/MainVBoxContainer/HBoxContainer.get_children())
@@ -131,6 +136,7 @@ func reset_colours():
 	set_font_color(popup)
 	popup.add_theme_font_size_override("font_size", 30)
 	
+
 	var ledit = $Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit
 	ledit.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	Globals.tooltip_style.bg_color = Globals.theme.colours["ui"]["panel_bg"]
@@ -142,6 +148,8 @@ func reset_colours():
 		$NewProject/MainVBoxContainer/GridContainer/CompareLineEdit,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer/SequenceLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer/AnnotationLineEdit,
 	]
 	for node in to_set_caret:
 		set_caret_theme(node)
