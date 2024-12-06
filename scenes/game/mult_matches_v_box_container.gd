@@ -10,7 +10,9 @@ func _on_genomes_n_matches_multimatch_list_found(match_ids):
 	$MultiMatchesScrollContainer/MultMatchesItemList.set_matches(match_ids)
 	show()
 
-
+func _on_genomes_n_matches_annotation_list_found(annot_data):
+	$MultiMatchesScrollContainer/MultMatchesItemList.set_annotation(annot_data)
+	show()
 
 
 

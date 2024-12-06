@@ -9,6 +9,7 @@ signal contig_deselected
 signal annot_selected
 signal annot_deselected
 signal multimatch_list_found
+signal annotation_list_found
 signal enable_contig_ops
 
 
@@ -203,6 +204,7 @@ func _on_button_zoom_plus_pressed(multiplier = 1, centre=null):
 func _on_button_zoom_bp_pressed():
 	set_x_zoom(1.01 * Globals.zoom_to_show_bp)
 
+
 func _on_moved_to_selected_match(selected_id):
 	var s = matches.matches[selected_id]
 	var x_top = - 0.5 * Globals.genomes_viewport_width + min(s.start1, s.end1) * x_zoom
@@ -275,6 +277,26 @@ func _on_game_new_project_go():
 	remove_child(bottom_genome)
 	remove_child(matches)
 	_ready()
+
+
+func set_top_scrollbar_value(new_value, centre=false):
+	if new_value == top_scrollbar_value:
+		return
+	top_scrollbar_value = new_value
+	_on_right_top_scrollbar_value_changed(top_scrollbar_value)
+	hscrollbar_set_top_value.emit(top_scrollbar_value)
+	if centre:
+		move_top_and_bottom(-0.5, 0)
+
+
+func set_bottom_scrollbar_value(new_value, centre=false):
+	if new_value == bottom_scrollbar_value:
+		return
+	bottom_scrollbar_value = new_value
+	_on_right_bottom_scrollbar_value_changed(bottom_scrollbar_value)
+	hscrollbar_set_bottom_value.emit(bottom_scrollbar_value)
+	if centre:
+		move_top_and_bottom(0, -0.5)
 
 
 func shift_top(x_shift):
@@ -555,6 +577,17 @@ func _on_mult_matches_item_list_selected_a_match(i):
 	matches.move_to_selected()
 
 
+func _on_mult_matches_item_list_selected_an_annotation(annot_data):
+	if annot_data[0] == "top":
+		set_top_scrollbar_value(top_genome.get_percent_annot_feature_x_left(annot_data[1], annot_data[2]), true)
+		top_genome.select_annot(annot_data[1], annot_data[2])
+		bottom_genome.deselect_all_annot()
+	else:
+		set_bottom_scrollbar_value(bottom_genome.get_percent_annot_feature_x_left(annot_data[1], annot_data[2]), true)
+		bottom_genome.select_annot(annot_data[1], annot_data[2])
+		top_genome.deselect_all_annot()
+
+
 func name_of_selected_contig():
 	if contig_selected_is_top:
 		return top_genome.name_of_selected_contig()
@@ -627,3 +660,15 @@ func _on_genome_move_to_pos(top_or_bottom, mouse_x):
 		move_top_and_bottom(to_move, 0)
 	else:
 		move_top_and_bottom(0, to_move)
+
+
+func _on_annotation_line_edit_annotation_search(search_text):
+	var top_matches = top_genome.annotation_search(search_text)
+	var bottom_matches = bottom_genome.annotation_search(search_text)
+	var results = []
+	for x in top_matches:
+		results.append(["top"] + x)
+	for x in bottom_matches:
+		results.append(["bottom"] + x)
+	annotation_list_found.emit(results)
+	

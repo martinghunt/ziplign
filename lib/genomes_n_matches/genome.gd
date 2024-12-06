@@ -458,3 +458,28 @@ func on_annot_selected(contig_id, annot_id):
 
 func on_annot_deselected(contig_id, annot_id):
 	annot_deselected.emit(top_or_bottom, contig_id, annot_id)
+
+
+func select_annot(contig_id, annot_id):
+	deselect_all_annot()
+	contigs[contig_names[contig_id]].select_annot(annot_id)
+	on_annot_selected(contig_id, annot_id)
+
+
+func annotation_search(search_term):
+	var results = []
+	for i in range(0, len(contig_names)):
+		var new_results = contigs[contig_names[i]].annotation_search(search_term)
+		for x in new_results:
+			results.append([i] +  x)
+	return results
+
+
+func move_to_annotation_feature(contig_id, annot_id):
+	set_x_left(contigs[contig_names[contig_id]].annot_polys[annot_id].start_x_coord())
+
+
+func get_percent_annot_feature_x_left(contig_id, annot_id):
+	var annot = contigs[contig_names[contig_id]].annot_polys[annot_id]
+	var annot_start = annot.gff_data[0] + base_contig_pos[contig_names[contig_id]][0]
+	return 100.0 * annot_start / last_contig_end

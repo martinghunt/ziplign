@@ -275,6 +275,14 @@ func on_mouse_out_annot(annot_id):
 	annot_hovering.erase(annot_id)
 
 
+func annotation_search(search_term):
+	var matches = []
+	for annot in annot_polys:
+		if annot.metadata_has_search_string(search_term):
+			matches.append([annot.id, annot.name_label.text])
+	return matches
+
+
 func _unhandled_input(event):
 	if Globals.paused:
 		return

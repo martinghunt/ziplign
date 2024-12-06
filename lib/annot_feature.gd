@@ -127,6 +127,9 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 	add_child(name_label)
 	hide()
 
+func start_x_coord():
+	return poly.polygon[0].x
+
 
 func select():
 	selected = true
@@ -138,6 +141,7 @@ func select():
 	poly.color = Globals.theme.colours["ui"]["text"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["ui"]["general_bg"])
 
+
 func deselect():
 	selected = false	
 	if hovering:
@@ -147,6 +151,13 @@ func deselect():
 		
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
+
+
+func metadata_has_search_string(search_string):
+	for k in gff_data[4]:
+		if gff_data[4][k].findn(search_string) != -1:
+			return true
+	return false
 
 
 func _on_mouse_entered():
