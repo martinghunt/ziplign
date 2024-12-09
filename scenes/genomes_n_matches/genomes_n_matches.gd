@@ -20,9 +20,6 @@ const GenomeClass = preload("res://lib/genomes_n_matches/genome.gd")
 var matches
 var top_genome
 var bottom_genome
-var x_zoom = 1
-var top_x = 0
-var bottom_x = 0
 var global_top = 82 + Globals.y_offset_not_paused
 var global_bottom = 588 + Globals.y_offset_not_paused
 var genome_height = 60
@@ -44,40 +41,36 @@ var max_allowed_zoom = 20
 var min_allowed_zoom = 0.0
 
 func set_matches():
-	var coords = []
-	for d in Globals.proj_data.blast_matches:
-		var top_contig_start = top_genome.base_contig_pos[d["qry"]]
-		var bottom_contig_start = bottom_genome.base_contig_pos[d["ref"]]
-		coords.append([
-			top_contig_start[0] + d["qstart"],
-			top_contig_start[0] + d["qend"],
-			bottom_contig_start[0] + d["rstart"],
-			bottom_contig_start[0] + d["rend"],
-			d["rev"],
-			d["pc"],
-		])
-	matches = Matches.new(coords)
+	matches = Matches.new()
+	for h in Globals.proj_data.blast_hits:
+		var top_contig_start = top_genome.base_contig_pos[h.qry_id]
+		var bottom_contig_start = bottom_genome.base_contig_pos[h.ref_id]
+		matches.add_match(matches.number_of_matches(), 
+			top_contig_start[0] + h.qstart, 
+			top_contig_start[0] + h.qend,
+			bottom_contig_start[0] + h.rstart,
+			bottom_contig_start[0] + h.rend,
+		)
 
 
 func _ready():
-	x_zoom = 1
-	top_x = 0
-	bottom_x = 0
-	top_scrollbar_value = 0
-	bottom_scrollbar_value = 0
-	hscrollbar_set_bottom_value.emit(0)
-	hscrollbar_set_top_value.emit(0)
+	Globals.x_zoom = 1
+	Globals.top_x_left = 0
+	Globals.bottom_x_left = 0
 	if Globals.proj_data.has_annotation():
 		genome_height = 130
 	else:
 		genome_height = 60
-	top_genome = GenomeClass.new("top", global_top, global_top + genome_height)
-	bottom_genome = GenomeClass.new("bottom", global_bottom - genome_height, global_bottom)
+	top_genome = GenomeClass.new(Globals.TOP, global_top, global_top + genome_height)
+	bottom_genome = GenomeClass.new(Globals.BOTTOM, global_bottom - genome_height, global_bottom)
 	add_child(top_genome)
 	add_child(bottom_genome)
+	Globals.matches_y_top = global_top + genome_height + 10
+	Globals.matches_y_bottom = global_bottom - genome_height - 10
 	set_matches()
 	add_child(matches)
-	matches.set_top_bottom_coords(global_top + genome_height + 10, global_bottom - genome_height - 10)
+
+	#matches.set_top_bottom_coords(global_top + genome_height + 10, global_bottom - genome_height - 10)
 	max_genome_x = max(top_genome.last_contig_end, bottom_genome.last_contig_end)
 	matches.connect("moved_to_selected_match", _on_moved_to_selected_match)
 	matches.connect("match_selected", _on_match_selected)
@@ -119,86 +112,85 @@ func get_default_x_zoom():
 
 
 func set_x_zoom(zoom, centre=null):
-	if x_zoom == zoom:
+	if Globals.x_zoom == zoom:
 		return
 	
 	if zoom <= min_allowed_zoom:
-		x_zoom = min_allowed_zoom
+		Globals.x_zoom = min_allowed_zoom
 	elif zoom >= max_allowed_zoom:
-		x_zoom = max_allowed_zoom
+		Globals.x_zoom = max_allowed_zoom
 	else:
-		x_zoom = zoom
+		Globals.x_zoom = zoom
 
-	top_genome.set_x_zoom(x_zoom, centre)
-	bottom_genome.set_x_zoom(x_zoom, centre)
-	matches.set_x_zoom(x_zoom, centre)
-	top_x = top_genome.x_left - Globals.controls_width
-	top_scrollbar_value = 100 * (1 - top_x) /  (x_zoom * top_genome.last_contig_end)
+	top_genome.set_x_zoom(Globals.x_zoom, centre)
+	bottom_genome.set_x_zoom(Globals.x_zoom, centre)
+	Globals.top_x_left = top_genome.x_left - Globals.controls_width
+	Globals.bottom_x_left = bottom_genome.x_left - Globals.controls_width
+	matches.update_after_x_zoom_change(centre)
+	top_scrollbar_value = 100 * (1 - Globals.top_x_left) /  (Globals.x_zoom * top_genome.last_contig_end)
 	hscrollbar_set_top_value.emit(top_scrollbar_value)
-	bottom_x = bottom_genome.x_left - Globals.controls_width
-	bottom_scrollbar_value = 100 * (1 - bottom_x) /  (x_zoom * bottom_genome.last_contig_end)
+	bottom_scrollbar_value = 100 * (1 - Globals.bottom_x_left) /  (Globals.x_zoom * bottom_genome.last_contig_end)
 	hscrollbar_set_bottom_value.emit(bottom_scrollbar_value)
 
 
 func _on_right_top_scrollbar_value_changed(value):
 	top_scrollbar_value = value
-	top_x = 1 - x_zoom * value * top_genome.last_contig_end / 100
-	top_genome.set_x_left(top_x)
-	matches.set_top_x_left(top_x)
+	Globals.top_x_left = 1 - Globals.x_zoom * value * top_genome.last_contig_end / 100
+	top_genome.set_x_left(Globals.top_x_left)
+	matches.set_top_x_left(Globals.top_x_left)
 
 
 func _on_right_bottom_scrollbar_value_changed(value):
 	bottom_scrollbar_value = value
-	bottom_x = 1 - x_zoom * value * bottom_genome.last_contig_end / 100
-	bottom_genome.set_x_left(bottom_x)
-	matches.set_bottom_x_left(bottom_x)
+	Globals.bottom_x_left = 1 - Globals.x_zoom * value * bottom_genome.last_contig_end / 100
+	bottom_genome.set_x_left(Globals.bottom_x_left)
+	matches.set_bottom_x_left(Globals.bottom_x_left)
 
 
 func _on_button_zoom_reset_pressed():
 	matches.deselect()
 	match_deselected.emit()
-	set_x_zoom(get_default_x_zoom())
 	top_genome.set_x_left(1)
 	bottom_genome.set_x_left(1)
 	matches.set_top_x_left(1)
 	matches.set_bottom_x_left(1)
-	hscrollbar_set_top_value.emit(0)
-	hscrollbar_set_bottom_value.emit(0)
-	top_scrollbar_value = 0
-	bottom_scrollbar_value = 0
-	top_genome.update_annot_visiblity_recalc_all(x_zoom)
-	bottom_genome.update_annot_visiblity_recalc_all(x_zoom)
+	set_x_zoom(get_default_x_zoom())
+	set_top_scrollbar_value(0)
+	set_bottom_scrollbar_value(0)
+	top_genome.update_annot_visiblity_recalc_all(Globals.x_zoom)
+	bottom_genome.update_annot_visiblity_recalc_all(Globals.x_zoom)
+	matches.update_hide_and_show()
 
 
 
 func _on_button_zoom_minus_pressed(multiplier = 1, centre=null):
-	if x_zoom <= min_allowed_zoom:
-		pass
-	elif x_zoom <= 0.0011:
-		set_x_zoom(x_zoom - multiplier * 0.0001, centre)
-	elif x_zoom <= 0.011:
-		set_x_zoom(x_zoom - multiplier * 0.001, centre)
-	elif x_zoom <= 0.11:
-		set_x_zoom(x_zoom - multiplier * 0.01, centre)
-	elif x_zoom <= 1:
-		set_x_zoom(x_zoom - multiplier * 0.1, centre)
+	if Globals.x_zoom <= min_allowed_zoom:
+		Globals.x_zoom = min_allowed_zoom
+	elif Globals.x_zoom <= 0.0011:
+		set_x_zoom(Globals.x_zoom - multiplier * 0.0001, centre)
+	elif Globals.x_zoom <= 0.011:
+		set_x_zoom(Globals.x_zoom - multiplier * 0.001, centre)
+	elif Globals.x_zoom <= 0.11:
+		set_x_zoom(Globals.x_zoom - multiplier * 0.01, centre)
+	elif Globals.x_zoom <= 1:
+		set_x_zoom(Globals.x_zoom - multiplier * 0.1, centre)
 	else:
-		set_x_zoom(x_zoom - multiplier * 1, centre)
+		set_x_zoom(Globals.x_zoom - multiplier * 1, centre)
 
 
 func _on_button_zoom_plus_pressed(multiplier = 1, centre=null):
-	if x_zoom >= max_allowed_zoom:
-		pass
-	elif x_zoom >= 1:
-		set_x_zoom(x_zoom + multiplier * 1, centre)
-	elif x_zoom >= 0.1:
-		set_x_zoom(x_zoom + multiplier * 0.1, centre)
-	elif x_zoom >= 0.01:
-		set_x_zoom(x_zoom + multiplier * 0.01, centre)
-	elif x_zoom >= 0.001:
-		set_x_zoom(x_zoom + multiplier * 0.001, centre)
+	if Globals.x_zoom >= max_allowed_zoom:
+		Globals.x_zoom = max_allowed_zoom
+	elif Globals.x_zoom >= 1:
+		set_x_zoom(Globals.x_zoom + multiplier * 1, centre)
+	elif Globals.x_zoom >= 0.1:
+		set_x_zoom(Globals.x_zoom + multiplier * 0.1, centre)
+	elif Globals.x_zoom >= 0.01:
+		set_x_zoom(Globals.x_zoom + multiplier * 0.01, centre)
+	elif Globals.x_zoom >= 0.001:
+		set_x_zoom(Globals.x_zoom + multiplier * 0.001, centre)
 	else:
-		set_x_zoom(x_zoom + multiplier * 0.0001, centre)
+		set_x_zoom(Globals.x_zoom + multiplier * 0.0001, centre)
 
 	
 func _on_button_zoom_bp_pressed():
@@ -207,15 +199,15 @@ func _on_button_zoom_bp_pressed():
 
 func _on_moved_to_selected_match(selected_id):
 	var s = matches.matches[selected_id]
-	var x_top = - 0.5 * Globals.genomes_viewport_width + min(s.start1, s.end1) * x_zoom
-	var x_bottom = - 0.5 * Globals.genomes_viewport_width + x_zoom * s.start2
-	top_genome.set_x_left(-x_top)
-	bottom_genome.set_x_left(-x_bottom)
-	matches.set_x_lefts(-x_top, -x_bottom)
-	var x = 100 *  (x_top - 1) / (x_zoom * top_genome.last_contig_end)
+	Globals.top_x_left = 0.5 * Globals.genomes_viewport_width - min(s.start1, s.end1) * Globals.x_zoom
+	Globals.bottom_x_left = 0.5 * Globals.genomes_viewport_width - Globals.x_zoom * s.start2
+	top_genome.set_x_left(Globals.top_x_left)
+	bottom_genome.set_x_left(Globals.bottom_x_left)
+	matches.set_x_lefts(Globals.top_x_left, Globals.bottom_x_left)
+	var x = 100 *  (1 - Globals.top_x_left) / (Globals.x_zoom * top_genome.last_contig_end)
 	hscrollbar_set_top_value.emit(x)
 	top_scrollbar_value = x
-	x = 100 * (x_bottom - 1) / (x_zoom * bottom_genome.last_contig_end)
+	x = 100 * (1 - Globals.bottom_x_left) / (Globals.x_zoom * bottom_genome.last_contig_end)
 	hscrollbar_set_bottom_value.emit(x)
 	bottom_scrollbar_value = x
 
@@ -232,7 +224,7 @@ func _on_match_deselected():
 
 
 func _on_contig_selected(top_or_bottom):
-	if top_or_bottom == "top":
+	if top_or_bottom == Globals.TOP:
 		bottom_genome.deselect_contig()
 		contig_selected.emit(top_or_bottom, top_genome.name_of_selected_contig())
 		contig_selected_is_top = true
@@ -252,20 +244,20 @@ func _on_annot_selected(top_or_bottom, contig_id, annot_id):
 	enable_contig_ops.emit(false)
 	var contig_name 
 	var annot
-	if top_or_bottom == "top":
-		contig_name = top_genome.contig_names[contig_id]
-		annot = top_genome.contigs[contig_name].annot_polys[annot_id].selected_str()
+	if top_or_bottom == Globals.TOP:
+		contig_name = top_genome.contig_name(contig_id)
+		annot = top_genome.contigs[contig_id].annot_polys[annot_id].selected_str()
 	else:
-		contig_name = bottom_genome.contig_names[contig_id]
-		annot = bottom_genome.contigs[contig_name].annot_polys[annot_id].selected_str()
+		contig_name = bottom_genome.contig_name(contig_id)
+		annot = bottom_genome.contigs[contig_id].annot_polys[annot_id].selected_str()
 	annot_selected.emit(top_or_bottom, contig_name, annot_id, annot)
 
 func _on_annot_deselected(top_or_bottom, contig_id, annot_id):
 	var contig_name 
-	if top_or_bottom == "top":
-		contig_name = top_genome.contig_names[contig_id]
+	if top_or_bottom == Globals.TOP:
+		contig_name = top_genome.contig_name(contig_id)
 	else:
-		contig_name = bottom_genome.contig_names[contig_id]
+		contig_name = bottom_genome.contig_name(contig_id)
 	annot_deselected.emit(top_or_bottom, contig_name, annot_id)
 
 
@@ -316,7 +308,7 @@ func shift_bottom(x_shift):
 
 
 func move_top_and_bottom(top_frac, bottom_frac):
-	var d = 80 * get_viewport().get_visible_rect().size.x / x_zoom
+	var d = 80 * get_viewport().get_visible_rect().size.x / Globals.x_zoom
 	if top_frac != 0:
 		shift_top(d * top_frac / top_genome.last_contig_end)
 	if bottom_frac != 0:
@@ -341,28 +333,33 @@ func stop_processing_overlay():
 	get_tree().set_pause(false)
 
 
-func move_selected_contig(to_i):
+func move_selected_contig(move_type):
 	start_processing_overlay()
 	await get_tree().create_timer(0.1).timeout
 	save_view(10)
+	var selected_contig_id
 	
 	if contig_selected_is_top:
-		await Globals.proj_data.move_contig("top", top_genome.selected_contig, to_i)
+		selected_contig_id = top_genome.selected_contig
+		await Globals.proj_data.move_contig(Globals.TOP, top_genome.selected_contig, move_type)
 	else:
-		await Globals.proj_data.move_contig("bottom", bottom_genome.selected_contig, to_i)
+		selected_contig_id = bottom_genome.selected_contig
+		await Globals.proj_data.move_contig(Globals.BOTTOM, bottom_genome.selected_contig, move_type)
 	
+
 	_on_game_new_project_go()
 	load_view(10)
 	
 	if contig_selected_is_top:
-		top_genome.select_contig(to_i)
+		top_genome.select_contig(selected_contig_id)
 	else:
-		bottom_genome.select_contig(to_i)
+		bottom_genome.select_contig(selected_contig_id)
 		
 	stop_processing_overlay()
 
 
 func reverse_complement(to_rev, contig_id=null):
+	await get_tree().create_timer(0.1).timeout
 	start_processing_overlay()
 	await get_tree().create_timer(0.1).timeout
 	
@@ -379,7 +376,7 @@ func reverse_complement(to_rev, contig_id=null):
 	top_genome.deselect_contig()
 	bottom_genome.deselect_contig()
 	var currently_selected = matches.selected
-	var current_zoom = x_zoom
+	var current_zoom = Globals.x_zoom
 	_on_game_new_project_go()
 	set_x_zoom(current_zoom)
 
@@ -388,7 +385,7 @@ func reverse_complement(to_rev, contig_id=null):
 		matches.matches[matches.selected].select()
 		matches.move_to_selected()
 		_on_match_selected(currently_selected)
-	
+	await get_tree().create_timer(0.1).timeout
 	stop_processing_overlay()
 	
 
@@ -439,11 +436,11 @@ func _on_game_window_resized():
 	$"../../ColorRect".size.x = get_viewport().get_visible_rect().size.x + 10
 
 func _on_revcomp_top_button_pressed():
-	reverse_complement("top")
+	reverse_complement(Globals.TOP)
 
 
 func _on_revcomp_bottom_button_pressed():
-	reverse_complement("bottom")
+	reverse_complement(Globals.BOTTOM)
 
 
 func _on_filt_min_length_line_edit_min_match_length_changed(value):
@@ -458,7 +455,7 @@ func _on_filt_min_identity_line_edit_min_match_pc_id_changed(value):
 
 func save_view(i):
 	saved_views[i] = {
-		"zoom": x_zoom,
+		"zoom": Globals.x_zoom,
 		"top_scrollbar": top_scrollbar_value,
 		"bottom_scrollbar": bottom_scrollbar_value,
 	}
@@ -578,7 +575,7 @@ func _on_mult_matches_item_list_selected_a_match(i):
 
 
 func _on_mult_matches_item_list_selected_an_annotation(annot_data):
-	if annot_data[0] == "top":
+	if annot_data[0] == Globals.TOP:
 		set_top_scrollbar_value(top_genome.get_percent_annot_feature_x_left(annot_data[1], annot_data[2]), true)
 		top_genome.select_annot(annot_data[1], annot_data[2])
 		bottom_genome.deselect_all_annot()
@@ -598,11 +595,11 @@ func name_of_selected_contig():
 func _on_rev_button_pressed():
 	if contig_selected_is_top:
 		var selected_contig_id = top_genome.selected_contig
-		await reverse_complement("top", name_of_selected_contig())
+		await reverse_complement(Globals.TOP, selected_contig_id)
 		top_genome.select_contig(selected_contig_id)
 	else:
 		var selected_contig_id = bottom_genome.selected_contig
-		await reverse_complement("bottom", name_of_selected_contig())
+		await reverse_complement(Globals.BOTTOM, selected_contig_id)
 		bottom_genome.select_contig(selected_contig_id)
 
 
@@ -622,33 +619,19 @@ func get_selected_contig_id():
 
 
 func _on_move_start_button_pressed():
-	var selected_contig_id = get_selected_contig_id()
-	if selected_contig_id == 0:
-		return
-	move_selected_contig(0)
+	move_selected_contig("start")
 
 
 func _on_move_left_button_pressed():
-	var selected_contig_id = get_selected_contig_id()
-	if selected_contig_id == 0:
-		return
-	move_selected_contig(selected_contig_id - 1)
+	move_selected_contig("left")
 
 
 func _on_move_right_button_pressed():
-	var selected_contig_id = get_selected_contig_id()
-	var number_of_contigs = number_of_contigs_in_selected_contig_genome()
-	if selected_contig_id >= number_of_contigs - 1:
-		return
-	move_selected_contig(selected_contig_id + 1)
+	move_selected_contig("right")
 
 
 func _on_move_end_button_pressed():
-	var selected_contig_id = get_selected_contig_id()
-	var number_of_contigs = number_of_contigs_in_selected_contig_genome()
-	if selected_contig_id >= number_of_contigs - 1:
-		return
-	move_selected_contig(number_of_contigs - 1)
+	move_selected_contig("end")
 
 
 func _on_genome_move_to_pos(top_or_bottom, mouse_x):
@@ -656,7 +639,7 @@ func _on_genome_move_to_pos(top_or_bottom, mouse_x):
 	var game_width = window_size.x - Globals.controls_width
 	var middle = Globals.controls_width + 0.5 * game_width
 	var to_move = (mouse_x - middle) / game_width
-	if top_or_bottom == "top":
+	if top_or_bottom == Globals.TOP:
 		move_top_and_bottom(to_move, 0)
 	else:
 		move_top_and_bottom(0, to_move)
@@ -667,8 +650,8 @@ func _on_annotation_line_edit_annotation_search(search_text):
 	var bottom_matches = bottom_genome.annotation_search(search_text)
 	var results = []
 	for x in top_matches:
-		results.append(["top"] + x)
+		results.append([Globals.TOP] + x)
 	for x in bottom_matches:
-		results.append(["bottom"] + x)
+		results.append([Globals.BOTTOM] + x)
 	annotation_list_found.emit(results)
 	

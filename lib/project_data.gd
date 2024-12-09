@@ -15,9 +15,9 @@ var genome_top_annot_file = ""
 var genome_bottom_annot_file = ""
 var blast_file = ""
 var blast_db = ""
-var genome_seqs = {"top": {}, "bottom": {}}
-var blast_matches = []
-var annotation = {"top": {}, "bottom": {}}
+var genome_seqs = {Globals.TOP: {}, Globals.BOTTOM: {}}
+var blast_hits = []
+var annotation = {Globals.TOP: {}, Globals.BOTTOM: {}}
 var data_loaded = false
 var blast_program = "blastn"
 
@@ -27,8 +27,8 @@ func _init():
 	# initialization crashing everything. We don't need blast matches, just
 	# the genomes
 	genome_seqs = {
-		"top": {"names": ["1"], "seqs": {"1":"ACGTA"}},
-		"bottom": {"names": ["2"], "seqs": {"2":"ACGTAT"}},
+		Globals.TOP: {"order": [0], "contigs": [{"name": "1", "descr": "foo", "seq": "ACGTA"}]},
+		Globals.BOTTOM: {"order": [0], "contigs": [{"name": "2", "descr": "bar", "seq": "ACGTAT"}]},
 	}
 	data_loaded = false
 
@@ -38,8 +38,6 @@ func create(dir_path):
 	set_paths()
 	delete_all_files()
 	DirAccess.make_dir_absolute(dir_path)
-
-
 
 
 func delete_all_files():
@@ -57,7 +55,7 @@ func init_from_dir(dir_path):
 	if DirAccess.dir_exists_absolute(dir_path):
 		set_paths()
 		load_genomes()
-		load_blast_matches()
+		load_blast_hits()
 		load_annotation_files()
 	elif FileAccess.file_exists(dir_path):
 		load_from_serialized_file(dir_path)
@@ -84,30 +82,30 @@ func get_genome(filename, file_type, outprefix):
 	else:
 		return -1
 
+
 func import_genomes(top_fasta, top_type, bottom_fasta, bottom_type):
 	var err1 = get_genome(top_fasta, top_type, genome_top_file_prefix)
 	var err2 = get_genome(bottom_fasta, bottom_type, genome_bottom_file_prefix)
-	print("import_genomes END. going to return: ", [err1, err2])
 	return [err1, err2]
 	
 
 func load_genomes():
 	genome_seqs = {} # saves some ram if project already loaded
-	genome_seqs["top"] = fastaq_lib.load_fasta_file(genome_top_fa_file)
-	genome_seqs["bottom"] = fastaq_lib.load_fasta_file(genome_bottom_fa_file)
+	genome_seqs[Globals.TOP] = fastaq_lib.load_fasta_file(genome_top_fa_file)
+	genome_seqs[Globals.BOTTOM] = fastaq_lib.load_fasta_file(genome_bottom_fa_file)
 
 
-func load_blast_matches():
-	blast_matches.clear() # saves some ram if project already loaded
-	blast_matches = blast_lib.load_tsv_file(blast_file)
+func load_blast_hits():
+	blast_hits.clear() # saves some ram if project already loaded
+	blast_hits = blast_lib.load_tsv_file(blast_file, genome_seqs[Globals.TOP], genome_seqs[Globals.BOTTOM])
 
 
 func load_annotation_files():
-	annotation = {"top": {}, "bottom": {}}
+	annotation = {Globals.TOP: {}, Globals.BOTTOM: {}}
 	if FileAccess.file_exists(genome_top_annot_file):
-		annotation["top"] = gff_lib.load_gff_file(genome_top_annot_file)
+		annotation[Globals.TOP] = gff_lib.load_gff_file(genome_top_annot_file, genome_seqs[Globals.TOP])
 	if FileAccess.file_exists(genome_bottom_annot_file):
-		annotation["bottom"] = gff_lib.load_gff_file(genome_bottom_annot_file)
+		annotation[Globals.BOTTOM] = gff_lib.load_gff_file(genome_bottom_annot_file, genome_seqs[Globals.BOTTOM])
 
 
 func run_blast():
@@ -120,7 +118,10 @@ func save_as_serialized_file(outfile):
 		OS.alert("Cannot save data because nothing loaded", "ERROR!")
 	else:
 		var file = FileAccess.open(outfile, FileAccess.WRITE)
-		file.store_var(blast_matches, true)
+		var hits = []
+		for x in blast_hits:
+			hits.append(x.to_array())
+		file.store_var(hits, true)
 		file.store_var(genome_seqs, true)
 		file.store_var(annotation, true)
 
@@ -128,54 +129,40 @@ func save_as_serialized_file(outfile):
 func load_from_serialized_file(infile):
 	print("Loading project from file: ", infile)
 	var file = FileAccess.open(infile, FileAccess.READ)
-	blast_matches.clear()
+	blast_hits.clear()
 	genome_seqs.clear()
-	blast_matches = file.get_var()
+	blast_hits.clear()
+	blast_hits = file.get_var()
+	for i in range(len(blast_hits)):
+		blast_hits[i] = blast_lib.BlastHitClass.new(
+			blast_hits[i][0],
+			blast_hits[i][1],
+			blast_hits[i][2],
+			blast_hits[i][3],
+			blast_hits[i][4],
+			blast_hits[i][5],
+			blast_hits[i][6],
+			blast_hits[i][7],
+			blast_hits[i][8],
+			false
+		)
 	genome_seqs = file.get_var()
 	annotation = file.get_var()
 	if annotation == null:
-		annotation = {"top": {}, "bottom": {}}
+		annotation = {Globals.TOP: {}, Globals.BOTTOM: {}}
 	set_data_loaded()
 
 
-func flip_all_blast_matches(top_or_bottom, contig_name=null):
-	var len_key = ""
-	var start_key = ""
-	var end_key = ""
-	if top_or_bottom == "top":
-		len_key = "qry"
-		start_key = "qstart"
-		end_key  = "qend"
-	else:
-		len_key = "ref"
-		start_key = "rstart"
-		end_key = "rend"
-		
-	for d in blast_matches:
-		if contig_name != null \
-		and ((top_or_bottom == "top" and d["qry"] != contig_name) \
-			 or (top_or_bottom == "bottom" and d["ref"] != contig_name)):
-			continue
-		d["rev"] = not d["rev"]
-		var new_start = 1 + len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[end_key]
-		d[end_key] = 1 + len(genome_seqs[top_or_bottom]["seqs"][d[len_key]]) - d[start_key]
-		d[start_key] = new_start
-		if top_or_bottom == "top":
-			d["aln_data"].reverse()
-			for l in d["aln_data"]:
-				new_start = d["qend"] - d["qstart"] - l[1]
-				l[1] = d["qend"] - d["qstart"] - l[0]
-				l[0] = new_start
-				new_start = d["rend"] - d["rstart"] - l[3]
-				l[3] = d["rend"] - d["rstart"] - l[2]
-				l[2] = new_start
+func flip_all_blast_hits(top_or_bottom, contig_index=null):
+	for m in blast_hits:
+		m.flip(top_or_bottom, contig_index)
 
 
-func reverse_complement_annotation_one_contig(top_or_bottom, contig_name):
-	if contig_name not in annotation[top_or_bottom]:
+func reverse_complement_annotation_one_contig(top_or_bottom, contig_index):
+	if contig_index not in annotation[top_or_bottom]:
 		return
-	var contig_length = len(genome_seqs[top_or_bottom]["seqs"][contig_name])
-	for a in annotation[top_or_bottom][contig_name]:
+	var contig_length = len(genome_seqs[top_or_bottom]["contigs"][contig_index]["seq"])
+	for a in annotation[top_or_bottom][contig_index]:
 		a[3] = not a[3] # flip the strand
 		var start = contig_length - a[1]
 		a[1] = contig_length - a[0]
@@ -183,37 +170,47 @@ func reverse_complement_annotation_one_contig(top_or_bottom, contig_name):
 
 
 func reverse_complement_annotation(top_or_bottom):
-	for name in annotation[top_or_bottom]:
-		reverse_complement_annotation_one_contig(top_or_bottom, name)
+	for i in annotation[top_or_bottom]:
+		reverse_complement_annotation_one_contig(top_or_bottom, i)
 
 
 func reverse_complement_genome(top_or_bottom):
-	flip_all_blast_matches(top_or_bottom)
+	flip_all_blast_hits(top_or_bottom)
 	reverse_complement_annotation(top_or_bottom)
-	for name in genome_seqs[top_or_bottom]["names"]:
-		genome_seqs[top_or_bottom]["seqs"][name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][name])
+	for ctg in genome_seqs[top_or_bottom]["contigs"]:
+		ctg["seq"] = fastaq_lib.revcomp(ctg["seq"])
 
 
-func reverse_complement_one_contig(top_or_bottom, contig_name):
-	flip_all_blast_matches(top_or_bottom, contig_name)
-	reverse_complement_annotation_one_contig(top_or_bottom, contig_name)
-	genome_seqs[top_or_bottom]["seqs"][contig_name] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["seqs"][contig_name])
+func reverse_complement_one_contig(top_or_bottom, contig_index):
+	flip_all_blast_hits(top_or_bottom, contig_index)
+	reverse_complement_annotation_one_contig(top_or_bottom, contig_index)
+	genome_seqs[top_or_bottom]["contigs"][contig_index]["seq"] = fastaq_lib.revcomp(genome_seqs[top_or_bottom]["contigs"][contig_index]["seq"])
 
 
-func move_contig(top_or_bottom, from_i, to_i):
-	if from_i == to_i \
-	  or to_i < 0 or to_i > len(genome_seqs[top_or_bottom]["names"]) \
-	  or from_i < 0 or from_i > len(genome_seqs[top_or_bottom]["names"]):
+func move_contig(top_or_bottom, ctg_index_to_move, move_type):
+	var to_move_order_i = genome_seqs[top_or_bottom]["order"].find(ctg_index_to_move)
+	var other_order_i
+	if move_type == "left":
+		other_order_i = to_move_order_i - 1
+	elif move_type == "start":
+		other_order_i = 0
+	elif move_type == "right":
+		other_order_i = to_move_order_i + 1
+	elif move_type == "end":
+		other_order_i = len(genome_seqs[top_or_bottom]["order"]) - 1
+		
+	if to_move_order_i == other_order_i \
+	  or other_order_i < 0 or other_order_i > len(genome_seqs[top_or_bottom]["order"]) - 1:
 		return
-	
-	if abs(from_i - to_i) == 1:
+
+	if abs(to_move_order_i - other_order_i) == 1:
 		# no need to pop/insert, just swap the elements. More efficient
-		var name = genome_seqs[top_or_bottom]["names"][from_i]
-		genome_seqs[top_or_bottom]["names"][from_i] = genome_seqs[top_or_bottom]["names"][to_i]
-		genome_seqs[top_or_bottom]["names"][to_i] = name
+		var tmp_i = genome_seqs[top_or_bottom]["order"][to_move_order_i]
+		genome_seqs[top_or_bottom]["order"][to_move_order_i] = genome_seqs[top_or_bottom]["order"][other_order_i]
+		genome_seqs[top_or_bottom]["order"][other_order_i] = tmp_i
 	else:
-		var name = genome_seqs[top_or_bottom]["names"].pop_at(from_i)
-		genome_seqs[top_or_bottom]["names"].insert(to_i, name)
+		var i = genome_seqs[top_or_bottom]["order"].pop_at(to_move_order_i)
+		genome_seqs[top_or_bottom]["order"].insert(other_order_i, i)
 
 
 func set_data_loaded():
@@ -222,10 +219,11 @@ func set_data_loaded():
 
 
 func has_annotation():
-	return len(annotation["top"]) > 0 or len(annotation["bottom"]) < 0
+	return len(annotation[Globals.TOP]) > 0 or len(annotation[Globals.BOTTOM]) < 0
 
 
-
-func get_match_text(match_id):
-	var d = blast_matches[match_id]
-	return d["qry"] + ":" + str(d["qstart"]) + "-" + str(d["qend"]) + " / " + d["ref"] + ":" + str(d["rstart"]) + "-" + str(d["rend"])  + " / pcid:" + str(d["pc"])
+func get_match_text(i):
+	var m = blast_hits[i]
+	return m.qry_name() + ":" + str(m.qstart) + "-" + str(m.qend) + \
+		" / " + m.ref_name() + ":" + str(m.rstart) + "-" + str(m.rend) + \
+		" / pcid:" + str(m.pcid)

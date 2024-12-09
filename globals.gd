@@ -6,7 +6,7 @@ const UsrData = preload("res://lib/user_data.gd")
 var userdata = UsrData.new()
 const ColThemes = preload("res://lib/colour_themes.gd")
 var theme = ColThemes.new()
-#var theme = themes.theme
+
 
 var bin_path = userdata.get_bin_path()
 var genomes_viewport_width = 1000
@@ -23,6 +23,16 @@ var reload_needed = false
 var paused = true
 var y_offset_paused = 0
 var y_offset_not_paused = 1000
+var matches_y_top = 100
+var matches_y_bottom = 400
+var matches_visible_extra = 500
+var match_aln_match_width = 1
+var match_aln_mismatch_width = 1
+var match_outline_width = 0.75
+var x_zoom = 1.0
+var top_x_left = 1.0
+var bottom_x_left = 1.0
+var max_matches_on_screen = 500
 
 var complement_dict = {
 	"A": "T",
@@ -32,6 +42,9 @@ var complement_dict = {
 	"N": "N"
 }
 
+const TOP = 0
+const BOTTOM = 1 
+const top_or_bottom_str = {TOP: "top", BOTTOM: "bottom"}
 
 func load_fonts():
 	var f = {

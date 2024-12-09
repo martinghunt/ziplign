@@ -14,7 +14,7 @@ func _on_genomes_n_matches_match_deselected():
 
 
 func _on_genomes_n_matches_contig_selected(top_or_bottom, contig_name):
-	text = "Contig: " + top_or_bottom + " genome / " + contig_name
+	text = "Contig: " + Globals.top_or_bottom_str[top_or_bottom] + " genome / " + contig_name
 
 
 func _on_genomes_n_matches_contig_deselected():
@@ -25,7 +25,7 @@ func _on_genomes_n_matches_annot_selected(top_or_bottom, contig_name, annot_id, 
 	annot_selected_top_or_bottom = top_or_bottom
 	annot_selected_contig_name = contig_name
 	annot_selected_annot_id = annot_id
-	text = "Annotation: " + top_or_bottom + " / " + str(contig_name) + ":" + str(annot)
+	text = "Annotation: " + Globals.top_or_bottom_str[top_or_bottom] + " / " + str(contig_name) + ":" + str(annot)
 
 
 func _on_genomes_n_matches_annot_deselected(top_or_bottom, contig_name, annot_id):

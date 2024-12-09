@@ -31,7 +31,7 @@ func set_item_list(new_data, type_of_data):
 		if displaying == Display_type.MATCHES:
 			add_item(Globals.proj_data.get_match_text(i)) 
 		elif displaying == Display_type.ANNOTATION:
-			add_item(i[0] + ": " + i[3])
+			add_item(Globals.top_or_bottom_str[i[0]] + ": " + i[3])
 		elif displaying == Display_type.SEQUENCE:
 			add_item(str(i))
 		else:

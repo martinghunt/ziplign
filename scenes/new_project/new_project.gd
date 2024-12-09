@@ -135,15 +135,15 @@ func _on_go_button_pressed():
 		append_to_info_text.emit("[color=red]Error running blast[/color]")
 		set_status_text.emit("Error running blast")
 		return
-	
-	append_to_info_text.emit("Blast finished. Loading results")
-	await get_tree().create_timer(0.1).timeout
-	Globals.proj_data.load_blast_matches()
-	
-	append_to_info_text.emit("Laoading genomes")
+
+	append_to_info_text.emit("Loading genomes")
 	await get_tree().create_timer(0.1).timeout
 	Globals.proj_data.load_genomes()
-	
+
+	append_to_info_text.emit("Blast finished. Loading results")
+	await get_tree().create_timer(0.1).timeout
+	Globals.proj_data.load_blast_hits()
+
 	append_to_info_text.emit("Loading annotation")
 	await get_tree().create_timer(0.1).timeout
 	Globals.proj_data.load_annotation_files()

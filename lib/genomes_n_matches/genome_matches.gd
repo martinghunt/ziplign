@@ -13,50 +13,59 @@ var hover_matches = []
 var selected = -1
 var top = 100
 var bottom = 600
-var x_zoom = 1
 var x_left_bottom = 0
 var x_left_top = 0
+var visible_matches = 0
+var previous_zoom = 1.0
 
 
-func _init(coords):
-	for c in coords:
-		matches.append(MatchClass.new(len(matches), c[0], c[1], c[2], c[3], c[4], c[5]))
-	update_hide_and_show()
-	
+func _init():
+	previous_zoom = Globals.x_zoom
+
+
+func add_match(hit_id, start1, end1, start2, end2):
+	matches.append(MatchClass.new(hit_id, start1, end1, start2, end2))
+
+
+func number_of_matches():
+	return len(matches)
+
 
 func update_hide_and_show():
+	var total_visible = 0
 	for m in matches:
-		m.update_visibility()
+		m.update_canvas_coords()
+		if total_visible > Globals.max_matches_on_screen:
+			m.make_invisible()
+		else:
+			m.update_visibility()
+			if m.is_currently_visible:
+				total_visible += 1
 
 
-func set_x_zoom(new_x_zoom, centre=null):
+func update_after_x_zoom_change(centre=null):
 	if centre == null:
 		centre = 0.5 * (Globals.genomes_viewport_width)
-	x_left_bottom = centre - new_x_zoom * (centre - x_left_bottom) / x_zoom
-	x_left_top = centre - new_x_zoom * (centre - x_left_top) / x_zoom
-	x_zoom = new_x_zoom
-	for m in matches:
-		m.x_left_start1 = x_left_top + Globals.controls_width
-		m.x_left_start2 = x_left_bottom + Globals.controls_width
-		m.set_x_zoom(x_zoom)
+	x_left_bottom = centre - Globals.x_zoom * (centre - x_left_bottom) / previous_zoom
+	x_left_top = centre - Globals.x_zoom * (centre - x_left_top) / previous_zoom
+	update_hide_and_show()
+	previous_zoom = Globals.x_zoom
 
 
 func set_top_x_left(x):
 	x_left_top = x
-	for m in matches:
-		m.set_top_x_left(x_left_top)
+	update_hide_and_show()
+	
 
 func set_bottom_x_left(x):
 	x_left_bottom = x
-	for m in matches:
-		m.set_bottom_x_left(x_left_bottom)
+	update_hide_and_show()
 
 
 func set_x_lefts(new_x_left_top, new_x_left_bottom):
 	x_left_top = new_x_left_top
 	x_left_bottom = new_x_left_bottom
-	for m in matches:
-		m.set_x_lefts(x_left_top, x_left_bottom)
+	update_hide_and_show()
 
 
 func move_to_selected():
@@ -67,16 +76,11 @@ func move_to_selected():
 	return selected
 
 
-func set_top_bottom_coords(y_top, y_bottom):
-	for m in matches:
-		m.set_top_bottom_coords(y_top, y_bottom)
-
-
 func get_matches_in_range(start, end, is_top):
 	var found = []
 	for m in matches:
-		if m.is_visible() and m.intersects_range(start, end, is_top):
-			found.append(m.id)
+		if m.is_currently_visible and m.intersects_range(start, end, is_top):
+			found.append(m.blast_id)
 	return found
 
 
@@ -99,7 +103,6 @@ func deselect():
 		matches[selected].deselect()
 		selected = -1
 		match_deselected.emit()
-		
 
 
 func set_selected_match(match_id):
@@ -107,7 +110,7 @@ func set_selected_match(match_id):
 	matches[match_id].select()
 	selected = match_id
 	match_selected.emit(match_id)
-	
+
 
 func _unhandled_input(event):
 	if Globals.paused:

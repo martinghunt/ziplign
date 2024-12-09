@@ -20,13 +20,20 @@ func load_fasta_file(filename):
 	print("Loading fasta file: ", filename)
 	var file = FileAccess.open(filename, FileAccess.READ)
 	var lines = file.get_as_text().rstrip("\n").split("\n")
-	var contigs = {"names": [], "seqs": {}}
+	var contigs = {"order": [], "contigs": []}
 
 	for line in lines:
 		if line[0] == ">":
-			contigs["names"].append(line.lstrip(">"))
+			var fields = line.trim_prefix(">").split(" ", false, 1)
+			contigs["order"].append(len(contigs["order"]))
+			var descr
+			if len(fields) > 1:
+				descr = fields[1]
+			else:
+				descr = ""
+			contigs["contigs"].append({"name": fields[0], "descr": descr})
 		else:
-			contigs["seqs"][contigs["names"][-1]] = line
+			contigs["contigs"][-1]["seq"] = line
 	print("Loaded fasta file ok: ", filename)
 	return contigs
 

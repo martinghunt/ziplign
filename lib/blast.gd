@@ -1,3 +1,5 @@
+const BlastHitClass = preload("blast_hit.gd")
+
 func run_blast(proj_dir, blast_program):
 	var opts = ["blast", "-t", blast_program, "-b", Globals.userdata.bin, "-o", proj_dir]
 	if Globals.userdata.config.get_value("blast", "share_data"):
@@ -17,14 +19,23 @@ func run_blast(proj_dir, blast_program):
 	return [exit_code, stderr]
 
 
-func load_tsv_file(filename):
+func genome2name_lookup(gen):
+	var lookup = {}
+	for i in gen["order"]:
+		lookup[gen["contigs"][i]["name"]] = i
+	return lookup
+
+
+func load_tsv_file(filename, qry_genome, ref_genome):
 	var file = FileAccess.open(filename, FileAccess.READ)
 	var contents = file.get_as_text()
 	contents = contents.rstrip("\n")
 	var lines = contents.split("\n")
 	var rows = []
 	var aln_json = JSON.new()
-
+	var qry_lookup = genome2name_lookup(qry_genome)
+	var ref_lookup = genome2name_lookup(ref_genome)
+	
 	for line in lines:
 		# windows blast has an extra "\r" at the end of each line
 		var fields = line.rstrip("\r").split("\t")
@@ -44,16 +55,21 @@ func load_tsv_file(filename):
 			print("Error parsing final field of blast line: ", fields)
 			continue
 
-		rows.append({
-			"qry": fields[0],
-			"ref": fields[1],
-			"pc": float(fields[2]),
-			"qstart": qcoords[0],
-			"qend": qcoords[1],
-			"rstart": refcoords[0],
-			"rend": refcoords[1],
-			"rev": is_rev,
-			"aln_data": aln_json.data
-		})
-		
+
+		if int(qcoords[1]) - int(qcoords[0]) < 10:
+			continue
+			
+		rows.append(BlastHitClass.new(
+			qry_lookup[fields[0]],
+			ref_lookup[fields[1]],
+			float(fields[2]),
+			qcoords[0],
+			qcoords[1],
+			refcoords[0],
+			refcoords[1],
+			is_rev,
+			aln_json.data,
+		))
+	
+	rows.sort_custom(func(a, b): return a.length() > b.length())
 	return rows

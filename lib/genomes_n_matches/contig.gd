@@ -92,7 +92,7 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	gff_features = annotation
 	for feature in gff_features:
-		if feature[0] == 0 and feature[1] == length_in_bp - 1:
+		if feature[0] == 0 and feature[1] == length_in_bp - 1 and (feature[1] - feature[0]) > 10000:
 			continue
 		var f_top = gene_fwd_top
 		var f_bot = gene_fwd_bottom
@@ -110,7 +110,7 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 		annot_polys[i].connect("mouse_out", on_mouse_out_annot)
 
 func name():
-	return Globals.proj_data.genome_seqs[top_or_bottom]["names"][id]
+	return Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][id]["name"]
 
 func shift(x_move):
 	x_offset += x_move
@@ -141,7 +141,7 @@ func set_polygons_coords():
 func set_zoomed_view(turn_on):
 	if turn_on:
 		centerline.width = centerline_width_zoomed
-		if top_or_bottom == "top":
+		if top_or_bottom == Globals.TOP:
 			centerline_y = top
 		else:
 			centerline_y = bottom

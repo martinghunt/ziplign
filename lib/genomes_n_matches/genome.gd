@@ -12,7 +12,6 @@ signal move_to_pos
 
 var contigs = {}
 var base_contig_pos = {}
-var contig_names = []
 var hover_matches = {}
 var selected_contig = -1
 var contig_space = 20
@@ -42,7 +41,7 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 	bottom = new_bottom
 	var total_height = bottom - top
 
-	if top_or_bottom == "top":
+	if top_or_bottom == Globals.TOP:
 		tracks_y["ctg_name"] = top - 11
 		tracks_y["coords_top"] = top + 0.27 * total_height
 		tracks_y["coords_bottom"] = top + 0.4 * total_height
@@ -60,7 +59,7 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		tracks_y["ctg_name"] = top + total_height
 		
 
-	if top_or_bottom == "top":
+	if top_or_bottom == Globals.TOP:
 		coords_axis_y["coords"] = tracks_y["coords_top"] - 13
 		coords_axis_y["tick_top"] = 0.5 * (tracks_y["coords_top"] + tracks_y["coords_bottom"])
 		coords_axis_y["tick_bottom"] = tracks_y["fwd_top"] + 3
@@ -76,30 +75,35 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		coords_axis_y["tick_bottom"] += 3
 	if not Globals.proj_data.has_annotation():
 		coords_axis_y["coords"] -= 4
-		if top_or_bottom == "top":
+		if top_or_bottom == Globals.TOP:
 			tracks_y["ctg_name"] -= 12
 	var start = 100
 	last_contig_end = 0
 	
-	for cname in Globals.proj_data.genome_seqs[top_or_bottom]["names"]:
-		var clength = len(Globals.proj_data.genome_seqs[top_or_bottom]["seqs"][cname])
-		contig_names.append(cname)
+	# 	"top": {"order": [0], "contigs": [{"name": ["1"], "descr": ["foo"], "seq": ["ACGTA"]}]},
+	for i in Globals.proj_data.genome_seqs[top_or_bottom]["order"]:
+		var ctg = Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][i]
+		var clength = len(ctg["seq"])
 		last_contig_end = start + clength
-		contigs[cname] = ContigClass.new(len(contigs), top_or_bottom, start, last_contig_end, tracks_y["fwd_top"], tracks_y["rev_bottom"], clength, Globals.proj_data.annotation[top_or_bottom].get(cname, {}))
-		base_contig_pos[cname] = [start, last_contig_end]
+		contigs[i] = ContigClass.new(i, top_or_bottom, start, last_contig_end, tracks_y["fwd_top"], tracks_y["rev_bottom"], clength, Globals.proj_data.annotation[top_or_bottom].get(i, {}))
+		base_contig_pos[i] = [start, last_contig_end]
 		start += contig_space + clength
 
 
 func number_of_contigs():
-	return len(contig_names)
+	return len(contigs)
 
 
 func contig_length_from_index(i):
-	return len(Globals.proj_data.genome_seqs[top_or_bottom]["seqs"][contig_names[i]])
+	return len(Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][i]["seq"])
 
 
-func contig_nt(index, pos):
-	return Globals.proj_data.genome_seqs[top_or_bottom]["seqs"][contig_names[index]][pos]
+func contig_nt(i, pos):
+	return Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][i]["seq"][pos]
+
+
+func contig_name(i):
+	return Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][i]["name"]
 	
 	
 func pos_to_human_readable(pos):
@@ -121,8 +125,7 @@ func pos_add_commas(pos):
 
 
 func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
-	var cname = contig_names[contig_index]
-	var genome_plot_len = contigs[cname].x_end - contigs[cname].x_start
+	var genome_plot_len = contigs[contig_index].x_end - contigs[contig_index].x_start
 	genome_start = int(genome_start)
 	genome_end = int(genome_end)
 	var contig_length_in_bp = contig_length_from_index(contig_index)
@@ -131,8 +134,8 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 		tick_space *= 1.1
 
 	nt_labels.append(Label.new())
-	nt_labels[-1].text = " " + cname
-	var x = contigs[cname].x_start + 1.0 * genome_plot_len / contig_length_in_bp
+	nt_labels[-1].text = " " + contig_name(contig_index)
+	var x = contigs[contig_index].x_start + 1.0 * genome_plot_len / contig_length_in_bp
 	nt_labels[-1].position.x = max(Globals.controls_width, x) - 7
 	nt_labels[-1].position.y = tracks_y["ctg_name"]
 	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
@@ -143,7 +146,7 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 
 
 	for i in range(start, genome_end, tick_space):
-		var plot_x = contigs[cname].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
+		var plot_x = contigs[contig_index].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
 		nt_labels.append(Line2D.new())
 		nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_top"]))
 		nt_labels[-1].add_point(Vector2(plot_x, coords_axis_y["tick_bottom"]))
@@ -161,15 +164,14 @@ func show_coords_axis(contig_index, genome_start, genome_end, tick_space):
 
 
 func show_nuc_sequence(contig_index, genome_start, genome_end):
-	var cname = contig_names[contig_index]
-	var genome_plot_len = contigs[cname].x_end - contigs[cname].x_start
+	var genome_plot_len = contigs[contig_index].x_end - contigs[contig_index].x_start
 	genome_start = int(genome_start)
 	genome_end = int(genome_end)
 	var contig_length_in_bp = contig_length_from_index(contig_index)
 	var fwd_y
 	var rev_y
 	
-	if top_or_bottom == "top":
+	if top_or_bottom == Globals.TOP:
 		fwd_y = tracks_y["fwd_bottom"] - 15
 		rev_y = tracks_y["fwd_bottom"] - 2
 	else:
@@ -177,8 +179,8 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 		rev_y = tracks_y["fwd_bottom"] 
 
 	nt_labels.append(Label.new())
-	nt_labels[-1].text = " " + cname
-	var x = contigs[cname].x_start + 1.0 * genome_plot_len / contig_length_in_bp
+	nt_labels[-1].text = " " + contig_name(contig_index)
+	var x = contigs[contig_index].x_start + 1.0 * genome_plot_len / contig_length_in_bp
 	nt_labels[-1].position.x = max(Globals.controls_width, x) - 7
 	nt_labels[-1].position.y = tracks_y["ctg_name"]
 	nt_labels[-1].add_theme_color_override("font_color", Globals.theme.colours["text"])
@@ -189,7 +191,7 @@ func show_nuc_sequence(contig_index, genome_start, genome_end):
 
 	
 	for i in range(genome_start, genome_end):
-		var plot_x = contigs[cname].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
+		var plot_x = contigs[contig_index].x_start + 1.0 * genome_plot_len * i / contig_length_in_bp
 		nt_labels.append(Label.new())
 		nt_labels[-1].text = contig_nt(contig_index, i)
 		nt_labels[-1].position.x = plot_x - 0.5 * Globals.font_acgt_sizes[contig_nt(contig_index, i)]
@@ -237,8 +239,9 @@ func clear_nt_labels():
 	
 
 func update_annot_visiblity_recalc_all(zoom):
-	for cname in contigs:
-		contigs[cname].set_annot_visibility(zoom)
+	for i in contigs:
+		contigs[i].set_annot_visibility(zoom)
+
 
 func update_annot_visibility(old_x_zoom, old_x_left):
 	var new_range_start = 0
@@ -251,29 +254,27 @@ func update_annot_visibility(old_x_zoom, old_x_left):
 		var right_end = max(old_range_end, new_range_end)
 		
 		if old_x_zoom != x_zoom:
-			for cname in contigs:
-				contigs[cname].update_annot_visibility_in_range(left_start, right_end, x_zoom)
+			for i in contigs:
+				contigs[i].update_annot_visibility_in_range(left_start, right_end, x_zoom)
 		else:
 			var left_end = max(old_range_start, new_range_start)
 			var right_start = min(old_range_end, new_range_end)
-			for cname in contigs:
-				contigs[cname].update_annot_visibility_in_range(left_start, left_end, x_zoom)
-				contigs[cname].update_annot_visibility_in_range(right_start, right_end, x_zoom)
+			for i in contigs:
+				contigs[i].update_annot_visibility_in_range(left_start, left_end, x_zoom)
+				contigs[i].update_annot_visibility_in_range(right_start, right_end, x_zoom)
 	else:
-		for cname in contigs:
-			contigs[cname].update_annot_visibility_in_range(old_range_start, old_range_end, x_zoom)
-			contigs[cname].update_annot_visibility_in_range(new_range_start, new_range_end, x_zoom)
-			#contigs[cname].set_annot_visibility(x_zoom)
+		for i in contigs:
+			contigs[i].update_annot_visibility_in_range(old_range_start, old_range_end, x_zoom)
+			contigs[i].update_annot_visibility_in_range(new_range_start, new_range_end, x_zoom)
 
-	
+
 func reset_contig_coords(old_x_zoom, old_x_left, window_resize=false):
 	if window_resize:
 		old_x_zoom = x_zoom
 		old_x_left = x_left
 		
-	for cname in contigs:
-		contigs[cname].set_start_end(x_left + base_contig_pos[cname][0] * x_zoom, x_left + base_contig_pos[cname][1] * x_zoom)
-		#contigs[cname].set_annot_visibility(x_zoom)
+	for i in contigs:
+		contigs[i].set_start_end(x_left + base_contig_pos[i][0] * x_zoom, x_left + base_contig_pos[i][1] * x_zoom)
 
 	update_annot_visibility(old_x_zoom, old_x_left)
 
@@ -288,8 +289,8 @@ func reset_contig_coords(old_x_zoom, old_x_left, window_resize=false):
 	clear_nt_labels()
 		
 	if x_zoom <= Globals.zoom_to_show_bp:
-		for cname in zoomed_contigs:
-			contigs[cname].set_zoomed_view(false)
+		for i in zoomed_contigs:
+			contigs[i].set_zoomed_view(false)
 		zoomed_contigs.clear()
 		var bp_visible =  v.x /x_zoom
 		var no_of_labels = v.x / label_space_pixels
@@ -318,24 +319,24 @@ func reset_contig_coords(old_x_zoom, old_x_left, window_resize=false):
 	var new_zoomed = {}
 	if left_genome_index == right_genome_index:
 		show_nuc_sequence(left_genome_index, left_genome_pos, right_genome_pos)
-		new_zoomed[contig_names[left_genome_index]] = true
+		new_zoomed[left_genome_index] = true
 		
 	else:
 		show_nuc_sequence(left_genome_index, left_genome_pos, contig_length_from_index(left_genome_index))
-		new_zoomed[contig_names[left_genome_index]] = true
+		new_zoomed[left_genome_index] = true
 		for i in range(left_genome_index + 1, right_genome_index):
 			show_nuc_sequence(i, 0, contig_length_from_index(i))
-			new_zoomed[contig_names[i]] = true
+			new_zoomed[i] = true
 		show_nuc_sequence(right_genome_index, 0, right_genome_pos)
-		new_zoomed[contig_names[right_genome_index]] = true
+		new_zoomed[right_genome_index] = true
 
-	for cname in new_zoomed:
-		if cname not in zoomed_contigs:
-			contigs[cname].set_zoomed_view(true)
+	for i in new_zoomed:
+		if i not in zoomed_contigs:
+			contigs[i].set_zoomed_view(true)
 			
-	for cname in zoomed_contigs:
-		if cname not in new_zoomed:
-			contigs[cname].set_zoomed_view(false)
+	for i in zoomed_contigs:
+		if i not in new_zoomed:
+			contigs[i].set_zoomed_view(false)
 			
 	zoomed_contigs = new_zoomed
 
@@ -366,20 +367,21 @@ func _ready():
 		contigs[c].connect("annot_selected", on_annot_selected)
 		contigs[c].connect("annot_deselected", on_annot_deselected)
 
+
 func clear_all():
 	clear_nt_labels()
-	for c in contigs:
-		remove_child(contigs[c])
-		contigs[c].free()
+	for i in contigs:
+		remove_child(contigs[i])
+		contigs[i].free()
 	contigs.clear()
 	
 
 func draw_pos_to_genome_and_contig_pos(x):
-	for i in len(contig_names):
-		if x < base_contig_pos[contig_names[i]][1]:
-			x = max(x, base_contig_pos[contig_names[i]][0])
-			return  [i, x - base_contig_pos[contig_names[i]][0]]
-	return [len(contig_names)-1, contig_length_from_index(len(contig_names)-1)]
+	for i in len(contigs):
+		if x < base_contig_pos[i][1]:
+			x = max(x, base_contig_pos[i][0])
+			return  [i, x - base_contig_pos[i][0]]
+	return [len(contigs)-1, contig_length_from_index(len(contigs)-1)]
 
 
 func screen_x_pos_to_genome_contig_and_pos(screen_x):
@@ -391,22 +393,23 @@ func name_of_selected_contig():
 	if selected_contig == -1:
 		return ""
 	else:
-		return contig_names[selected_contig]
+		return contig_name(selected_contig)
 
 
 func deselect_all_annot():
-	for cname in contigs:
-		contigs[cname].deselect_annot()
+	for i in contigs:
+		contigs[i].deselect_annot()
+
 
 func deselect_contig():
 	if selected_contig != -1:
-		contigs[contig_names[selected_contig]].deselect()
+		contigs[selected_contig].deselect()
 		selected_contig = -1
 		contig_deselected.emit()
 
 
 func select_contig(contig_id):
-	contigs[contig_names[contig_id]].select()
+	contigs[contig_id].select()
 	selected_contig = contig_id
 	contig_selected.emit(top_or_bottom)
 
@@ -420,7 +423,7 @@ func _unhandled_input(event):
 			if event.pressed:
 				if len(hover_matches) == 1:
 					var contig_id = hover_matches.keys()[0]
-					if len(contigs[contig_names[contig_id]].annot_hovering) > 0:
+					if len(contigs[contig_id].annot_hovering) > 0:
 						return
 					if event.is_double_click():
 						#var genome_and_comtig_pos = draw_pos_to_genome_and_contig_pos(event.position.x)
@@ -429,7 +432,8 @@ func _unhandled_input(event):
 						return
 					if selected_contig != -1 and selected_contig == contig_id:
 						return
-					contigs[contig_names[selected_contig]].deselect()
+					elif selected_contig != -1:
+						contigs[selected_contig].deselect()
 					select_contig(contig_id)
 				else:
 					deselect_contig()
@@ -438,7 +442,7 @@ func _unhandled_input(event):
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
 				if selected_contig in hover_matches:
-					contigs[contig_names[selected_contig]].deselect()
+					contigs[selected_contig].deselect()
 					selected_contig = -1
 					contig_deselected.emit()
 
@@ -462,24 +466,24 @@ func on_annot_deselected(contig_id, annot_id):
 
 func select_annot(contig_id, annot_id):
 	deselect_all_annot()
-	contigs[contig_names[contig_id]].select_annot(annot_id)
+	contigs[contig_id].select_annot(annot_id)
 	on_annot_selected(contig_id, annot_id)
 
 
 func annotation_search(search_term):
 	var results = []
-	for i in range(0, len(contig_names)):
-		var new_results = contigs[contig_names[i]].annotation_search(search_term)
+	for i in range(0, len(contigs)):
+		var new_results = contigs[i].annotation_search(search_term)
 		for x in new_results:
 			results.append([i] +  x)
 	return results
 
 
 func move_to_annotation_feature(contig_id, annot_id):
-	set_x_left(contigs[contig_names[contig_id]].annot_polys[annot_id].start_x_coord())
+	set_x_left(contigs[contig_id].annot_polys[annot_id].start_x_coord())
 
 
 func get_percent_annot_feature_x_left(contig_id, annot_id):
-	var annot = contigs[contig_names[contig_id]].annot_polys[annot_id]
-	var annot_start = annot.gff_data[0] + base_contig_pos[contig_names[contig_id]][0]
+	var annot = contigs[contig_id].annot_polys[annot_id]
+	var annot_start = annot.gff_data[0] + base_contig_pos[contig_id][0]
 	return 100.0 * annot_start / last_contig_end

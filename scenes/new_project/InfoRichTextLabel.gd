@@ -6,9 +6,9 @@ func _ready():
 	pass
 	
 
-func _on_new_project_append_to_info_text(t, newline=true):
+func _on_new_project_append_to_info_text(t, append_newline=true):
 	append_text(t)
-	if newline:
+	if append_newline:
 		append_text("\n")
 	var scrollbar = $"..".get_v_scroll_bar()
 	await scrollbar.changed
