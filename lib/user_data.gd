@@ -16,6 +16,7 @@ var default_config = {
 		"p_sens": 1,
 	},
 	"blast": {"share_data": false},
+	"other": {"max_matches_on_screen": 500}
 }
 
 

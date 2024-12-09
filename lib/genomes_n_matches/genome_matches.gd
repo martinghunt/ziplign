@@ -35,7 +35,7 @@ func update_hide_and_show():
 	var total_visible = 0
 	for m in matches:
 		m.update_canvas_coords()
-		if total_visible > Globals.max_matches_on_screen:
+		if total_visible > Globals.userdata.config.get_value("other", "max_matches_on_screen"):
 			m.make_invisible()
 		else:
 			m.update_visibility()

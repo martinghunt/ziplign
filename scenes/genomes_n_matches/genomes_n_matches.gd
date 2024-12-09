@@ -655,3 +655,7 @@ func _on_annotation_line_edit_annotation_search(search_text):
 		results.append([Globals.BOTTOM] + x)
 	annotation_list_found.emit(results)
 	
+
+
+func _on_game_redraw_matches():
+	matches.update_hide_and_show()

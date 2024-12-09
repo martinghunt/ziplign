@@ -3,6 +3,7 @@ extends Control
 signal pause
 signal new_project_go
 signal window_resized
+signal redraw_matches
 #signal reload
 
 
@@ -58,3 +59,7 @@ func _on_main_menu_reload():
 	new_project_go.emit()
 	set_colours()
 	resume()
+
+
+func _on_settings_redraw_matches():
+	redraw_matches.emit()

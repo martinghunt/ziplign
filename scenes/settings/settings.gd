@@ -2,6 +2,7 @@ extends Control
 
 signal return_to_main_menu
 signal theme_updated
+signal redraw_matches
 
 func _ready():
 	hide()
@@ -20,7 +21,11 @@ func _on_main_menu_open_settings():
 	$VBoxContainer/GridContainer/TrackpadZoomInvertButton._ready()
 	$VBoxContainer/GridContainer/TrackpadLRSensLineEdit._ready()
 	$VBoxContainer/GridContainer/BlastShareUsageButton._ready()
+	$VBoxContainer/GridContainer/MaxMatchesOnScreenLineEdit._ready()
 	show()
 
 func _on_theme_option_button_theme_updated():
 	theme_updated.emit()
+
+func _on_max_matches_updated():
+	redraw_matches.emit()

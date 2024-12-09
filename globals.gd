@@ -32,7 +32,7 @@ var match_outline_width = 0.75
 var x_zoom = 1.0
 var top_x_left = 1.0
 var bottom_x_left = 1.0
-var max_matches_on_screen = 500
+
 
 var complement_dict = {
 	"A": "T",

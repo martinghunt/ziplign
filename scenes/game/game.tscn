@@ -585,6 +585,7 @@ tooltip_text = "Move bottom genome"
 script = ExtResource("3_nnddm")
 
 [connection signal="new_project_go" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_new_project_go"]
+[connection signal="redraw_matches" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_redraw_matches"]
 [connection signal="window_resized" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_window_resized"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/TopGridContainer/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]

@@ -70,6 +70,7 @@ mouse_filter = 1
 [connection signal="new_project_go_button" from="NewProject" to="Game" method="_on_new_project_new_project_go_button"]
 [connection signal="return_to_game_reload" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_game_reload"]
 [connection signal="return_to_main_menu" from="LoadProject" to="MainMenu" method="_on_load_project_return_to_main_menu"]
+[connection signal="redraw_matches" from="Settings" to="Game" method="_on_settings_redraw_matches"]
 [connection signal="return_to_main_menu" from="Settings" to="MainMenu" method="_on_settings_return_to_main_menu"]
 [connection signal="theme_updated" from="Settings" to="." method="_on_settings_theme_updated"]
 [connection signal="return_to_main_menu" from="SaveProject" to="MainMenu" method="_on_save_project_return_to_main_menu"]
