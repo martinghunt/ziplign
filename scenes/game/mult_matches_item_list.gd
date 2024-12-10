@@ -33,7 +33,10 @@ func set_item_list(new_data, type_of_data):
 		elif displaying == Display_type.ANNOTATION:
 			add_item(Globals.top_or_bottom_str[i[0]] + ": " + i[3])
 		elif displaying == Display_type.SEQUENCE:
-			add_item(str(i))
+			var strand = "+"
+			if i[3]:
+				strand = "-"
+			add_item(Globals.top_or_bottom_str[i[0]] + ": " + Globals.proj_data.genome_seqs[i[0]]["contigs"][i[1]]["name"] + " " + str(i[2]) + " " + strand)
 		else:
 			pass
 		set_item_tooltip_enabled(item_count - 1, false)

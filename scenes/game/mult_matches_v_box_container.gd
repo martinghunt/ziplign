@@ -14,7 +14,9 @@ func _on_genomes_n_matches_annotation_list_found(annot_data):
 	$MultiMatchesScrollContainer/MultMatchesItemList.set_annotation(annot_data)
 	show()
 
-
+func _on_genomes_n_matches_sequence_list_found(seq_data):
+	$MultiMatchesScrollContainer/MultMatchesItemList.set_sequence(seq_data)
+	show()
 
 func _on_up_button_button_up():
 	pass

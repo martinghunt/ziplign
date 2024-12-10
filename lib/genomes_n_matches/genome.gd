@@ -4,6 +4,7 @@ class_name Genome
 
 const ContigClass = preload("contig.gd")
 
+
 signal contig_selected
 signal contig_deselected
 signal annot_selected
@@ -31,6 +32,8 @@ var nt_labels = []
 var zoomed_contigs = {}
 var label_space_pixels = 200
 var style_box_ctg_names = StyleBoxFlat.new()
+var highlight_data = []
+var highlight_rect = Polygon2D.new()
 
 
 func _init(new_top_or_bottom, new_top, new_bottom):
@@ -89,6 +92,11 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		base_contig_pos[i] = [start, last_contig_end]
 		start += contig_space + clength
 
+	highlight_rect.color = Globals.theme.colours["blast_match"]["fwd"]
+	highlight_rect.color.a = 0.3
+	add_child(highlight_rect)
+	highlight_rect.hide()
+	highlight_rect.z_index = 9
 
 func number_of_contigs():
 	return len(contigs)
@@ -287,6 +295,7 @@ func reset_contig_coords(old_x_zoom, old_x_left, window_resize=false):
 	right_genome_pos = result[1]
 
 	clear_nt_labels()
+	set_highlight_rect_coords()
 		
 	if x_zoom <= Globals.zoom_to_show_bp:
 		for i in zoomed_contigs:
@@ -374,7 +383,7 @@ func clear_all():
 		remove_child(contigs[i])
 		contigs[i].free()
 	contigs.clear()
-	
+	clear_sequence_highlight()
 
 func draw_pos_to_genome_and_contig_pos(x):
 	for i in len(contigs):
@@ -412,6 +421,7 @@ func select_contig(contig_id):
 	contigs[contig_id].select()
 	selected_contig = contig_id
 	contig_selected.emit(top_or_bottom)
+	clear_sequence_highlight()
 
 
 func _unhandled_input(event):
@@ -457,6 +467,7 @@ func on_mouse_out_contig(match_id):
 
 func on_annot_selected(contig_id, annot_id):
 	deselect_contig()
+	clear_sequence_highlight()
 	annot_selected.emit(top_or_bottom, contig_id, annot_id)
 
 
@@ -466,6 +477,7 @@ func on_annot_deselected(contig_id, annot_id):
 
 func select_annot(contig_id, annot_id):
 	deselect_all_annot()
+	clear_sequence_highlight()
 	contigs[contig_id].select_annot(annot_id)
 	on_annot_selected(contig_id, annot_id)
 
@@ -479,11 +491,54 @@ func annotation_search(search_term):
 	return results
 
 
+func sequence_search(search_term):
+	var results = []
+	for i in range(0, len(contigs)):
+		var new_results = contigs[i].sequence_search(search_term)
+		for x in new_results:
+			results.append([i] + x)
+	return results
+
+
 func move_to_annotation_feature(contig_id, annot_id):
 	set_x_left(contigs[contig_id].annot_polys[annot_id].start_x_coord())
 
 
+func get_percent_position_x_left(contig_id, pos):
+	return 100.0 * (pos + base_contig_pos[contig_id][0]) / last_contig_end
+
+
 func get_percent_annot_feature_x_left(contig_id, annot_id):
 	var annot = contigs[contig_id].annot_polys[annot_id]
-	var annot_start = annot.gff_data[0] + base_contig_pos[contig_id][0]
-	return 100.0 * annot_start / last_contig_end
+	return get_percent_position_x_left(contig_id, annot.gff_data[0])
+
+
+func clear_sequence_highlight():
+	highlight_data.clear()
+	highlight_rect.hide()
+
+
+func set_highlight_rect_coords():
+	if len(highlight_data) == 0:
+		return
+	var r_top
+	var r_bottom
+	if highlight_data[3]:
+		r_top = tracks_y["rev_top"]
+		r_bottom = tracks_y["rev_bottom"] + 1
+	else:
+		r_top = tracks_y["fwd_top"] - 1
+		r_bottom = tracks_y["fwd_bottom"]
+	
+	highlight_rect.polygon = [
+		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[1]) * x_zoom, r_top),
+		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[2]) * x_zoom, r_top),
+		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[2]) * x_zoom, r_bottom),
+		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[1]) * x_zoom, r_bottom)
+	]
+
+
+func highlight_sequence(contig_id, start, end, is_rev):
+	highlight_data = [contig_id, start - 0.5, end + 0.5, is_rev]
+	set_highlight_rect_coords()
+	highlight_rect.show()

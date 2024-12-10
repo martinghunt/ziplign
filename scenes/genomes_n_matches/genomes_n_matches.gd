@@ -10,6 +10,8 @@ signal annot_selected
 signal annot_deselected
 signal multimatch_list_found
 signal annotation_list_found
+signal sequence_list_found
+signal sequence_range_selected
 signal enable_contig_ops
 
 
@@ -213,6 +215,7 @@ func _on_moved_to_selected_match(selected_id):
 
 
 func _on_match_selected(selected_id):
+	clear_sequence_highlights()
 	top_genome.deselect_contig()
 	bottom_genome.deselect_contig()
 	enable_contig_ops.emit(false)
@@ -224,6 +227,7 @@ func _on_match_deselected():
 
 
 func _on_contig_selected(top_or_bottom):
+	clear_sequence_highlights()
 	if top_or_bottom == Globals.TOP:
 		bottom_genome.deselect_contig()
 		contig_selected.emit(top_or_bottom, top_genome.name_of_selected_contig())
@@ -241,6 +245,7 @@ func _on_contig_deselected():
 
 
 func _on_annot_selected(top_or_bottom, contig_id, annot_id):
+	clear_sequence_highlights()
 	enable_contig_ops.emit(false)
 	var contig_name 
 	var annot
@@ -251,6 +256,7 @@ func _on_annot_selected(top_or_bottom, contig_id, annot_id):
 		contig_name = bottom_genome.contig_name(contig_id)
 		annot = bottom_genome.contigs[contig_id].annot_polys[annot_id].selected_str()
 	annot_selected.emit(top_or_bottom, contig_name, annot_id, annot)
+	
 
 func _on_annot_deselected(top_or_bottom, contig_id, annot_id):
 	var contig_name 
@@ -560,6 +566,7 @@ func _unhandled_input(event):
 	elif event is InputEventMouseMotion and dragging:
 		queue_redraw()
 
+
 func _draw():
 	if dragging > 0:
 		var end = get_global_mouse_position()
@@ -575,6 +582,7 @@ func _on_mult_matches_item_list_selected_a_match(i):
 
 
 func _on_mult_matches_item_list_selected_an_annotation(annot_data):
+	clear_sequence_highlights()
 	if annot_data[0] == Globals.TOP:
 		set_top_scrollbar_value(top_genome.get_percent_annot_feature_x_left(annot_data[1], annot_data[2]), true)
 		top_genome.select_annot(annot_data[1], annot_data[2])
@@ -656,6 +664,46 @@ func _on_annotation_line_edit_annotation_search(search_text):
 	annotation_list_found.emit(results)
 	
 
+func _on_sequence_line_edit_sequence_search(search_text):
+	var top_matches = top_genome.sequence_search(search_text)
+	var bottom_matches = bottom_genome.sequence_search(search_text)
+	var results = []
+	for x in top_matches:
+		results.append([Globals.TOP] + x + [len(search_text)])
+		if len(results) >= Globals.max_search_results:
+			break
+			
+	for x in bottom_matches:
+		if len(results) >= Globals.max_search_results:
+			break
+		results.append([Globals.BOTTOM] + x + [len(search_text)])
+		
+	sequence_list_found.emit(results)
+
 
 func _on_game_redraw_matches():
 	matches.update_hide_and_show()
+
+
+func clear_sequence_highlights():
+	top_genome.clear_sequence_highlight()
+	bottom_genome.clear_sequence_highlight()
+
+
+func _on_mult_matches_item_list_selected_a_sequence(seq_data):
+	top_genome.deselect_all_annot()
+	bottom_genome.deselect_all_annot()
+	top_genome.deselect_contig()
+	bottom_genome.deselect_contig()
+	matches.deselect()
+	var range_end = seq_data[2] + seq_data[4] - 1
+	if seq_data[0] == Globals.TOP:
+		set_top_scrollbar_value(top_genome.get_percent_position_x_left(seq_data[1], seq_data[2]), true)
+		top_genome.highlight_sequence(seq_data[1], seq_data[2], range_end, seq_data[3])
+		bottom_genome.clear_sequence_highlight()
+		sequence_range_selected.emit(Globals.TOP, top_genome.contig_name(seq_data[1]), seq_data[2], range_end, seq_data[3])
+	else:
+		set_bottom_scrollbar_value(bottom_genome.get_percent_position_x_left(seq_data[1], seq_data[2]), true)
+		bottom_genome.highlight_sequence(seq_data[1], seq_data[2], seq_data[2] + seq_data[4] - 1, seq_data[3])
+		top_genome.clear_sequence_highlight()
+		sequence_range_selected.emit(Globals.BOTTOM, bottom_genome.contig_name(seq_data[1]), seq_data[2], range_end, seq_data[3])

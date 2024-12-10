@@ -37,8 +37,39 @@ func load_fasta_file(filename):
 	print("Loaded fasta file ok: ", filename)
 	return contigs
 
+
 func revcomp(seq_in):
 	var seq_out = []
 	for i in range(0, len(seq_in)):
 		seq_out.append(Globals.complement_dict.get(seq_in[-i-1], "N"))
 	return "".join(seq_out)
+
+
+func search_one_strand(search_term, refseq):
+	var hits = []
+	var i = refseq.findn(search_term)
+	while i != -1 and len(hits) < Globals.max_search_results:
+		hits.append(i)
+		if i != -1:
+			i = refseq.findn(search_term, i+1)
+	return hits
+
+
+func search_for_seq(search_term, refseq):
+	var new_hits = search_one_strand(search_term, refseq)
+	var hits = []
+	for x in new_hits:
+		hits.append([x, false])
+	if len(hits) >= Globals.max_search_results:
+		hits.sort()
+		return hits
+
+	search_term = revcomp(search_term)
+	new_hits = search_one_strand(search_term, refseq)
+	for x in new_hits:
+		hits.append([x, true])
+		if len(hits) >= Globals.max_search_results:
+			break
+
+	hits.sort()
+	return hits

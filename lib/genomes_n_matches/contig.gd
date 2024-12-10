@@ -8,6 +8,7 @@ signal annot_deselected
 signal annot_selected
 
 const AnnotFeatureClass = preload("res://lib/annot_feature.gd")
+var fastaq_lib = preload("res://lib/fastaq.gd").new()
 
 var static_body_2d = StaticBody2D.new()
 var coll_poly = CollisionPolygon2D.new()
@@ -281,6 +282,12 @@ func annotation_search(search_term):
 		if annot.metadata_has_search_string(search_term):
 			matches.append([annot.id, annot.name_label.text])
 	return matches
+
+
+func sequence_search(search_term):
+	return fastaq_lib.search_for_seq(search_term, Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][id]["seq"])
+	
+
 
 
 func _unhandled_input(event):

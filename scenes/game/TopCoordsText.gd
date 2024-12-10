@@ -38,3 +38,12 @@ func _on_genomes_n_matches_annot_deselected(top_or_bottom, contig_name, annot_id
 	annot_selected_annot_id = -1
 	if not text.begins_with("Match"):
 		text = "Nothing"
+
+
+func _on_genomes_n_matches_sequence_range_selected(top_or_bottom, contig_name, start, end, is_rev):
+	var coords_str
+	if is_rev:
+		coords_str = str(end + 1) + "-" + str(start + 1)
+	else:
+		coords_str = str(start + 1) + "-" + str(end + 1) 
+	text = "Sequence: " + Globals.top_or_bottom_str[top_or_bottom] + " genome / " + str(contig_name) + " " + coords_str
