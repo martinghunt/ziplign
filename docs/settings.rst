@@ -39,3 +39,7 @@ The options are:
   `privacy statement <https://www.ncbi.nlm.nih.gov/books/NBK569851/>`_.
   By default, TNA turns *off* this setting so that no data is shared. You can
   turn it back on if you choose.
+* Max BLAST matches on screen: the maximum number of BLAST matches to show.
+  Displaying too many will significantly impact memory usage.
+  The default of 500 should be enough - a lot more than this and the screen
+  ends up filled in to the point where it is impossible to see anything useful.
