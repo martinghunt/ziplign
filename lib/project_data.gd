@@ -219,7 +219,7 @@ func set_data_loaded():
 
 
 func has_annotation():
-	return len(annotation[Globals.TOP]) > 0 or len(annotation[Globals.BOTTOM]) < 0
+	return len(annotation[Globals.TOP]) > 0 or len(annotation[Globals.BOTTOM]) > 0
 
 
 func get_match_text(i):
