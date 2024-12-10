@@ -109,7 +109,7 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 	#name_label.theme.set_stylebox("panel", "TooltipPanel", Globals.tooltip_style)
 	#name_label.theme.set_color("font_color", "TooltipLabel", Globals.theme.colours["text"]) 
 	#name_label.theme.set_font("font", "TooltipLabel", Globals.fonts["dejavu"]) 
-	
+	z_index = 1
 	
 	for k in ["Name", "name", "ID"]:
 		name_label.text = gff_data[4].get(k, "")
@@ -140,7 +140,7 @@ func select():
 		
 	poly.color = Globals.theme.colours["ui"]["text"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["ui"]["general_bg"])
-
+	z_index = 2
 
 func deselect():
 	selected = false	
@@ -151,7 +151,7 @@ func deselect():
 		
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
-
+	z_index = 1
 
 func metadata_has_search_string(search_string):
 	for k in gff_data[4]:
