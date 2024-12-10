@@ -103,12 +103,26 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 		annot_polys.append(AnnotFeatureClass.new(len(annot_polys), feature, f_top, f_bot, self))
 		add_child(annot_polys[-1])
 		
-
-	annot_polys.sort_custom(func(a, b): return a.gff_data[0] < b.gff_data[0])
+	# Sort in coord order, but if start positions the same, put the longest
+	# one first. Then set z indexes in the for loop afterwards, so that we
+	# keep increasing the z index when a feature overlaps with the previous
+	# rightmost feature. This should mean that no features get covered up.
+	# There's probably some edge cases, but will work 99%(?) of the time
+	annot_polys.sort_custom(func(a, b): return (a.gff_data[0] < b.gff_data[0]) or (a.gff_data[0] == b.gff_data[0] and a.gff_data[1] > b.gff_data[1])) 
+	var current_z = 1
+	var last_end = 0
+	var max_z = 500 # shouldn't get this many geatures overlapping!
 	for i in range(0, len(annot_polys)):
 		annot_polys[i].id = i
 		annot_polys[i].connect("mouse_in", on_mouse_in_annot)
 		annot_polys[i].connect("mouse_out", on_mouse_out_annot)
+		if annot_polys[i].gff_data[0] < last_end:
+			current_z = min(current_z + 1, max_z)
+		else:
+			current_z = 1
+		annot_polys[i].set_default_z(current_z)
+		last_end = max(last_end, annot_polys[i].gff_data[1])
+
 
 func name():
 	return Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][id]["name"]

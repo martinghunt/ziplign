@@ -18,6 +18,7 @@ var name_label = Label.new()
 var hovering = false
 var selected = false
 var id = -1
+var default_z = 0
 
 func set_top_and_bottom(new_top, new_bottom):
 	top = new_top
@@ -48,16 +49,21 @@ func set_visibility(zoom):
 		hide()
 
 
+func set_default_z(z):
+	default_z = z
+	z_index = z
+
+
 func set_polygon_coords():
 	if len(outline.points) == 0:
-		outline.add_point(Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * gff_data[0] / parent_ctg.length_in_bp, top))
-		outline.add_point(Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * gff_data[1] / parent_ctg.length_in_bp, top))
+		outline.add_point(Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[0] -0.4) / parent_ctg.length_in_bp, top))
+		outline.add_point(Vector2((0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[1]+0.4) / parent_ctg.length_in_bp, top))
 		outline.add_point(Vector2(outline.points[1].x, bottom))
 		outline.add_point(Vector2(outline.points[0].x, bottom))
 		outline.add_point(outline.points[0])
 	else:
-		outline.set_point_position(0, Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * gff_data[0] / parent_ctg.length_in_bp, top))
-		outline.set_point_position(1, Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * gff_data[1] / parent_ctg.length_in_bp, top))
+		outline.set_point_position(0, Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[0]-0.4) / parent_ctg.length_in_bp, top))
+		outline.set_point_position(1, Vector2((0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[1]+0.4) / parent_ctg.length_in_bp, top))
 		outline.set_point_position(2, Vector2(outline.points[1].x, bottom))
 		outline.set_point_position(3, Vector2(outline.points[0].x, bottom))
 		outline.set_point_position(4, outline.points[0])
@@ -140,7 +146,7 @@ func select():
 		
 	poly.color = Globals.theme.colours["ui"]["text"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["ui"]["general_bg"])
-	z_index = 2
+	z_index = 100
 
 func deselect():
 	selected = false	
@@ -151,7 +157,7 @@ func deselect():
 		
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
-	z_index = 1
+	z_index = default_z
 
 func metadata_has_search_string(search_string):
 	for k in gff_data[4]:
