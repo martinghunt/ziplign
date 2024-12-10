@@ -47,8 +47,8 @@ func load_gff_file(filename, genome):
 			if "Parent" in record[4] and record[4]["Parent"] in to_dedup[i]:
 				var parent = to_dedup[i][record[4]["Parent"]]
 				if record[0] == parent[0] and record[1] == parent[1]:
-					to_delete.append(record)
-		
+					to_delete.append(name)
+
 		for x in to_delete:
 			to_dedup[i].erase(x)
 		
