@@ -548,6 +548,7 @@ text = "Selected -"
 
 [node name="TopCoordsText" type="RichTextLabel" parent="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 focus_mode = 2
 theme_override_font_sizes/bold_italics_font_size = 15
 theme_override_font_sizes/italics_font_size = 15
@@ -555,7 +556,6 @@ theme_override_font_sizes/mono_font_size = 15
 theme_override_font_sizes/normal_font_size = 15
 theme_override_font_sizes/bold_font_size = 15
 text = "Nothing"
-fit_content = true
 autowrap_mode = 0
 selection_enabled = true
 script = ExtResource("2_ef7jy")
