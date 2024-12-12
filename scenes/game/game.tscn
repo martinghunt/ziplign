@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=37 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -20,6 +20,12 @@ action = &"pause"
 
 [sub_resource type="Shortcut" id="Shortcut_2ji08"]
 events = [SubResource("InputEventAction_oek1a")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_58y7h"]
+action = &"ui_copy"
+
+[sub_resource type="Shortcut" id="Shortcut_cdy3c"]
+events = [SubResource("InputEventAction_58y7h")]
 
 [sub_resource type="InputEventAction" id="InputEventAction_vxsve"]
 action = &"genomes_tl_bl"
@@ -149,6 +155,8 @@ size_flags_horizontal = 3
 layout_mode = 2
 tooltip_text = "Copy current selection to clipboard"
 theme_override_fonts/font = ExtResource("4_queha")
+shortcut = SubResource("Shortcut_cdy3c")
+shortcut_in_tooltip = false
 text = "<"
 
 [node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
