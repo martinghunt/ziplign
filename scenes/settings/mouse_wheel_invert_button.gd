@@ -9,7 +9,7 @@ func update_text():
 	if button_pressed:
 		text = ":"
 	else:
-		text = "N"
+		text = ">"
 
 func _pressed():
 	Globals.userdata.config.set_value("mouse", "invert_wheel", button_pressed)

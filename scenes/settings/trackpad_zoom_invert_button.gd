@@ -9,7 +9,7 @@ func update_text():
 	if button_pressed:
 		text = ":"
 	else:
-		text = "N"
+		text = ">"
 
 func _pressed():
 	Globals.userdata.config.set_value("trackpad", "invert_v", button_pressed)

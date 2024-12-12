@@ -91,7 +91,7 @@ size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_0qsbv")
 theme_override_font_sizes/font_size = 25
 toggle_mode = true
-text = "N"
+text = ">"
 script = ExtResource("6_35556")
 
 [node name="TrackpadZoomSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
@@ -116,7 +116,7 @@ size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_0qsbv")
 theme_override_font_sizes/font_size = 25
 toggle_mode = true
-text = "N"
+text = ">"
 script = ExtResource("8_hnra4")
 
 [node name="TrackpadLRSensLabel" type="Label" parent="VBoxContainer/GridContainer"]
@@ -151,7 +151,7 @@ size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_0qsbv")
 theme_override_font_sizes/font_size = 25
 toggle_mode = true
-text = "N"
+text = ">"
 script = ExtResource("9_uqo3k")
 
 [node name="MaxMatchesOnScreenLabel" type="Label" parent="VBoxContainer/GridContainer"]
