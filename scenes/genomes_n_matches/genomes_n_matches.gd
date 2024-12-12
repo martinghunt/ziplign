@@ -278,6 +278,7 @@ func _on_game_new_project_go():
 	remove_child(top_genome)
 	remove_child(bottom_genome)
 	remove_child(matches)
+	$"../../../VBoxContainer/MultMatchesVBoxContainer".hide()
 	_ready()
 
 
