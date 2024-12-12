@@ -422,8 +422,9 @@ text = "Sequence"
 [node name="SequenceLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
 layout_mode = 2
 tooltip_text = "Search for nucleotide sequence"
-placeholder_text = "nucleotide seq"
+placeholder_text = "search seq"
 context_menu_enabled = false
+select_all_on_focus = true
 script = ExtResource("5_x8olh")
 
 [node name="AnnotationLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
