@@ -541,7 +541,7 @@ func set_highlight_rect_coords():
 
 
 func highlight_sequence(contig_id1, start, contig_id2, end, is_rev):
-	highlight_data = [contig_id1, start - 0.5, contig_id2, end + 0.5, is_rev]
+	highlight_data = [contig_id1, start, contig_id2, end, is_rev]
 	set_highlight_rect_coords()
 	highlight_rect.show()
 
