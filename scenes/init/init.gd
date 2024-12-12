@@ -136,7 +136,6 @@ func run_all():
 	
 	Globals.userdata.set_tnahelper_version()
 	add_to_text_label.emit("tnahelper version: " + Globals.userdata.tnahelper_version)
-	await get_tree().create_timer(5).timeout
 	
 	var blast_ok = true
 	if Globals.userdata.makeblastdb_exists:
