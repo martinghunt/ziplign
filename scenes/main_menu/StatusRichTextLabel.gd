@@ -16,11 +16,20 @@ func regenerate_text():
 	if Globals.userdata.install_ok:
 		append_text("\nInstall status: ok")
 	if not Globals.userdata.install_ok:
+		var tnahelper_str
+		if Globals.userdata.tnahelper_exists:
+			if Globals.userdata.tnahelper_version_ok:
+				tnahelper_str = "found"
+			else:
+				tnahelper_str = "[color=red]bad version " + Globals.userdata.tnahelper_version + "[/color]"
+		else:
+			tnahelper_str = "[color=red]not found[/color]"
+			
 		var lookup = {true: "found", false: "[color=red]not found[/color]"}
 		append_text("\n[color=red]Install status: bad![/color]")
 		append_text("\nFolder/file checks:")
 		append_text("\n  Data folder - " + lookup[Globals.userdata.data_dir_exists])
-		append_text("\n  tnahelper - " + lookup[Globals.userdata.tnahelper_exists])
+		append_text("\n  tnahelper - " + tnahelper_str)
 		append_text("\n  makeblastdb - " + lookup[Globals.userdata.makeblastdb_exists])
 		append_text("\n  blastn - " + lookup[Globals.userdata.blastn_exists])
 		append_text("\n  blastn version - " + lookup[Globals.userdata.blastn_version != "unknown"])

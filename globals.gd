@@ -33,6 +33,8 @@ var x_zoom = 1.0
 var top_x_left = 1.0
 var bottom_x_left = 1.0
 var max_search_results = 1000
+var expect_tnahelper_version = "v0.5.0"
+
 
 var complement_dict = {
 	"A": "T",

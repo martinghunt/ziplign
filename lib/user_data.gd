@@ -73,6 +73,7 @@ var bin_exists = false
 var blastn_exists = false
 var makeblastdb_exists = false
 var tnahelper_exists = false
+var tnahelper_version_ok = false
 var example_data_exists = false
 var current_proj_dir = OS.get_user_data_dir().path_join("current_proj")
 var install_ok = false
@@ -131,6 +132,9 @@ func set_tnahelper_version():
 		var fields = output[0].rstrip("\r").split(" ")
 		if len(fields) == 3 and fields[0] == "tnahelper" and fields[1] == "version":
 			tnahelper_version = fields[2]
+	tnahelper_version_ok = tnahelper_version == Globals.expect_tnahelper_version
+	if config.get_value("dev", "ignore_tnahelper_version", false):
+		tnahelper_version_ok = true
 
 
 func set_blastn_version():
@@ -159,7 +163,10 @@ func check_all_paths():
 	print("example data found:", example_data_exists)
 	config_file_exists = FileAccess.file_exists(config_file)
 	print("config file found:", config_file_exists)
-	install_ok = bin_exists and tnahelper_exists and blastn_exists and makeblastdb_exists and makeblastdb_exists and example_data_exists and config_file_exists and blastn_version != "unknown"
+	install_ok = bin_exists and tnahelper_exists and tnahelper_version_ok \
+		and blastn_exists and makeblastdb_exists and makeblastdb_exists \
+		and example_data_exists and config_file_exists \
+		and blastn_version != "unknown"
 	
 	
 func make_default_config():

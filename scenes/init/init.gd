@@ -31,7 +31,8 @@ func _http_request_completed(result, _response_code, _headers, _body):
 
 
 func download_tnahelper():
-	var url = "https://github.com/martinghunt/tnahelper/releases/download/v0.5.0/tnahelper_"
+	var url = "https://github.com/martinghunt/tnahelper/releases/download/" + \
+		Globals.expect_tnahelper_version + "/tnahelper_"
 	if Globals.userdata.os == "mac":
 		url += "darwin_"
 	else:
@@ -77,6 +78,13 @@ func run_all():
 		OS.alert("No user data folder found. Cannot continue. Expected to find: " + Globals.userdata.data_dir, "ERROR")
 		return false
 	
+	if Globals.userdata.config_file_exists:
+		add_to_text_label.emit("Config file found. Loading it. " + Globals.userdata.config_file)
+		Globals.userdata.load_config()
+	else:
+		add_to_text_label.emit("Config file not found. Making default file. " + Globals.userdata.config_file)
+		Globals.userdata.make_default_config()
+	
 	add_to_text_label.emit("Data folder found: " + Globals.userdata.data_dir)
 	await get_tree().create_timer(0.1).timeout
 
@@ -93,12 +101,23 @@ func run_all():
 			return false
 		add_to_text_label.emit(" ... created: " + Globals.userdata.bin)
 		Globals.userdata.bin_exists = true
-		
+	
+	var tnahelper_err_msg = ""
+	
 	if Globals.userdata.tnahelper_exists:
 		add_to_text_label.emit("tnahelper found: " + Globals.userdata.tnahelper)
+		Globals.userdata.set_tnahelper_version()
+		if not Globals.userdata.tnahelper_version_ok:
+			tnahelper_err_msg = "tnahelper version " + Globals.userdata.tnahelper_version + \
+				" is different from expected: " + \
+				Globals.expect_tnahelper_version + \
+				". Going to download tnahelper"
 	else:
+		tnahelper_err_msg = "tnahelper not found: " + Globals.userdata.tnahelper
+		
+	if len(tnahelper_err_msg) > 0:
 		await get_tree().create_timer(0.1).timeout
-		add_to_text_label.emit("tnahelper not found: " + Globals.userdata.tnahelper)
+		add_to_text_label.emit(tnahelper_err_msg)
 		var ok = await download_tnahelper()
 		if not ok:
 			OS.alert("Error downloading tnahelper.\nCannot continue", "ERROR")
@@ -110,13 +129,14 @@ func run_all():
 			if not ok:
 				OS.alert("Error making tnahelper executable.\nCannot continue", "ERROR")
 				return false
-			
+	
 		Globals.userdata.tnahelper_exists = true
 		await get_tree().create_timer(0.1).timeout
 		add_to_text_label.emit("tnahelper downloaded: " + Globals.userdata.tnahelper)
 	
 	Globals.userdata.set_tnahelper_version()
 	add_to_text_label.emit("tnahelper version: " + Globals.userdata.tnahelper_version)
+	await get_tree().create_timer(5).timeout
 	
 	var blast_ok = true
 	if Globals.userdata.makeblastdb_exists:
@@ -129,7 +149,7 @@ func run_all():
 		add_to_text_label.emit("blastn found: " + Globals.userdata.blastn)
 		Globals.userdata.set_blastn_version()
 		blast_ok = Globals.userdata.blastn_version != "unknown"
-		add_to_text_label.emit("blastn version: ", Globals.userdata.blastn_version)
+		add_to_text_label.emit("blastn version: " + Globals.userdata.blastn_version)
 	else:
 		blast_ok = false
 		add_to_text_label.emit("blastn not found: " + Globals.userdata.blastn)
@@ -180,12 +200,7 @@ func run_all():
 			OS.alert("Error making example genome files.\nCannot continue", "ERROR")
 			return false
 	
-	if Globals.userdata.config_file_exists:
-		add_to_text_label.emit("Config file found. Loading it. " + Globals.userdata.config_file)
-		Globals.userdata.load_config()
-	else:
-		add_to_text_label.emit("Config file not found. Making default file. " + Globals.userdata.config_file)
-		Globals.userdata.make_default_config()
+
 		
 	add_to_text_label.emit("Applying settings from config file")
 	Globals.theme.set_theme(Globals.userdata.config.get_value("colours", "theme"))
