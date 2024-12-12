@@ -161,11 +161,11 @@ func flip_all_blast_hits(top_or_bottom, contig_index=null):
 func reverse_complement_annotation_one_contig(top_or_bottom, contig_index):
 	if contig_index not in annotation[top_or_bottom]:
 		return
-	var contig_length = len(genome_seqs[top_or_bottom]["contigs"][contig_index]["seq"])
+	var ctg_length = contig_length(top_or_bottom, contig_index)
 	for a in annotation[top_or_bottom][contig_index]:
 		a[3] = not a[3] # flip the strand
-		var start = contig_length - a[1]
-		a[1] = contig_length - a[0]
+		var start = ctg_length - a[1]
+		a[1] = ctg_length - a[0]
 		a[0] = start
 
 

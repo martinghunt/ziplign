@@ -67,8 +67,6 @@ func _on_genomes_n_matches_sequence_range_selected(top_or_bottom, contig_id, sta
 
 func _on_genomes_n_matches_drag_range_selected(top_or_bottom, range_start, range_end):
 	region_selected_data = [top_or_bottom, range_start, range_end]
-	var name1 = Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][range_start[0]]["name"]
-	var name2 = Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][range_start[0]]["name"]
 
 	text = "Region: " + Globals.top_or_bottom_str[top_or_bottom] + " " + \
 		Globals.proj_data.contig_name(top_or_bottom, range_start[0]) + \
