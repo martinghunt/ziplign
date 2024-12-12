@@ -171,7 +171,7 @@ layout_mode = 2
 tooltip_text = "Controls for moving the view of the genomes"
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("4_queha")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 23
 text = "1"
 
 [node name="ButtonMoveLeftNone" type="Button" parent="MainHBoxContainer/VBoxContainer/NavigationGridContainer"]
@@ -269,7 +269,7 @@ columns = 4
 [node name="ZoomLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/ZoomGridContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_queha")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "2"
 horizontal_alignment = 1
 
@@ -331,6 +331,7 @@ layout_mode = 2
 tooltip_text = "Reverse complement"
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("4_queha")
+theme_override_font_sizes/font_size = 24
 text = "R"
 
 [node name="RevcompTopButton" type="Button" parent="MainHBoxContainer/VBoxContainer/RevcompGridContainer"]
