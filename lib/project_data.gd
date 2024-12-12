@@ -242,19 +242,28 @@ func contig_fasta_subseq(top_or_bottom, contig_id, start, end, reverse=false):
 		var t = start
 		start = end
 		end = t
+	var name
+	var seq
 	if start < end:
-		return [
-			">" + contig_name(top_or_bottom, contig_id) + ":" + str(start + 1) + "-" + str(end + 1),
-			Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"].substr(start, 1 + end - start),
-		]
+		name = ">" + contig_name(top_or_bottom, contig_id) + ":" + str(start + 1) + "-" + str(end + 1)
+		seq = Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"].substr(start, 1 + end - start)
 	else:
-		return [
-			">" + contig_name(top_or_bottom, contig_id) + ":" + str(end + 1) + "-" + str(start + 1) + ":reverse_strand",
-			fastaq_lib.revcomp(
+		name = ">" + contig_name(top_or_bottom, contig_id) + ":" + str(end + 1) + "-" + str(start + 1) + ":reverse_strand"
+		seq = fastaq_lib.revcomp(
 				Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"].substr(end, 1 + start - end)
-			),
-		]
+		)
 
+	var line_len = Globals.userdata.config.get_value("other", "fasta_line_length", 0)
+	if line_len == 0:
+		return [name, seq]
+		
+	var seq_lines = []
+	var  i = 0
+	while i < len(seq):
+		seq_lines.append(seq.substr(i, line_len))
+		i += line_len
+	return [name] + seq_lines
+	
 
 func range_to_seq_lines(top_or_bottom, range_start, range_end):
 	var is_rev = range_start[0] > range_end[0] or (range_start[0] == range_end[0] and range_start[1] > range_end[1])

@@ -16,7 +16,10 @@ var default_config = {
 		"p_sens": 1,
 	},
 	"blast": {"share_data": false},
-	"other": {"max_matches_on_screen": 500}
+	"other": {
+		"max_matches_on_screen": 500,
+		"fasta_line_length": 60,
+	},
 }
 
 

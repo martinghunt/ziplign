@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bshg2cnsbwrv2"]
+[gd_scene load_steps=14 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
 [ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_0qsbv"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scenes/settings/trackpad_pinch_sens_line_edit.gd" id="8_xtnio"]
 [ext_resource type="Script" path="res://scenes/settings/blast_share_usage_button.gd" id="9_uqo3k"]
 [ext_resource type="Script" path="res://scenes/settings/max_matches_on_screen_line_edit.gd" id="12_lvdy7"]
+[ext_resource type="Script" path="res://scenes/settings/fasta_line_length_line_edit.gd" id="13_02nsm"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -163,6 +164,16 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 25
 script = ExtResource("12_lvdy7")
 
+[node name="FastaLineLengthLabel" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "FASTA line length"
+
+[node name="FastaLineLengthLineEdit" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+script = ExtResource("13_02nsm")
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 visible = false
 layout_mode = 0
@@ -184,3 +195,5 @@ offset_bottom = 40.0
 [connection signal="focus_exited" from="VBoxContainer/GridContainer/MaxMatchesOnScreenLineEdit" to="VBoxContainer/GridContainer/MaxMatchesOnScreenLineEdit" method="_on_focus_exited"]
 [connection signal="max_matches_updated" from="VBoxContainer/GridContainer/MaxMatchesOnScreenLineEdit" to="." method="_on_max_matches_updated"]
 [connection signal="text_submitted" from="VBoxContainer/GridContainer/MaxMatchesOnScreenLineEdit" to="VBoxContainer/GridContainer/MaxMatchesOnScreenLineEdit" method="_on_text_submitted"]
+[connection signal="focus_exited" from="VBoxContainer/GridContainer/FastaLineLengthLineEdit" to="VBoxContainer/GridContainer/FastaLineLengthLineEdit" method="_on_focus_exited"]
+[connection signal="text_submitted" from="VBoxContainer/GridContainer/FastaLineLengthLineEdit" to="VBoxContainer/GridContainer/FastaLineLengthLineEdit" method="_on_text_submitted"]
