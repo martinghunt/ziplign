@@ -153,7 +153,8 @@ size_flags_horizontal = 3
 
 [node name="CopyToClipboardButton" type="Button" parent="MainHBoxContainer/VBoxContainer/TopGridContainer"]
 layout_mode = 2
-tooltip_text = "Copy current selection to clipboard"
+tooltip_text = "Copy current selection to clipboard
+Keyboard shortcut: cmd/ctrl-v"
 theme_override_fonts/font = ExtResource("4_queha")
 shortcut = SubResource("Shortcut_cdy3c")
 shortcut_in_tooltip = false
