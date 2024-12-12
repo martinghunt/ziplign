@@ -20,6 +20,7 @@ var ACCESSION_PREFIXES = [
 	"AC_",
 	"NZ_",
 	"NT_",
+	"CP",
 ]
 
 func _ready():
