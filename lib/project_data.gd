@@ -165,8 +165,8 @@ func reverse_complement_annotation_one_contig(top_or_bottom, contig_index):
 	for a in annotation[top_or_bottom][contig_index]:
 		a[3] = not a[3] # flip the strand
 		var start = ctg_length - a[1]
-		a[1] = ctg_length - a[0]
-		a[0] = start
+		a[1] = ctg_length - a[0] - 1
+		a[0] = start - 1
 
 
 func reverse_complement_annotation(top_or_bottom):
