@@ -93,7 +93,7 @@ func _init(new_top_or_bottom, new_top, new_bottom):
 		start += contig_space + clength
 
 	highlight_rect.color = Globals.theme.colours["blast_match"]["fwd"]
-	highlight_rect.color.a = 0.3
+	highlight_rect.color.a = 0.5
 	add_child(highlight_rect)
 	highlight_rect.hide()
 	highlight_rect.z_index = 9
