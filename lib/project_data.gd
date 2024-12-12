@@ -227,3 +227,63 @@ func get_match_text(i):
 	return m.qry_name() + ":" + str(m.qstart) + "-" + str(m.qend) + \
 		" / " + m.ref_name() + ":" + str(m.rstart) + "-" + str(m.rend) + \
 		" / pcid:" + str(m.pcid)
+
+
+func contig_name(top_or_bottom, contig_id):
+	return genome_seqs[top_or_bottom]["contigs"][contig_id]["name"]
+
+
+func contig_length(top_or_bottom, contig_id):
+	return len(genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"])
+
+
+func contig_fasta_subseq(top_or_bottom, contig_id, start, end, reverse=false):
+	if reverse:
+		var t = start
+		start = end
+		end = t
+	if start < end:
+		return [
+			">" + contig_name(top_or_bottom, contig_id) + ":" + str(start + 1) + "-" + str(end + 1),
+			Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"].substr(start, 1 + end - start),
+		]
+	else:
+		return [
+			">" + contig_name(top_or_bottom, contig_id) + ":" + str(end + 1) + "-" + str(start + 1) + ":reverse_strand",
+			fastaq_lib.revcomp(
+				Globals.proj_data.genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"].substr(end, 1 + start - end)
+			),
+		]
+
+
+func range_to_seq_lines(top_or_bottom, range_start, range_end):
+	var is_rev = range_start[0] > range_end[0] or (range_start[0] == range_end[0] and range_start[1] > range_end[1])
+	if range_start[0] == range_end[0]:
+		var lines = contig_fasta_subseq(top_or_bottom, range_start[0], range_start[1], range_end[1])
+		return lines
+	
+	if is_rev:
+		var t = range_start
+		range_start = range_end
+		range_end = t
+	
+	var out = []
+	for ctg_index in range(range_start[0], range_end[0] + 1):
+		if ctg_index == range_start[0]:
+			out.append_array(contig_fasta_subseq(top_or_bottom, ctg_index,
+				range_start[1], contig_length(top_or_bottom, range_start[0])-1,
+				is_rev))
+		elif ctg_index < range_end[0]:
+			out.append_array(contig_fasta_subseq(top_or_bottom, ctg_index,
+				0, contig_length(top_or_bottom, ctg_index)-1, is_rev))
+		else:
+			out.append_array(contig_fasta_subseq(
+				top_or_bottom, ctg_index, 0, range_end[1], is_rev))
+	
+	return out
+
+
+func contig_fasta_lines(top_or_bottom, contig_id):
+	return [">" + contig_name(top_or_bottom, contig_id),
+		genome_seqs[top_or_bottom]["contigs"][contig_id]["seq"],
+	]

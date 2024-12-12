@@ -111,9 +111,9 @@ func reset_colours():
 	
 	var to_set_tooltip = [
 		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar,
-		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar,
-		$Game/MainHBoxContainer/VBoxContainer/TopGridContainer/PauseButton,
+		$Game/MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar
 	]
+	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/TopGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/NavigationGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/ZoomGridContainer.get_children())
 	to_set_tooltip.append_array($Game/MainHBoxContainer/VBoxContainer/RevcompGridContainer.get_children())

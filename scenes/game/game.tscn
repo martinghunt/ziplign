@@ -128,7 +128,7 @@ layout_mode = 2
 
 [node name="TopGridContainer" type="GridContainer" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
-columns = 2
+columns = 4
 
 [node name="PauseButton" type="Button" parent="MainHBoxContainer/VBoxContainer/TopGridContainer"]
 layout_mode = 2
@@ -136,10 +136,20 @@ tooltip_text = "Return to main menu
 Keyboard shortcuts: p/q"
 focus_mode = 0
 theme_override_fonts/font = ExtResource("4_queha")
-theme_override_font_sizes/font_size = 20
 shortcut = SubResource("Shortcut_2ji08")
 shortcut_in_tooltip = false
 text = "3"
+
+[node name="PanelContainer2" type="MarginContainer" parent="MainHBoxContainer/VBoxContainer/TopGridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CopyToClipboardButton" type="Button" parent="MainHBoxContainer/VBoxContainer/TopGridContainer"]
+layout_mode = 2
+tooltip_text = "Copy current selection to clipboard"
+theme_override_fonts/font = ExtResource("4_queha")
+text = "<"
 
 [node name="HSeparator2" type="HSeparator" parent="MainHBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -588,6 +598,7 @@ script = ExtResource("3_nnddm")
 [connection signal="redraw_matches" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_redraw_matches"]
 [connection signal="window_resized" from="." to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_game_window_resized"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/TopGridContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MainHBoxContainer/VBoxContainer/TopGridContainer/CopyToClipboardButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_copy_to_clipboard_button_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveRightNone" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_right_none_pressed"]
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/NavigationGridContainer/ButtonMoveLeftLeft" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_button_move_left_left_pressed"]
@@ -633,6 +644,7 @@ script = ExtResource("3_nnddm")
 [connection signal="annotation_list_found" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer" method="_on_genomes_n_matches_annotation_list_found"]
 [connection signal="contig_deselected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_contig_deselected"]
 [connection signal="contig_selected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_contig_selected"]
+[connection signal="drag_range_selected" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/HBoxContainer/TopCoordsText" method="_on_genomes_n_matches_drag_range_selected"]
 [connection signal="enable_contig_ops" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer" method="_on_genomes_n_matches_enable_contig_ops"]
 [connection signal="hscrollbar_set_bottom_value" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/RightBottomScrollbar" method="_on_genomes_n_matches_hscrollbar_set_bottom_value"]
 [connection signal="hscrollbar_set_top_value" from="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" to="MainHBoxContainer/BoxContainer/VBoxContainer2/RightTopScrollbar" method="_on_genomes_n_matches_hscrollbar_set_top_value"]

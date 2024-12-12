@@ -12,6 +12,7 @@ signal multimatch_list_found
 signal annotation_list_found
 signal sequence_list_found
 signal sequence_range_selected
+signal drag_range_selected
 signal enable_contig_ops
 
 
@@ -41,6 +42,9 @@ var y_drag_bottom_top = 0
 var y_drag_bottom_bottom = 0
 var max_allowed_zoom = 20
 var min_allowed_zoom = 0.0
+var selected_seq_range_start = []
+var selected_seq_range_end = []
+
 
 func set_matches():
 	matches = Matches.new()
@@ -230,11 +234,11 @@ func _on_contig_selected(top_or_bottom):
 	clear_sequence_highlights()
 	if top_or_bottom == Globals.TOP:
 		bottom_genome.deselect_contig()
-		contig_selected.emit(top_or_bottom, top_genome.name_of_selected_contig())
+		contig_selected.emit(top_or_bottom, top_genome.selected_contig)
 		contig_selected_is_top = true
 	else:
 		top_genome.deselect_contig()
-		contig_selected.emit(top_or_bottom, bottom_genome.name_of_selected_contig())
+		contig_selected.emit(top_or_bottom, bottom_genome.selected_contig)
 		contig_selected_is_top = false
 	enable_contig_ops.emit(true)
 
@@ -494,6 +498,11 @@ func event_is_wheel_down(event):
 		or (event.button_index == MOUSE_BUTTON_WHEEL_UP and Globals.userdata.config.get_value("mouse", "invert_wheel"))
 
 
+func genome_ranges_to_clipboard(top_or_bottom, range_start, range_end):
+	print("genome_ranges_to_clipboard start", top_or_bottom, ", ", range_start, ", ", range_end)
+	
+	DisplayServer.clipboard_set("foo")
+
 func _unhandled_input(event):
 	if Globals.paused:
 		return
@@ -546,11 +555,21 @@ func _unhandled_input(event):
 			dragging_rect.show()
 		elif dragging > 0:
 			dragging_rect.hide()
+
 			var start = dragging_rect.polygon[0].x + 50 + 2 * Globals.controls_width
 			var end = dragging_rect.polygon[1].x + 50 + 2 * Globals.controls_width
 			# You'd expect start != end here, but doing it this way makes it
 			# easier to select a contig
 			if abs(start - end) > 1:
+				if dragging == 1:
+					selected_seq_range_start = top_genome.draw_pos_to_genome_and_contig_pos((dragging_rect.polygon[0].x - Globals.top_x_left + 50 + Globals.controls_width) / Globals.x_zoom)
+					selected_seq_range_end = top_genome.draw_pos_to_genome_and_contig_pos((end - Globals.top_x_left - Globals.controls_width) / Globals.x_zoom)
+				else:
+					selected_seq_range_start = bottom_genome.draw_pos_to_genome_and_contig_pos((dragging_rect.polygon[0].x - Globals.bottom_x_left + 50 + Globals.controls_width) / Globals.x_zoom)
+					selected_seq_range_end = bottom_genome.draw_pos_to_genome_and_contig_pos((end - Globals.bottom_x_left - Globals.controls_width) / Globals.x_zoom)
+
+				selected_seq_range_start[1] = roundi(selected_seq_range_start[1])
+				selected_seq_range_end[1] = roundi(selected_seq_range_end[1])
 				var match_ids = matches.get_matches_in_range(min(start, end), max(start, end), dragging==1)
 				top_genome.deselect_contig()
 				bottom_genome.deselect_contig()
@@ -560,6 +579,12 @@ func _unhandled_input(event):
 				enable_contig_ops.emit(false)
 				if len(match_ids) > 0:
 					multimatch_list_found.emit(match_ids)
+				if dragging == 1:
+					drag_range_selected.emit(Globals.TOP, selected_seq_range_start, selected_seq_range_end)
+					top_genome.highlight_multi_sequence(selected_seq_range_start[0], selected_seq_range_start[1], selected_seq_range_end[0], selected_seq_range_end[1])
+				else:
+					drag_range_selected.emit(Globals.BOTTOM, selected_seq_range_start, selected_seq_range_end)
+					bottom_genome.highlight_multi_sequence(selected_seq_range_start[0], selected_seq_range_start[1], selected_seq_range_end[0], selected_seq_range_end[1])
 			dragging = 0
 
 			queue_redraw()
@@ -699,11 +724,11 @@ func _on_mult_matches_item_list_selected_a_sequence(seq_data):
 	var range_end = seq_data[2] + seq_data[4] - 1
 	if seq_data[0] == Globals.TOP:
 		set_top_scrollbar_value(top_genome.get_percent_position_x_left(seq_data[1], seq_data[2]), true)
-		top_genome.highlight_sequence(seq_data[1], seq_data[2], range_end, seq_data[3])
+		top_genome.highlight_sequence(seq_data[1], seq_data[2], seq_data[1], range_end, seq_data[3])
 		bottom_genome.clear_sequence_highlight()
-		sequence_range_selected.emit(Globals.TOP, top_genome.contig_name(seq_data[1]), seq_data[2], range_end, seq_data[3])
+		sequence_range_selected.emit(Globals.TOP, seq_data[1], seq_data[2], range_end, seq_data[3])
 	else:
 		set_bottom_scrollbar_value(bottom_genome.get_percent_position_x_left(seq_data[1], seq_data[2]), true)
-		bottom_genome.highlight_sequence(seq_data[1], seq_data[2], seq_data[2] + seq_data[4] - 1, seq_data[3])
+		bottom_genome.highlight_sequence(seq_data[1], seq_data[2], seq_data[1], seq_data[2] + seq_data[4] - 1, seq_data[3])
 		top_genome.clear_sequence_highlight()
-		sequence_range_selected.emit(Globals.BOTTOM, bottom_genome.contig_name(seq_data[1]), seq_data[2], range_end, seq_data[3])
+		sequence_range_selected.emit(Globals.BOTTOM, seq_data[1], seq_data[2], range_end, seq_data[3])

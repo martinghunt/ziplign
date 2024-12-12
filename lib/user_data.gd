@@ -35,6 +35,14 @@ func get_os():
 	OS.alert("Error! Unsupported OS: " + got_os + ". Cannot continue.", "Error!")
 	return null
 
+func get_os_newline():
+	if get_os() == "windows":
+		return "\r\n"
+	else:
+		return "\n"
+
+var os_newline = get_os_newline()
+
 
 func get_bin_path():
 	return OS.get_user_data_dir().path_join("bin")

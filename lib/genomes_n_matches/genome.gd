@@ -3,7 +3,7 @@ extends Node
 class_name Genome
 
 const ContigClass = preload("contig.gd")
-
+var fastaq_lib = preload("res://lib/fastaq.gd").new()
 
 signal contig_selected
 signal contig_deselected
@@ -385,12 +385,14 @@ func clear_all():
 	contigs.clear()
 	clear_sequence_highlight()
 
+
 func draw_pos_to_genome_and_contig_pos(x):
-	for i in len(contigs):
+	for i in Globals.proj_data.genome_seqs[top_or_bottom]["order"]:
 		if x < base_contig_pos[i][1]:
 			x = max(x, base_contig_pos[i][0])
 			return  [i, x - base_contig_pos[i][0]]
-	return [len(contigs)-1, contig_length_from_index(len(contigs)-1)]
+	var last_i = Globals.proj_data.genome_seqs[top_or_bottom]["order"][-1]
+	return [last_i, contig_length_from_index(last_i)]
 
 
 func screen_x_pos_to_genome_contig_and_pos(screen_x):
@@ -523,7 +525,7 @@ func set_highlight_rect_coords():
 		return
 	var r_top
 	var r_bottom
-	if highlight_data[3]:
+	if highlight_data[4]:
 		r_top = tracks_y["rev_top"]
 		r_bottom = tracks_y["rev_bottom"] + 1
 	else:
@@ -532,13 +534,20 @@ func set_highlight_rect_coords():
 	
 	highlight_rect.polygon = [
 		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[1]) * x_zoom, r_top),
-		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[2]) * x_zoom, r_top),
-		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[2]) * x_zoom, r_bottom),
+		Vector2(x_left + (base_contig_pos[highlight_data[2]][0] + highlight_data[3]) * x_zoom, r_top),
+		Vector2(x_left + (base_contig_pos[highlight_data[2]][0] + highlight_data[3]) * x_zoom, r_bottom),
 		Vector2(x_left + (base_contig_pos[highlight_data[0]][0] + highlight_data[1]) * x_zoom, r_bottom)
 	]
 
 
-func highlight_sequence(contig_id, start, end, is_rev):
-	highlight_data = [contig_id, start - 0.5, end + 0.5, is_rev]
+func highlight_sequence(contig_id1, start, contig_id2, end, is_rev):
+	highlight_data = [contig_id1, start - 0.5, contig_id2, end + 0.5, is_rev]
+	set_highlight_rect_coords()
+	highlight_rect.show()
+
+
+func highlight_multi_sequence(contig_id1, start, contig_id2, end):
+	var is_rev = base_contig_pos[contig_id1] > base_contig_pos[contig_id2] or (contig_id1 == contig_id2 and start > end)
+	highlight_data = [contig_id1, start, contig_id2, end, is_rev]
 	set_highlight_rect_coords()
 	highlight_rect.show()
