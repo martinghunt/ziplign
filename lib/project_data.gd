@@ -154,7 +154,6 @@ func load_from_serialized_file(infile):
 
 
 func flip_blast_hit_range(top_or_bottom, start, end, contig_index=null):
-	var t = Time.get_ticks_msec()
 	var i = start
 	while i < end:
 		blast_hits[i].flip(top_or_bottom, contig_index)
