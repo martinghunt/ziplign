@@ -36,6 +36,7 @@ HheadAscent: 0
 HheadAOffset: 1
 HheadDescent: 0
 HheadDOffset: 1
+OS2Vendor: 'PfEd'
 MarkAttachClasses: 1
 DEI: 91125
 Encoding: ISO8859-1
@@ -1161,7 +1162,7 @@ SplineSet
  583.153320312 170.564453125 505.7265625 100.879882812 378.259765625 100.879882812 c 0
  189.459960938 100.879882812 36.0595703125 254.280273438 36.0595703125 443.080078125 c 0
 EndSplineSet
-Validated: 524289
+Validated: 1
 EndChar
 
 StartChar: less
@@ -1202,14 +1203,15 @@ SplineSet
  59.98046875 -165.209960938 35.4697265625 -132.959960938 35.4697265625 -94.259765625 c 0
  35.4697265625 48.953125 35.4697265625 268.227539062 35.4697265625 550.740234375 c 0
 EndSplineSet
-Validated: 524289
+Validated: 1
 EndChar
 
 StartChar: equal
 Encoding: 61 61 36
 Width: 1000
-Flags: HW
-HStem: 572 20G<260 308.257 721.812 765.857>
+Flags: W
+HStem: -96 22<449 540> 221 22<144 425 563 847> 324 21<144 425 563 847> 627 23<449 540>
+VStem: 124 20<243 324> 425 24<-74 221 345 627> 540 23<-74 221 345 627> 847 22<243 324>
 LayerCount: 2
 Fore
 SplineSet
@@ -1240,13 +1242,14 @@ SplineSet
  563 345 l 1
  869 345 l 25
 EndSplineSet
+Validated: 1
 EndChar
 
 StartChar: greater
 Encoding: 62 62 37
 Width: 1000
-Flags: HW
-HStem: 572 20G<260 308.257 721.812 765.857>
+Flags: W
+HStem: 567.004 20G<262.272 302.322 699.41 739.46>
 LayerCount: 2
 Fore
 SplineSet
@@ -1277,6 +1280,7 @@ SplineSet
  505.71484375 183.071289062 l 5
  294.815429688 -38.6435546875 l 29
 EndSplineSet
+Validated: 1
 EndChar
 EndChars
 EndSplineFont
