@@ -39,9 +39,10 @@ func load_fasta_file(filename):
 
 
 func revcomp(seq_in):
-	var seq_out = []
+	var seq_out = Array([], TYPE_STRING, "", null)
+	seq_out.resize(len(seq_in))
 	for i in range(0, len(seq_in)):
-		seq_out.append(Globals.complement_dict.get(seq_in[-i-1], "N"))
+		seq_out[i] = Globals.complement_dict.get(seq_in[-i-1], "N")
 	return "".join(seq_out)
 
 
