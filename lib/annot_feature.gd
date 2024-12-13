@@ -19,6 +19,8 @@ var hovering = false
 var selected = false
 var id = -1
 var default_z = 0
+var is_currently_visible = false
+
 
 func set_top_and_bottom(new_top, new_bottom):
 	top = new_top
@@ -27,6 +29,7 @@ func set_top_and_bottom(new_top, new_bottom):
 		top += 2
 		bottom -= 2
 	set_polygon_coords()
+
 
 func is_rev():
 	return gff_data[3]
@@ -37,16 +40,47 @@ func is_on_screen():
 		and poly.polygon[0].x <= Globals.controls_width + Globals.genomes_viewport_width
 
 
+func update_name_label():
+	if poly.polygon[1].x - poly.polygon[0].x > 10:
+		name_label.position = Vector2(poly.polygon[0].x + 1, poly.polygon[0].y + 1)
+		name_label.set_size(Vector2(poly.polygon[1].x - poly.polygon[0].x - 1, poly.polygon[2].y - poly.polygon[0].y - 1))
+		name_label.show()
+	else:
+		name_label.hide()
+
+
+func make_visible():
+	if is_currently_visible:
+		return
+	outline.points = poly.polygon
+	outline.add_point(outline.points[0])
+	coll_poly.polygon = poly.polygon
+	is_currently_visible = true
+	update_name_label()
+	show()
+	
+	
+func make_invisible():
+	if not is_currently_visible:
+		return
+		
+	outline.clear_points()
+	coll_poly.polygon.clear()
+	name_label.hide()
+	is_currently_visible = false
+	hide()
+
+
 func set_visibility(zoom):
 	if not is_on_screen():
-		hide()
+		make_invisible()
 	elif zoom > Globals.zoom_to_show_annot_all \
 		or (zoom > Globals.zoom_to_show_annot_500 and (gff_data[1] - gff_data[0]) >= 500) \
 		or (zoom > Globals.zoom_to_show_annot_1k and (gff_data[1] - gff_data[0]) >= 1000) \
 		or (zoom > Globals.zoom_to_show_annot_2k and (gff_data[1] - gff_data[0]) >= 2000):
-		show()
+		make_visible()
 	else:
-		hide()
+		make_invisible()
 
 
 func set_default_z(z):
@@ -55,23 +89,18 @@ func set_default_z(z):
 
 
 func set_polygon_coords():
-	if len(outline.points) == 0:
-		outline.add_point(Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[0] -0.4) / parent_ctg.length_in_bp, top))
-		outline.add_point(Vector2((0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[1]+0.4) / parent_ctg.length_in_bp, top))
-		outline.add_point(Vector2(outline.points[1].x, bottom))
-		outline.add_point(Vector2(outline.points[0].x, bottom))
-		outline.add_point(outline.points[0])
-	else:
-		outline.set_point_position(0, Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[0]-0.4) / parent_ctg.length_in_bp, top))
-		outline.set_point_position(1, Vector2((0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[1]+0.4) / parent_ctg.length_in_bp, top))
-		outline.set_point_position(2, Vector2(outline.points[1].x, bottom))
-		outline.set_point_position(3, Vector2(outline.points[0].x, bottom))
-		outline.set_point_position(4, outline.points[0])
-		
-	poly.polygon = outline.points.slice(0, 4)
+	poly.polygon[0] = Vector2(-(0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[0]-0.4) / parent_ctg.length_in_bp, top)
+	poly.polygon[1] = Vector2((0.5 * outline_width) + parent_ctg.x_start + (parent_ctg.x_end - parent_ctg.x_start) * 1.0 * (gff_data[1]+0.4) / parent_ctg.length_in_bp, top)
+	poly.polygon[2] = Vector2(poly.polygon[1].x, bottom)
+	poly.polygon[3] = Vector2(poly.polygon[0].x, bottom)
+
+	if not is_currently_visible:
+		return
+	
+	outline.points = poly.polygon
+	outline.add_point(outline.points[0])
 	coll_poly.polygon = poly.polygon
-	name_label.position = Vector2(outline.points[0].x + 1, outline.points[0].y + 1)
-	name_label.set_size(Vector2(outline.points[1].x - outline.points[0].x - 1, outline.points[2].y - outline.points[0].y - 1))
+	update_name_label()
 
 
 func gff2tooltip(a: Array):
@@ -99,7 +128,8 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 		top += 2
 		bottom -= 2
 		outline_width = 1
-		
+	
+	poly.polygon = [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
 	outline.width = outline_width
 	outline.default_color = Globals.theme.colours["ui"]["text"]
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
@@ -111,10 +141,6 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 	name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)
 	name_label.set_vertical_alignment(VERTICAL_ALIGNMENT_CENTER)
 	name_label.clip_text = true
-	#name_label.theme = Theme.new()
-	#name_label.theme.set_stylebox("panel", "TooltipPanel", Globals.tooltip_style)
-	#name_label.theme.set_color("font_color", "TooltipLabel", Globals.theme.colours["text"]) 
-	#name_label.theme.set_font("font", "TooltipLabel", Globals.fonts["dejavu"]) 
 	z_index = 1
 	
 	for k in ["Name", "name", "ID"]:
@@ -123,8 +149,7 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 			break
 	if name_label.text == "":
 		name_label.text = "UNKNOWN"
-		
-	#name_label.set_tooltip_text(name_label.text + "\n" + gff2tooltip(gff_data))
+	
 	set_polygon_coords()
 	add_child(static_body_2d)
 	static_body_2d.add_child(coll_poly)
@@ -132,6 +157,7 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 	static_body_2d.add_child(outline)
 	add_child(name_label)
 	hide()
+
 
 func start_x_coord():
 	return poly.polygon[0].x
@@ -148,6 +174,7 @@ func select():
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["ui"]["general_bg"])
 	z_index = 100
 
+
 func deselect():
 	selected = false	
 	if hovering:
@@ -158,6 +185,7 @@ func deselect():
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
 	z_index = default_z
+
 
 func metadata_has_search_string(search_string):
 	for k in gff_data[4]:
