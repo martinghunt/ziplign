@@ -190,7 +190,6 @@ func reverse_complement_annotation(top_or_bottom):
 
 
 func reverse_complement_genome(top_or_bottom):
-	var t = Time.get_ticks_msec()
 	flip_all_blast_hits(top_or_bottom)
 	reverse_complement_annotation(top_or_bottom)
 	for ctg in genome_seqs[top_or_bottom]["contigs"]:
