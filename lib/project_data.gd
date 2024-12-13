@@ -153,9 +153,25 @@ func load_from_serialized_file(infile):
 	set_data_loaded()
 
 
+func flip_blast_hit_range(top_or_bottom, start, end, contig_index=null):
+	var t = Time.get_ticks_msec()
+	var i = start
+	while i < end:
+		blast_hits[i].flip(top_or_bottom, contig_index)
+		i += 1
+
+
 func flip_all_blast_hits(top_or_bottom, contig_index=null):
-	for m in blast_hits:
-		m.flip(top_or_bottom, contig_index)
+	if len(blast_hits) < 100:
+		for m in blast_hits:
+			m.flip(top_or_bottom, contig_index)
+		return
+		
+	var thread2 = Thread.new()
+	var middle = int(0.5 * len(blast_hits))
+	thread2.start(flip_blast_hit_range.bind(top_or_bottom, 0, middle, contig_index))
+	flip_blast_hit_range(top_or_bottom, middle, len(blast_hits), contig_index)
+	thread2.wait_to_finish()
 
 
 func reverse_complement_annotation_one_contig(top_or_bottom, contig_index):
@@ -175,6 +191,7 @@ func reverse_complement_annotation(top_or_bottom):
 
 
 func reverse_complement_genome(top_or_bottom):
+	var t = Time.get_ticks_msec()
 	flip_all_blast_hits(top_or_bottom)
 	reverse_complement_annotation(top_or_bottom)
 	for ctg in genome_seqs[top_or_bottom]["contigs"]:
