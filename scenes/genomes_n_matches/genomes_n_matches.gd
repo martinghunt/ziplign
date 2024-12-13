@@ -139,18 +139,20 @@ func set_x_zoom(zoom, centre=null):
 	hscrollbar_set_bottom_value.emit(bottom_scrollbar_value)
 
 
-func _on_right_top_scrollbar_value_changed(value):
+func _on_right_top_scrollbar_value_changed(value, update_matches=true):
 	top_scrollbar_value = value
 	Globals.top_x_left = 1 - Globals.x_zoom * value * top_genome.last_contig_end / 100
 	top_genome.set_x_left(Globals.top_x_left)
-	matches.set_top_x_left(Globals.top_x_left)
+	if update_matches:
+		matches.set_top_x_left(Globals.top_x_left)
 
 
-func _on_right_bottom_scrollbar_value_changed(value):
+func _on_right_bottom_scrollbar_value_changed(value, update_matches=true):
 	bottom_scrollbar_value = value
 	Globals.bottom_x_left = 1 - Globals.x_zoom * value * bottom_genome.last_contig_end / 100
 	bottom_genome.set_x_left(Globals.bottom_x_left)
-	matches.set_bottom_x_left(Globals.bottom_x_left)
+	if update_matches:
+		matches.set_bottom_x_left(Globals.bottom_x_left)
 
 
 func _on_button_zoom_reset_pressed():
@@ -302,26 +304,26 @@ func set_bottom_scrollbar_value(new_value, centre=false):
 		move_top_and_bottom(0, -0.5)
 
 
-func shift_top(x_shift):
+func shift_top(x_shift, update_matches=true):
 	if x_shift == 0:
 		return
 	top_scrollbar_value += x_shift
-	_on_right_top_scrollbar_value_changed(top_scrollbar_value)
+	_on_right_top_scrollbar_value_changed(top_scrollbar_value, update_matches)
 	hscrollbar_set_top_value.emit(top_scrollbar_value)
 
 
-func shift_bottom(x_shift):
+func shift_bottom(x_shift, update_matches=true):
 	if x_shift == 0:
 		return
 	bottom_scrollbar_value += x_shift
-	_on_right_bottom_scrollbar_value_changed(bottom_scrollbar_value)
+	_on_right_bottom_scrollbar_value_changed(bottom_scrollbar_value, update_matches)
 	hscrollbar_set_bottom_value.emit(bottom_scrollbar_value)
 
 
 func move_top_and_bottom(top_frac, bottom_frac):
 	var d = 80 * get_viewport().get_visible_rect().size.x / Globals.x_zoom
 	if top_frac != 0:
-		shift_top(d * top_frac / top_genome.last_contig_end)
+		shift_top(d * top_frac / top_genome.last_contig_end, bottom_frac==0)
 	if bottom_frac != 0:
 		shift_bottom(d * bottom_frac / bottom_genome.last_contig_end)
 
