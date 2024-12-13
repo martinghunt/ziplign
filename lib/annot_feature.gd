@@ -41,7 +41,7 @@ func is_on_screen():
 
 
 func update_name_label():
-	if poly.polygon[1].x - poly.polygon[0].x > 10:
+	if poly.polygon[1].x - poly.polygon[0].x > 15:
 		name_label.position = Vector2(poly.polygon[0].x + 1, poly.polygon[0].y + 1)
 		name_label.set_size(Vector2(poly.polygon[1].x - poly.polygon[0].x - 1, poly.polygon[2].y - poly.polygon[0].y - 1))
 		name_label.show()
@@ -52,6 +52,13 @@ func update_name_label():
 func make_visible():
 	if is_currently_visible:
 		return
+	static_body_2d = StaticBody2D.new()
+	add_child(static_body_2d)
+	coll_poly = CollisionPolygon2D.new()
+	static_body_2d.add_child(coll_poly)
+	static_body_2d.set_pickable(true)
+	static_body_2d.mouse_entered.connect(_on_mouse_entered)
+	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	outline.points = poly.polygon
 	outline.add_point(outline.points[0])
 	coll_poly.polygon = poly.polygon
@@ -63,10 +70,9 @@ func make_visible():
 func make_invisible():
 	if not is_currently_visible:
 		return
-		
-	outline.clear_points()
-	coll_poly.polygon.clear()
-	name_label.hide()
+	
+	coll_poly.free()
+	static_body_2d.free()
 	is_currently_visible = false
 	hide()
 
@@ -149,12 +155,12 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 			break
 	if name_label.text == "":
 		name_label.text = "UNKNOWN"
-	
+
 	set_polygon_coords()
 	add_child(static_body_2d)
 	static_body_2d.add_child(coll_poly)
-	coll_poly.add_child(poly)
-	static_body_2d.add_child(outline)
+	add_child(poly)
+	add_child(outline)
 	add_child(name_label)
 	hide()
 
