@@ -16,13 +16,20 @@ var filename2 = ""
 var ACCESSION_PREFIXES = [
 	"GCA_",
 	"GCF_",
-	"NC_",
 	"AC_",
-	"NZ_",
+	"NC_",
+	"NG_",
 	"NT_",
-	"CP",
-	"AL",
+	"NW_",
+	"NZ_",
 ]
+
+func make_gb_regex():
+	var r = RegEx.new()
+	r.compile("^\\w\\w[0-9]{6,}")
+	return r
+var gb_regex = make_gb_regex()
+
 
 func _ready():
 	hide()
@@ -80,11 +87,12 @@ func on_files_dropped(files):
 	update_go_button()
 	update_status_text()
 
+
 func looks_like_genome_accession(accession):
 	for p in ACCESSION_PREFIXES:
 		if accession.begins_with(p):
 			return true
-	return false
+	return gb_regex.search(accession) != null
 
 
 func _on_go_button_pressed():
