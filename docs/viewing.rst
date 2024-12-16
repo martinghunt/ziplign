@@ -138,10 +138,11 @@ Filtering matches
 -----------------
 
 Matches that are shown can be filtered by minimum length or percent identity,
-using the boxes in the left panel.
+using the boxes in the left panel. If it is not already selected, press the
+"filter" icon to show the filter options.
 
 .. image:: pics/tna_docs_match_filter.png
-   :width: 180
+   :width: 140
    :alt: screenshot of match filter controls
 
 By default, only matches longer than 100bp and at least 90% identity are
@@ -158,7 +159,7 @@ highlighted region are listed in the bottom of the left hand panel.
 
 
 .. image:: pics/tna_docs_match_list.png
-   :width: 500
+   :width: 520
    :alt: screenshots of making a list of matches
 
 Click on any of the matches listed on the left to jump to them in the main
@@ -166,6 +167,27 @@ viewing window. Or there are up and down arrows to scroll through them, making
 it easy to jump to each match in turn. Pressing the "X" button
 will close the list.
 
+
+Selecting and copying a region
+------------------------------
+
+After dragging along any region of either genome with the left mouse
+button, it remains highlighted and the coordinates are in the top where
+it says "Selected = Region: ...". Dragging from left to right will select
+the forwards strand, and from right to left selects the reverse strand.
+
+The highlighted sequence can be copied to the clipboard using
+ctrl-c (Windows/linux) or cmd-c (macOS), or by pressing the "copy" button
+at the top.
+
+.. image:: pics/tna_docs_copy_region.png
+   :width: 300
+   :alt: screenshots of making a list of matches
+
+The sequence is copied in FASTA format and includes the sequence coordinates
+in the FASTA header. It will be reverse complemented if the reverse strand
+was highlighted. If the highlighted region spans more than one contig, then
+it will be in multi-FASTA format.
 
 
 Saving and loading positions

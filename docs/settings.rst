@@ -43,3 +43,5 @@ The options are:
   Displaying too many will significantly impact memory usage.
   The default of 500 should be enough - a lot more than this and the screen
   ends up filled in to the point where it is impossible to see anything useful.
+* FASTA line length: the length of each line when copying/pasting sequence.
+  Must be a non-negative integer. Put zero to have no line breaks in sequences.

@@ -12,13 +12,21 @@ You can add the top and bottom genome files with one of:
 
 * dragging and dropping from your file browser into the box
 * typing the full path to the filename in the box
-* typing in accession in the box. This can be a GenBank/RefSeq
-  accession starting with ``NC_``, ``AC_``, ``NZ_``, or ``NT_``, or an
-  assembly accession starting with ``GCA_`` or ``GCF_``. TNA will first
-  check that what you put in the box is not a file on your computer, then
-  if the accession starts with any of those then it will try to download it
-  when the "start" button is pressed later. It will download a FASTA file and
-  also try to get a GFF file for annotation.
+* typing an accession in the box. This can be a GenBank/RefSeq
+  sequence accession, or an assembly accession starting
+  with ``GCA_`` or ``GCF_``.
+
+TNA will first check if what you put in the box is a file on your computer.
+If it is not, then it checks to see if it "looks like" an accession. This
+means that it starts with ``GCA_``, ``GCF_``, ``AC_``, ``NC_``, ``NG_``,
+``NT_``, ``NW_``, ``NZ_``, or it starts with two letters followed by at
+least six digits and then anything else afterwards - for example ``CP039850.1``.
+If it looks like an accession then it will try to download
+the sequence and annotation. Note that this is not sanity checked and providing
+an accession that does not exist will result in errors upon trying to
+download. It is intentionally permissive - allowing two letters plus dix digits
+etc - so as to not rule out real accessions because it is not trivial to
+specify exactly what counts as a real accession.
 
 TNA automatically detects the format (and any compression)
 of each sequence file based on its contents, not the name of the file.

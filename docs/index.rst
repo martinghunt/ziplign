@@ -17,6 +17,7 @@ under the permissive MIT license. Please report any issues on GitHub.
    installation
    loading
    viewing
+   searching
    contig_editing
    saving_n_loading
    keyboard_shortcuts

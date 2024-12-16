@@ -125,3 +125,11 @@ as expected. It should look like this:
    :alt: screenshot showing the test data after loading
 
 
+
+Updating TNA
+------------
+
+To update TNA, download a new release and then replace the existing TNA
+file with the new downloaded file. If TNA needs a newer version of ``tnahelper``
+or the BLAST programs, then they will be automatically downloaded when the new
+version of TNA is started.
