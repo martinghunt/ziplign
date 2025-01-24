@@ -4,13 +4,15 @@ signal add_to_text_label
 signal finished_downloading
 signal init_finished
 
+var http_request
+
 func _ready():
 	show()
 
 
 func download(url, outfile):
 	add_to_text_label.emit("Downloading: " + url)
-	var http_request = HTTPRequest.new()
+	http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(self._http_request_completed)
 	http_request.set_download_file(outfile)
@@ -26,7 +28,7 @@ func download(url, outfile):
 func _http_request_completed(result, _response_code, _headers, _body):
 	if result != OK:
 		print("Download Failed")
-	remove_child($HTTPRequest)
+	remove_child(http_request)
 	finished_downloading.emit()
 
 
