@@ -40,6 +40,8 @@ TNA supports these file formats:
   annotation. TNA will show the annotation features.
 * GenBank. TNA will use the sequence, but for now has partial support for the
   annotation. It will load the genes only, and no other features.
+* EMBL. TNA will use the sequence, but for now has partial support for the
+  annotation. It will load the genes only, and no other features.
 
 TNA can read uncompressed files, and files compressed with gzip, bzip2 and
 xz.
