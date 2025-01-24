@@ -24,7 +24,7 @@ least six digits and then anything else afterwards - for example ``CP039850.1``.
 If it looks like an accession then it will try to download
 the sequence and annotation. Note that this is not sanity checked and providing
 an accession that does not exist will result in errors upon trying to
-download. It is intentionally permissive - allowing two letters plus dix digits
+download. It is intentionally permissive - allowing two letters plus six digits
 etc - so as to not rule out real accessions because it is not trivial to
 specify exactly what counts as a real accession.
 
