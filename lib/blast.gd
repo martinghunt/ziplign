@@ -47,8 +47,11 @@ func load_tsv_file(filename, qry_genome, ref_genome):
 		var is_rev = (qcoords[0] < qcoords[1]) != (refcoords[0] < refcoords[1])	
 		qcoords.sort()
 		refcoords.sort()
-		if fields[0] == fields[1] and qcoords == refcoords:
-			continue
+		# Used to remove self-hits. But then sorted hits so shortest have
+		# higher zindex, so that the biggest hit doesn't cover all the smaller
+		# ones. Keep the self-hits for now. Can revisit if users raise issues
+		#if fields[0] == fields[1] and qcoords == refcoords:
+		#	continue
 
 		var error = aln_json.parse(fields[7])
 		if error != OK:
