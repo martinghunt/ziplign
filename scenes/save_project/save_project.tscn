@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsbxlfa2t7bm5"]
 
-[ext_resource type="Script" path="res://scenes/save_project/save_project.gd" id="1_8a3a3"]
-[ext_resource type="Script" path="res://scenes/save_project/SaveDialog.gd" id="2_gsdyg"]
+[ext_resource type="Script" uid="uid://dj10n5hbre7qe" path="res://scenes/save_project/save_project.gd" id="1_8a3a3"]
+[ext_resource type="Script" uid="uid://cjp4jd3i5v8we" path="res://scenes/save_project/SaveDialog.gd" id="2_gsdyg"]
 
 [node name="SaveProject" type="Node"]
 script = ExtResource("1_8a3a3")
@@ -14,7 +14,6 @@ visible = true
 exclusive = false
 unresizable = true
 borderless = true
-ok_button_text = "Save"
 dialog_hide_on_ok = true
 access = 2
 script = ExtResource("2_gsdyg")

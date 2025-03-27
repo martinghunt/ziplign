@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdpfqi7xni7"]
 
-[ext_resource type="Script" path="res://scenes/load_project/load_project.gd" id="1_63hee"]
-[ext_resource type="Script" path="res://scenes/load_project/LoadDialog.gd" id="3_6chvd"]
+[ext_resource type="Script" uid="uid://b8cd30wt2qkqt" path="res://scenes/load_project/load_project.gd" id="1_63hee"]
+[ext_resource type="Script" uid="uid://ou3mye2efndh" path="res://scenes/load_project/LoadDialog.gd" id="3_6chvd"]
 
 [node name="LoadProject" type="Node"]
 script = ExtResource("1_63hee")
