@@ -14,11 +14,11 @@ config/name="TNA"
 config/version="0.3.0"
 run/main_scene="res://main.tscn"
 config/use_custom_user_dir=true
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
 run/low_processor_mode=true
-boot_splash/image="res://tna_splash.png"
 boot_splash/use_filter=false
+boot_splash/image="res://tna_splash.png"
 config/icon="res://tna_logo.png"
 boot_splash/minimum_display_time=1500
 

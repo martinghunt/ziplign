@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://o6vk13fe8nhl"]
 
-[ext_resource type="Script" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
+[ext_resource type="Script" uid="uid://bombolyqp5yek" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
 [ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_3uycm"]
-[ext_resource type="Script" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
-[ext_resource type="Script" path="res://scenes/new_project/StatusLabel.gd" id="2_rom0h"]
-[ext_resource type="Script" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
-[ext_resource type="Script" path="res://scenes/new_project/GoButton.gd" id="4_n1phj"]
-[ext_resource type="Script" path="res://scenes/new_project/InfoRichTextLabel.gd" id="5_4kmm3"]
-[ext_resource type="Script" path="res://scenes/new_project/compare_line_edit.gd" id="5_ulwbr"]
+[ext_resource type="Script" uid="uid://3ohtdnp6hbad" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
+[ext_resource type="Script" uid="uid://dms14vxnfbknb" path="res://scenes/new_project/StatusLabel.gd" id="2_rom0h"]
+[ext_resource type="Script" uid="uid://do5dej12rld3h" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
+[ext_resource type="Script" uid="uid://cy4f02oyivk82" path="res://scenes/new_project/GoButton.gd" id="4_n1phj"]
+[ext_resource type="Script" uid="uid://5g4uryhwtpkc" path="res://scenes/new_project/InfoRichTextLabel.gd" id="5_4kmm3"]
+[ext_resource type="Script" uid="uid://ccfxk07eo2btw" path="res://scenes/new_project/compare_line_edit.gd" id="5_ulwbr"]
 
 [node name="NewProject" type="Control"]
 layout_mode = 3

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dkqo7pcll5pjj"]
 
-[ext_resource type="Script" path="res://scenes/init/init.gd" id="1_fgosu"]
-[ext_resource type="Script" path="res://scenes/init/StatusRichTextLabel.gd" id="2_fgc48"]
+[ext_resource type="Script" uid="uid://bnt1uogjfe8ji" path="res://scenes/init/init.gd" id="1_fgosu"]
+[ext_resource type="Script" uid="uid://cvqxad6n0mnjv" path="res://scenes/init/StatusRichTextLabel.gd" id="2_fgc48"]
 
 [node name="Init" type="Control"]
 top_level = true

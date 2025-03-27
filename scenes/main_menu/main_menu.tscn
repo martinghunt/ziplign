@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://5etk1xbkj7g"]
 
-[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_00gpy"]
-[ext_resource type="Script" path="res://scenes/main_menu/StatusRichTextLabel.gd" id="2_4ot8r"]
+[ext_resource type="Script" uid="uid://cpkc1mlqlnoxq" path="res://scenes/main_menu/main_menu.gd" id="1_00gpy"]
+[ext_resource type="Script" uid="uid://cfdgwk63rjx6y" path="res://scenes/main_menu/StatusRichTextLabel.gd" id="2_4ot8r"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_xx7b4"]
 action = &"resume"
