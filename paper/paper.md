@@ -25,7 +25,7 @@ affiliations:
    index: 4
  - name: Milner Centre for Evolution, University of Bath, UK
    index: 5
-date: 2 April 2025
+date: 1 April 2025
 bibliography: paper.bib
 ---
 
