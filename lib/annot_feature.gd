@@ -35,6 +35,10 @@ func is_rev():
 	return gff_data[3]
 
 
+func is_gap():
+	return gff_data[2] == "gap"
+
+
 func is_on_screen():
 	return -Globals.controls_width <= poly.polygon[1].x \
 		and poly.polygon[0].x <= Globals.controls_width + Globals.genomes_viewport_width
@@ -134,7 +138,8 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 		top += 2
 		bottom -= 2
 		outline_width = 1
-	
+	if is_gap():
+		outline_width = 0.5
 	poly.polygon = [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
 	outline.width = outline_width
 	outline.default_color = Globals.theme.colours["ui"]["text"]
@@ -144,7 +149,12 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 	static_body_2d.mouse_exited.connect(_on_mouse_exited)
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
 	name_label.add_theme_font_override("font", Globals.fonts["dejavu"])
-	name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)
+	if is_gap():
+		name_label.add_theme_font_size_override("font_size", Globals.font_annot_gap_size)
+		poly.color.a = 0.2
+		outline.default_color.a = 0.5
+	else:
+		name_label.add_theme_font_size_override("font_size", Globals.font_annot_size)
 	name_label.set_vertical_alignment(VERTICAL_ALIGNMENT_CENTER)
 	name_label.clip_text = true
 	z_index = 1
@@ -155,6 +165,8 @@ func _init(new_id, gff_data_list, new_top, new_bottom, parent_contig):
 			break
 	if name_label.text == "":
 		name_label.text = "UNKNOWN"
+	if is_gap():
+		name_label.text = ""
 
 	set_polygon_coords()
 	add_child(static_body_2d)
@@ -177,6 +189,8 @@ func select():
 		outline.default_color = Globals.theme.colours["ui"]["text"]
 		
 	poly.color = Globals.theme.colours["ui"]["text"]
+	if is_gap():
+		poly.color.a = 0.2
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["ui"]["general_bg"])
 	z_index = 100
 
@@ -189,6 +203,8 @@ func deselect():
 		outline.default_color = Globals.theme.colours["ui"]["text"]
 		
 	poly.color = Globals.theme.colours["ui"]["panel_bg"]
+	if is_gap():
+		poly.color.a = 0.2
 	name_label.add_theme_color_override("font_color", Globals.theme.colours["text"])
 	z_index = default_z
 

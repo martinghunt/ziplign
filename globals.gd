@@ -33,7 +33,7 @@ var x_zoom = 1.0
 var top_x_left = 1.0
 var bottom_x_left = 1.0
 var max_search_results = 1000
-var expect_tnahelper_version = "v0.6.0"
+var expect_tnahelper_version = "v0.7.0"
 
 
 var complement_dict = {
@@ -74,6 +74,7 @@ var fonts = load_fonts()
 var font_acgt_size = 15
 var font_acgt_sizes = get_char_sizes(fonts["mono"], font_acgt_size)
 var font_annot_size = 12
+var font_annot_gap_size = 6
 
 
 func make_tooltip_style():
