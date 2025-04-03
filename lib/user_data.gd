@@ -19,6 +19,7 @@ var default_config = {
 	"other": {
 		"max_matches_on_screen": 500,
 		"fasta_line_length": 60,
+		"min_gap_length": 10,
 	},
 }
 
