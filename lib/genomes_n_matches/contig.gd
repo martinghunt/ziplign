@@ -103,12 +103,12 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 			continue
 		var f_top = gene_fwd_top
 		var f_bot = gene_fwd_bottom
-		if feature[3]: # is reverse
-			f_top = gene_rev_top
-			f_bot = gene_rev_bottom
-		elif feature[2] == "gap":
+		if feature[2] == "gap":
 			f_top = gap_top
 			f_bot = gap_bottom
+		elif feature[3]: # is reverse
+			f_top = gene_rev_top
+			f_bot = gene_rev_bottom
 		annot_polys.append(AnnotFeatureClass.new(len(annot_polys), feature, f_top, f_bot, self))
 		add_child(annot_polys[-1])
 		
