@@ -8,7 +8,7 @@ Default view
 The initial view is zoomed to show an overview of both genomes and the
 BLAST matches between them.
 
-.. image:: pics/tna_docs_genomes_overview.png
+.. image:: pics/zl_docs_genomes_overview.png
    :width: 500
    :alt: screenshot showing initial view of genomes and matches
 
@@ -58,7 +58,7 @@ of either genome to the left or right.
 Navigation panel
 ^^^^^^^^^^^^^^^^
 
-.. image:: pics/tna_docs_nav_buttons.png
+.. image:: pics/zl_docs_nav_buttons.png
    :width: 400
    :alt: explanation of zoom controls
 
@@ -72,7 +72,7 @@ smaller.
 Zoom panel
 ^^^^^^^^^^
 
-.. image:: pics/tna_docs_zoom_buttons.png
+.. image:: pics/zl_docs_zoom_buttons.png
    :width: 400
    :alt: explanation of navigation buttons
 
@@ -118,7 +118,7 @@ alignments. Instead of just a solid block, it uses lines to show
 each matching position between the genomes, and highlights SNPs. Indels
 result in non-parallel lines.
 
-.. image:: pics/tna_docs_basepair_view.png
+.. image:: pics/zl_docs_basepair_view.png
    :width: 500
    :alt: screenshot of zoomed in view showing base pairs
 
@@ -141,13 +141,13 @@ Matches that are shown can be filtered by minimum length or percent identity,
 using the boxes in the left panel. If it is not already selected, press the
 "filter" icon to show the filter options.
 
-.. image:: pics/tna_docs_match_filter.png
+.. image:: pics/zl_docs_match_filter.png
    :width: 140
    :alt: screenshot of match filter controls
 
 By default, only matches longer than 100bp and at least 90% identity are
 shown. The minimum values can be changed in the boxes. Note: showing all
-matches may slow TNA down if there is a large number of them on screen.
+matches may slow Ziplign down if there is a large number of them on screen.
 
 Matches in a region
 -------------------
@@ -158,7 +158,7 @@ to highlight a region. When the button is released, all matches that overlap the
 highlighted region are listed in the bottom of the left hand panel.
 
 
-.. image:: pics/tna_docs_match_list.png
+.. image:: pics/zl_docs_match_list.png
    :width: 520
    :alt: screenshots of making a list of matches
 
@@ -180,7 +180,7 @@ The highlighted sequence can be copied to the clipboard using
 ctrl-c (Windows/linux) or cmd-c (macOS), or by pressing the "copy" button
 at the top.
 
-.. image:: pics/tna_docs_copy_region.png
+.. image:: pics/zl_docs_copy_region.png
    :width: 300
    :alt: screenshots of making a list of matches
 

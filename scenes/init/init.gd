@@ -32,20 +32,20 @@ func _http_request_completed(result, _response_code, _headers, _body):
 	finished_downloading.emit()
 
 
-func download_tnahelper():
-	var url = "https://github.com/martinghunt/tnahelper/releases/download/" + \
-		Globals.expect_tnahelper_version + "/tnahelper_"
+func download_zlhelper():
+	var url = "https://github.com/martinghunt/zlhelper/releases/download/" + \
+		Globals.expect_zlhelper_version + "/zlhelper_"
 	if Globals.userdata.os == "mac":
 		url += "darwin_"
 	else:
 		url += Globals.userdata.os + "_"
-	
+
 	if "arm" in Globals.userdata.arch:
 		url += "arm64"
 	else:
 		url += "amd64"
-		
-	var ok = download(url, Globals.userdata.tnahelper)
+
+	var ok = download(url, Globals.userdata.zlhelper)
 	await finished_downloading
 	return ok
 
@@ -69,24 +69,24 @@ func size_of_blast_tarball():
 			print(filename, ", ", size_mb, "M")
 			return size_mb
 	return 0
-			
+
 
 func run_all():
-	add_to_text_label.emit("TNA Version: " + ProjectSettings.get_setting("application/config/version"))
-	add_to_text_label.emit("Running on " + Globals.userdata.os + "/" + Globals.userdata.arch)	
+	add_to_text_label.emit("Ziplign Version: " + ProjectSettings.get_setting("application/config/version"))
+	add_to_text_label.emit("Running on " + Globals.userdata.os + "/" + Globals.userdata.arch)
 	Globals.userdata.check_all_paths()
-	
+
 	if not Globals.userdata.data_dir_exists:
 		OS.alert("No user data folder found. Cannot continue. Expected to find: " + Globals.userdata.data_dir, "ERROR")
 		return false
-	
+
 	if Globals.userdata.config_file_exists:
 		add_to_text_label.emit("Config file found. Loading it. " + Globals.userdata.config_file)
 		Globals.userdata.load_config()
 	else:
 		add_to_text_label.emit("Config file not found. Making default file. " + Globals.userdata.config_file)
 		Globals.userdata.make_default_config()
-	
+
 	add_to_text_label.emit("Data folder found: " + Globals.userdata.data_dir)
 	await get_tree().create_timer(0.1).timeout
 
@@ -103,49 +103,49 @@ func run_all():
 			return false
 		add_to_text_label.emit(" ... created: " + Globals.userdata.bin)
 		Globals.userdata.bin_exists = true
-	
-	var tnahelper_err_msg = ""
-	
-	if Globals.userdata.tnahelper_exists:
-		add_to_text_label.emit("tnahelper found: " + Globals.userdata.tnahelper)
-		Globals.userdata.set_tnahelper_version()
-		if not Globals.userdata.tnahelper_version_ok:
-			tnahelper_err_msg = "tnahelper version " + Globals.userdata.tnahelper_version + \
+
+	var zlhelper_err_msg = ""
+
+	if Globals.userdata.zlhelper_exists:
+		add_to_text_label.emit("zlhelper found: " + Globals.userdata.zlhelper)
+		Globals.userdata.set_zlhelper_version()
+		if not Globals.userdata.zlhelper_version_ok:
+			zlhelper_err_msg = "zlhelper version " + Globals.userdata.zlhelper_version + \
 				" is different from expected: " + \
-				Globals.expect_tnahelper_version + \
-				". Going to download tnahelper"
+				Globals.expect_zlhelper_version + \
+				". Going to download zlhelper"
 	else:
-		tnahelper_err_msg = "tnahelper not found: " + Globals.userdata.tnahelper
-		
-	if len(tnahelper_err_msg) > 0:
+		zlhelper_err_msg = "zlhelper not found: " + Globals.userdata.zlhelper
+
+	if len(zlhelper_err_msg) > 0:
 		await get_tree().create_timer(0.1).timeout
-		add_to_text_label.emit(tnahelper_err_msg)
-		var ok = await download_tnahelper()
+		add_to_text_label.emit(zlhelper_err_msg)
+		var ok = await download_zlhelper()
 		if not ok:
-			OS.alert("Error downloading tnahelper.\nCannot continue", "ERROR")
+			OS.alert("Error downloading zlhelper.\nCannot continue", "ERROR")
 			return false
-		
+
 		if Globals.userdata.os != "windows":
-			print("making tnahelper executable")
-			ok = chmod_make_executable(Globals.userdata.tnahelper)
+			print("making zlhelper executable")
+			ok = chmod_make_executable(Globals.userdata.zlhelper)
 			if not ok:
-				OS.alert("Error making tnahelper executable.\nCannot continue", "ERROR")
+				OS.alert("Error making zlhelper executable.\nCannot continue", "ERROR")
 				return false
-	
-		Globals.userdata.tnahelper_exists = true
+
+		Globals.userdata.zlhelper_exists = true
 		await get_tree().create_timer(0.1).timeout
-		add_to_text_label.emit("tnahelper downloaded: " + Globals.userdata.tnahelper)
-	
-	Globals.userdata.set_tnahelper_version()
-	add_to_text_label.emit("tnahelper version: " + Globals.userdata.tnahelper_version)
-	
+		add_to_text_label.emit("zlhelper downloaded: " + Globals.userdata.zlhelper)
+
+	Globals.userdata.set_zlhelper_version()
+	add_to_text_label.emit("zlhelper version: " + Globals.userdata.zlhelper_version)
+
 	var blast_ok = true
 	if Globals.userdata.makeblastdb_exists:
 		add_to_text_label.emit("makeblastdb found: " + Globals.userdata.makeblastdb)
 	else:
 		blast_ok = false
 		add_to_text_label.emit("makeblastdb not found: " + Globals.userdata.makeblastdb)
-		
+
 	if Globals.userdata.blastn_exists:
 		add_to_text_label.emit("blastn found: " + Globals.userdata.blastn)
 		Globals.userdata.set_blastn_version()
@@ -154,21 +154,21 @@ func run_all():
 	else:
 		blast_ok = false
 		add_to_text_label.emit("blastn not found: " + Globals.userdata.blastn)
-	
+
 	await get_tree().create_timer(0.1).timeout
-	
-	
+
+
 	if not blast_ok:
 		add_to_text_label.emit("Some blast programs not found, or version unknown. Downloading...")
 		var opts = ["download_binaries", "--outdir", Globals.userdata.bin]
 		var stderr = []
 		await get_tree().create_timer(0.1).timeout
-		add_to_text_label.emit("Running: " + Globals.userdata.tnahelper + " " + " ".join(opts))
+		add_to_text_label.emit("Running: " + Globals.userdata.zlhelper + " " + " ".join(opts))
 		add_to_text_label.emit("[b]This may take some time, depending on internet bandwidth[/b]")
 		add_to_text_label.emit("Size of downloaded file (is up to around 200-250M total size): ")
 		await get_tree().create_timer(0.1).timeout
 		var thread = Thread.new()
-		thread.start(OS.execute.bind(Globals.userdata.tnahelper, opts, stderr, true))
+		thread.start(OS.execute.bind(Globals.userdata.zlhelper, opts, stderr, true))
 		while thread.is_alive():
 			await get_tree().create_timer(3).timeout
 			add_to_text_label.emit(" " + str(size_of_blast_tarball()) + "M", false)
@@ -185,14 +185,14 @@ func run_all():
 			return false
 
 		add_to_text_label.emit(" ... finished downloading blast")
-	
+
 	if Globals.userdata.example_data_exists:
 		add_to_text_label.emit("Example genome files found in " + Globals.userdata.example_data_dir)
 	else:
 		add_to_text_label.emit("Example genome files not found. Going to generate them")
 		var opts = ["make_example_data", "--outdir", Globals.userdata.example_data_dir]
 		var stderr = []
-		var exit_code = OS.execute(Globals.userdata.tnahelper, opts, stderr, true)
+		var exit_code = OS.execute(Globals.userdata.zlhelper, opts, stderr, true)
 		for x in stderr:
 			print(x + "\n")
 		if exit_code != 0:
@@ -200,9 +200,9 @@ func run_all():
 			add_to_text_label.emit("Error making example genome files")
 			OS.alert("Error making example genome files.\nCannot continue", "ERROR")
 			return false
-	
 
-		
+
+
 	add_to_text_label.emit("Applying settings from config file")
 	Globals.theme.set_theme(Globals.userdata.config.get_value("colours", "theme"))
 	add_to_text_label.emit("Initialization finished")
@@ -215,7 +215,7 @@ func _on_main_start_init():
 	var wanted_width = int(0.75 * screen_size.x)
 	var wanted_height = 1 + int(wanted_width / width_to_height)
 	print("Detected screen size: ", screen_size.x, "x", screen_size.y)
-	print("Resize TNA window to: ", wanted_width, "x", wanted_height)
+	print("Resize Ziplign window to: ", wanted_width, "x", wanted_height)
 	DisplayServer.window_set_size(Vector2i(wanted_width, wanted_height))
 	DisplayServer.window_set_position(Vector2((screen_size.x - wanted_width) / 2, (screen_size.y - wanted_height) / 2))
 	show()

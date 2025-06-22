@@ -33,7 +33,7 @@ var x_zoom = 1.0
 var top_x_left = 1.0
 var bottom_x_left = 1.0
 var max_search_results = 1000
-var expect_tnahelper_version = "v0.7.0"
+var expect_zlhelper_version = "v0.7.0"
 
 
 var complement_dict = {
@@ -45,7 +45,7 @@ var complement_dict = {
 }
 
 const TOP = 0
-const BOTTOM = 1 
+const BOTTOM = 1
 const top_or_bottom_str = {TOP: "top", BOTTOM: "bottom"}
 
 func load_fonts():
@@ -61,8 +61,8 @@ func load_fonts():
 		#fonts[x].antialiasing = 2
 		#fonts[x].hinting = 0
 	return f
-	
-	
+
+
 
 func get_char_sizes(font, font_size):
 	var sizes = {}
@@ -84,5 +84,5 @@ func make_tooltip_style():
 	style.set_expand_margin_all(1)
 	style.border_color = theme.colours["text"]
 	return style
-	
+
 var tooltip_style = make_tooltip_style()

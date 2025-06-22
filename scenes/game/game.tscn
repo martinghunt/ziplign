@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://djc5k5n4pbl85" path="res://scenes/game/utils_choice_h_box_container.gd" id="3_nkrq5"]
 [ext_resource type="Script" uid="uid://n1xucv2eaaj6" path="res://scenes/game/RightBottomScrollbar.gd" id="3_nnddm"]
 [ext_resource type="Script" uid="uid://3io25ml8xff5" path="res://scenes/game/FiltMinLengthLineEdit.gd" id="4_6ydgx"]
-[ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="4_queha"]
+[ext_resource type="FontFile" uid="uid://tu1ehyrnq1um" path="res://fonts/ziplignicons.otf" id="4_queha"]
 [ext_resource type="Script" uid="uid://b2cpohnvbuqxa" path="res://scenes/game/mult_matches_v_box_container.gd" id="5_0mmw2"]
 [ext_resource type="Script" uid="uid://bxo4cuw0rn0qg" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 [ext_resource type="Script" uid="uid://cq5pgmjc4f8qu" path="res://scenes/game/mult_matches_item_list.gd" id="5_c5uwd"]

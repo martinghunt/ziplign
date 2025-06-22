@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'TNA'
+project = 'Ziplign'
 copyright = '2024, Martin Hunt'
 author = 'Martin Hunt'
 release = '0.0.1'

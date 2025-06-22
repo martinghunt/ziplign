@@ -1,7 +1,7 @@
 func to_fasta(infile, outprefix):
 	var stderr = []
 	var mingap = Globals.userdata.config.get_value("other", "min_gap_length")
-	var exit_code = OS.execute(Globals.userdata.tnahelper, ["import_seqfile", "-g", mingap, "-i", infile, "-o", outprefix], stderr, true)
+	var exit_code = OS.execute(Globals.userdata.zlhelper, ["import_seqfile", "-g", mingap, "-i", infile, "-o", outprefix], stderr, true)
 	if exit_code != 0:
 		print("Error importing sequence file: ", infile)
 		print(stderr)
@@ -10,7 +10,7 @@ func to_fasta(infile, outprefix):
 
 func download_genome(accession, outprefix):
 	var stderr = []
-	var exit_code = OS.execute(Globals.userdata.tnahelper, ["download_genome", "-a", accession, "-o", outprefix], stderr, true)
+	var exit_code = OS.execute(Globals.userdata.zlhelper, ["download_genome", "-a", accession, "-o", outprefix], stderr, true)
 	if exit_code != 0:
 		print("Error downloading sequence file: ", accession)
 		print(stderr)

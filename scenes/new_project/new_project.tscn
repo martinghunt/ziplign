@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://o6vk13fe8nhl"]
 
 [ext_resource type="Script" uid="uid://bombolyqp5yek" path="res://scenes/new_project/new_project.gd" id="1_cvvaa"]
-[ext_resource type="FontFile" uid="uid://du0qgjqgoytp7" path="res://fonts/tnaicons.otf" id="2_3uycm"]
+[ext_resource type="FontFile" uid="uid://tu1ehyrnq1um" path="res://fonts/ziplignicons.otf" id="2_3uycm"]
 [ext_resource type="Script" uid="uid://3ohtdnp6hbad" path="res://scenes/new_project/TopGenomeLineEdit.gd" id="2_ed3tn"]
 [ext_resource type="Script" uid="uid://dms14vxnfbknb" path="res://scenes/new_project/StatusLabel.gd" id="2_rom0h"]
 [ext_resource type="Script" uid="uid://do5dej12rld3h" path="res://scenes/new_project/BottomGenomeLineEdit.gd" id="3_4xijc"]
