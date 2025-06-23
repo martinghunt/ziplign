@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://bshg2cnsbwrv2"]
 
 [ext_resource type="Script" uid="uid://b3n8sedxlv0c8" path="res://scenes/settings/settings.gd" id="1_qtfdy"]
-[ext_resource type="FontFile" uid="uid://tu1ehyrnq1um" path="res://fonts/ziplignicons.otf" id="2_0qsbv"]
+[ext_resource type="FontFile" uid="uid://qtretpwxqaht" path="res://fonts/ziplignicons.otf" id="2_0qsbv"]
 [ext_resource type="Script" uid="uid://di88nwymay6ai" path="res://scenes/settings/ThemeOptionButton.gd" id="2_4nf2k"]
 [ext_resource type="Script" uid="uid://d0j8uhaclkmov" path="res://scenes/settings/OpenDataDirButton.gd" id="3_jpjef"]
 [ext_resource type="Script" uid="uid://dxycgp4w5tiuv" path="res://scenes/settings/mouse_wheel_sens_line_edit.gd" id="5_8s1xb"]
