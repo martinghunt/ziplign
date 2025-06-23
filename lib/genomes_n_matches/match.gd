@@ -209,7 +209,8 @@ func is_visible_top_and_bottom(tolerance):
 
 
 func should_be_visible():
-	return length() >= Globals.match_min_show_length \
+	return Globals.match_min_show_length <= length() \
+	  and length() <= Globals.match_max_show_length \
 	  and pc_id() >= Globals.match_min_show_pc_id \
 	  and is_visible_top_or_bottom(Globals.matches_visible_extra)
 

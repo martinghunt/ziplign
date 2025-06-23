@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cajqs7kwfmv43"]
+[gd_scene load_steps=38 format=3 uid="uid://cajqs7kwfmv43"]
 
 [ext_resource type="PackedScene" uid="uid://eap762pqaesx" path="res://scenes/genomes_n_matches/genomes_n_matches.tscn" id="1_14efs"]
 [ext_resource type="Script" uid="uid://bw7f0d0ctl7xu" path="res://scenes/game/game.gd" id="1_vo3rl"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://b2cpohnvbuqxa" path="res://scenes/game/mult_matches_v_box_container.gd" id="5_0mmw2"]
 [ext_resource type="Script" uid="uid://bxo4cuw0rn0qg" path="res://scenes/game/FiltMinIdentityLineEdit.gd" id="5_2v3gj"]
 [ext_resource type="Script" uid="uid://cq5pgmjc4f8qu" path="res://scenes/game/mult_matches_item_list.gd" id="5_c5uwd"]
+[ext_resource type="Script" uid="uid://bq1gn5budg555" path="res://scenes/game/FiltMaxLengthLineEdit.gd" id="5_otnwt"]
 [ext_resource type="Script" uid="uid://cjdxvit8sgauy" path="res://scenes/game/sequence_line_edit.gd" id="5_x8olh"]
 [ext_resource type="Script" uid="uid://cixly4awfhh8d" path="res://scenes/game/annotation_line_edit.gd" id="6_nc8cl"]
 [ext_resource type="Script" uid="uid://b70l6rhsp3aup" path="res://scenes/game/contig_opts_v_box_container.gd" id="7_ubpjk"]
@@ -386,24 +387,68 @@ text = "O"
 
 [node name="MinLengthLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Min length"
+text = "matches"
 
-[node name="FiltMinLengthLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
+[node name="MinLengthBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
-tooltip_text = "Only show matches that are above this length"
+
+[node name="GreaterThanLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer"]
+layout_mode = 2
+text = "≥"
+
+[node name="FiltMinLengthLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Only show matches that are at least this length"
+theme_override_font_sizes/font_size = 14
 context_menu_enabled = false
 script = ExtResource("4_6ydgx")
 
-[node name="MinIdentityLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
+[node name="bpLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer"]
 layout_mode = 2
-text = "Min % identity"
+theme_override_font_sizes/font_size = 14
+text = "bp"
 
-[node name="FiltMinIdentityLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
+[node name="MaxLengthBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
 layout_mode = 2
+
+[node name="LessThanLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer"]
+layout_mode = 2
+text = "≤"
+
+[node name="FiltMaxLengthLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Only show matches that are at most this length"
+theme_override_font_sizes/font_size = 14
+script = ExtResource("5_otnwt")
+
+[node name="bpLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "bp"
+
+[node name="MinPercentBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer"]
+layout_mode = 2
+
+[node name="MinIdentityLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer"]
+layout_mode = 2
+text = "≥"
+
+[node name="FiltMinIdentityLineEdit" type="LineEdit" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 tooltip_text = "Only show matches with at least this percent identity"
+theme_override_font_sizes/font_size = 14
 script = ExtResource("5_2v3gj")
 
+[node name="percentLabel" type="Label" parent="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "%"
+
 [node name="SearchVBoxContainer" type="VBoxContainer" parent="MainHBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainHBoxContainer/VBoxContainer/SearchVBoxContainer"]
@@ -628,12 +673,15 @@ script = ExtResource("3_nnddm")
 [connection signal="pressed" from="MainHBoxContainer/VBoxContainer/RevcompGridContainer/RevcompBottomButton" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_revcomp_bottom_button_pressed"]
 [connection signal="toggled" from="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer/FilterButton" to="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer" method="_on_filter_button_toggled"]
 [connection signal="toggled" from="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer/SearchButton" to="MainHBoxContainer/VBoxContainer/UtilsChoiceHBoxContainer" method="_on_search_button_toggled"]
-[connection signal="focus_exited" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" method="_on_focus_exited"]
-[connection signal="min_match_length_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_length_line_edit_min_match_length_changed"]
-[connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit" method="_on_text_submitted"]
-[connection signal="focus_exited" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" method="_on_focus_exited"]
-[connection signal="min_match_pc_id_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_identity_line_edit_min_match_pc_id_changed"]
-[connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit" method="_on_text_submitted"]
+[connection signal="focus_exited" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit" method="_on_focus_exited"]
+[connection signal="min_match_length_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_length_line_edit_min_match_length_changed"]
+[connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit" method="_on_text_submitted"]
+[connection signal="focus_exited" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer/FiltMaxLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer/FiltMaxLengthLineEdit" method="_on_focus_exited"]
+[connection signal="max_match_length_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer/FiltMaxLengthLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_max_length_line_edit_max_match_length_changed"]
+[connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer/FiltMaxLengthLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer/FiltMaxLengthLineEdit" method="_on_text_submitted"]
+[connection signal="focus_exited" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer/FiltMinIdentityLineEdit" method="_on_focus_exited"]
+[connection signal="min_match_pc_id_changed" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_filt_min_identity_line_edit_min_match_pc_id_changed"]
+[connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer/FiltMinIdentityLineEdit" to="MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer/FiltMinIdentityLineEdit" method="_on_text_submitted"]
 [connection signal="sequence_search" from="MainHBoxContainer/VBoxContainer/SearchVBoxContainer/SequenceLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_sequence_line_edit_sequence_search"]
 [connection signal="text_submitted" from="MainHBoxContainer/VBoxContainer/SearchVBoxContainer/SequenceLineEdit" to="MainHBoxContainer/VBoxContainer/SearchVBoxContainer/SequenceLineEdit" method="_on_text_submitted"]
 [connection signal="annotation_search" from="MainHBoxContainer/VBoxContainer/SearchVBoxContainer/AnnotationLineEdit" to="MainHBoxContainer/BoxContainer/VBoxContainer2/GenomesNMatches" method="_on_annotation_line_edit_annotation_search"]
