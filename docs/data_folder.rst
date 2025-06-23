@@ -9,9 +9,9 @@ operating system, and is chosen by Godot (the language used to write Ziplign).
 
 They are (probably):
 
-* Windows: ``%APPDATA%\ziplign``
-* macOS: ``~/Library/Application Support/ziplign``
-* Linux: ``~/.local/share/ziplign``
+* Windows: ``%APPDATA%\Ziplign``
+* macOS: ``~/Library/Application Support/Ziplign``
+* Linux: ``~/.local/share/Ziplign``
 
 The entire folder can be deleted. When Ziplign starts, it will
 be recreated and any missing files replaced. But you will lose any changes
