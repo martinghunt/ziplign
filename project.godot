@@ -18,8 +18,8 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
 run/low_processor_mode=true
 boot_splash/use_filter=false
-boot_splash/image="uid://bih4dp3vlwf5n"
-config/icon="uid://cvlibho10ontd"
+boot_splash/image="ziplign_splash.png"
+config/icon="ziplign_logo.png"
 boot_splash/minimum_display_time=1500
 
 [autoload]
