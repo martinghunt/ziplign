@@ -12,6 +12,7 @@ var bin_path = userdata.get_bin_path()
 var genomes_viewport_width = 1000
 var match_min_show_pc_id = 90.0
 var match_min_show_length = 100
+var match_max_show_length = 1000000
 var match_aln_step = 1
 var zoom_to_show_bp = 9.0
 var zoom_to_show_annot_2k = 0.0001
@@ -33,7 +34,7 @@ var x_zoom = 1.0
 var top_x_left = 1.0
 var bottom_x_left = 1.0
 var max_search_results = 1000
-var expect_tnahelper_version = "v0.7.0"
+var expect_zlhelper_version = "v1.0.0"
 
 
 var complement_dict = {
@@ -45,7 +46,7 @@ var complement_dict = {
 }
 
 const TOP = 0
-const BOTTOM = 1 
+const BOTTOM = 1
 const top_or_bottom_str = {TOP: "top", BOTTOM: "bottom"}
 
 func load_fonts():
@@ -61,8 +62,8 @@ func load_fonts():
 		#fonts[x].antialiasing = 2
 		#fonts[x].hinting = 0
 	return f
-	
-	
+
+
 
 func get_char_sizes(font, font_size):
 	var sizes = {}
@@ -84,5 +85,5 @@ func make_tooltip_style():
 	style.set_expand_margin_all(1)
 	style.border_color = theme.colours["text"]
 	return style
-	
+
 var tooltip_style = make_tooltip_style()

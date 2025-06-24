@@ -93,6 +93,9 @@ func reset_colours():
 		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/HBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/RevcompGridContainer,
 		$Game/MainHBoxContainer/VBoxContainer/MultMatchesVBoxContainer/HBoxContainer,
 		$Game/MainHBoxContainer/VBoxContainer/ContigOptsVBoxContainer/HBoxContainer,
@@ -137,7 +140,7 @@ func reset_colours():
 	popup.add_theme_font_size_override("font_size", 30)
 	
 
-	var ledit = $Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit
+	var ledit = $Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit
 	ledit.get_theme_stylebox("normal").bg_color = Globals.theme.colours["ui"]["button_bg"]
 	Globals.tooltip_style.bg_color = Globals.theme.colours["ui"]["panel_bg"]
 	Globals.tooltip_style.border_color = Globals.theme.colours["text"]
@@ -146,8 +149,9 @@ func reset_colours():
 		$NewProject/MainVBoxContainer/GridContainer/TopGenomeLineEdit,
 		$NewProject/MainVBoxContainer/GridContainer/BottomGenomeLineEdit,
 		$NewProject/MainVBoxContainer/GridContainer/CompareLineEdit,
-		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinLengthLineEdit,
-		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/FiltMinIdentityLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinLengthBoxContainer/FiltMinLengthLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MinPercentBoxContainer/FiltMinIdentityLineEdit,
+		$Game/MainHBoxContainer/VBoxContainer/FilterVBoxContainer/MaxLengthBoxContainer/FiltMaxLengthLineEdit,
 		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer/SequenceLineEdit,
 		$Game/MainHBoxContainer/VBoxContainer/SearchVBoxContainer/AnnotationLineEdit,
 	]

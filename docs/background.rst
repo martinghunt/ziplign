@@ -1,7 +1,7 @@
-A brief history of TNA
-======================
+A brief history of Ziplign
+==========================
 
-If you are interested in why TNA was made in the first place, and some of the
+If you are interested in why Ziplign was made in the first place, and some of the
 details of the implementation, then please read on.
 
 
@@ -39,14 +39,14 @@ working. This was just showing rectangles (contigs), parallelograms/triangles
 (blast matches), and being able to slide the top and bottom genomes around and
 have the blast matches follow suit.
 It turned out to work quite well as a proof of concept.
-This then grew into TNA.
+This then grew into Ziplign.
 
-The aim of TNA was always to be a minimal implementation of the essential
+The aim of Ziplign was always to be a minimal implementation of the essential
 things I want from ACT and nothing more: view two genomes, plus the
-features listed above.  The name is yet another
-`recursive acronym <https://en.wikipedia.org/wiki/Recursive_acronym>`_
-in the UNIX
-tradition: "TNA's Not ACT".  I rarely use ACT to view more than two genomes,
+features listed above.  It's pronounced "zipline" and is a
+backronym: "Zoomable Interactive Paired-genome aLIGnment Navigator" (or
+have fun making up your own acronym).
+I rarely use ACT to view more than two genomes,
 so early on I decided (to save a lot of implementation pain) to only support
 two genomes. This is baked in and will not change.
 
@@ -54,7 +54,7 @@ two genomes. This is baked in and will not change.
 Under the hood
 --------------
 
-I wanted TNA to be cross-platform, which was another reason to use Godot.
+I wanted Ziplign to be cross-platform, which was another reason to use Godot.
 It can export a project to Windows, Mac, and Linux (and x86 and ARM
 architecture). It can also make Android and i(pad)OS apps - which I thought
 about making, but I don't think it's possible to get them to run BLAST.
@@ -65,18 +65,18 @@ This was my first project using Godot (and indeed a GUI of any kind).
 Handling all the 2D graphics in Godot is relatively easy, what with it
 being a game engine.
 Displaying genomes and BLAST matches was probably the simplest part.
-The biggest challenge of making TNA was the GUI:
+The biggest challenge of making Ziplign was the GUI:
 adding menus, buttons, and then in particular being able to change colour
 themes etc.
 Most of this comes down
-to TNA not being a game, but a tool. Although Godot is set up to make such
+to Ziplign not being a game, but a tool. Although Godot is set up to make such
 a program (its own IDE is made in Godot),
 it is primarily for making games.
 
 There is, unsurprisingly,
-no "bio-Godot". Seeing as TNA would need to run BLAST as a separate program,
+no "bio-Godot". Seeing as Ziplign would need to run BLAST as a separate program,
 I decided to offload all the heavy lifting bioinformatics tasks to a separate
-program as well, called `tnahelper <https://github.com/martinghunt/tnahelper>`_.
+program as well, called `zlhelper <https://github.com/martinghunt/zlhelper>`_.
 This also needed to be cross-platform,
 and so is written in the Go programming language. It parses sequence files,
 handles reading compressed files, runs BLAST and parses its output. The plus
