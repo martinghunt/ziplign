@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Ziplign"
-config/version="0.3.0"
+config/version="1.0.0"
 run/main_scene="res://main.tscn"
 config/use_custom_user_dir=true
 config/features=PackedStringArray("4.4", "Forward Plus")
