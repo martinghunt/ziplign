@@ -16,7 +16,7 @@ You can add the top and bottom genome files with one of:
   sequence accession, or an assembly accession starting
   with ``GCA_`` or ``GCF_``.
 
-TNA will first check if what you put in the box is a file on your computer.
+Ziplign will first check if what you put in the box is a file on your computer.
 If it is not, then it checks to see if it "looks like" an accession. This
 means that it starts with ``GCA_``, ``GCF_``, ``AC_``, ``NC_``, ``NG_``,
 ``NT_``, ``NW_``, ``NZ_``, or it starts with two letters followed by at
@@ -28,22 +28,22 @@ download. It is intentionally permissive - allowing two letters plus six digits
 etc - so as to not rule out real accessions because it is not trivial to
 specify exactly what counts as a real accession.
 
-TNA automatically detects the format (and any compression)
+Ziplign automatically detects the format (and any compression)
 of each sequence file based on its contents, not the name of the file.
 
-TNA supports these file formats:
+Ziplign supports these file formats:
 
 * FASTA
 * FASTQ (loading sequencing reads is NOT recommended! The assumption is that
   you want to view contigs)
 * GFF3, as long as the sequence(s) are included in the file as well as the
-  annotation. TNA will show the annotation features.
-* GenBank. TNA will use the sequence, but for now has partial support for the
+  annotation. Ziplign will show the annotation features.
+* GenBank. Ziplign will use the sequence, but for now has partial support for the
   annotation. It will load the genes only, and no other features.
-* EMBL. TNA will use the sequence, but for now has partial support for the
+* EMBL. Ziplign will use the sequence, but for now has partial support for the
   annotation. It will load the genes only, and no other features.
 
-TNA can read uncompressed files, and files compressed with gzip, bzip2 and
+Ziplign can read uncompressed files, and files compressed with gzip, bzip2 and
 xz.
 
 
@@ -53,12 +53,12 @@ xz.
 BLAST options
 -------------
 
-TNA runs ``blastn`` to compare the genomes. You can add options to the
+Ziplign runs ``blastn`` to compare the genomes. You can add options to the
 ``blastn`` call. Please note that these options are NOT sanity checked and
 are simply added onto the end of the ``blastn`` call.
 
 Please do not use any options relating to file input or output, since it will
-cause TNA to crash. Specifically, TNA already uses the options ``-db``,
+cause Ziplign to crash. Specifically, Ziplign already uses the options ``-db``,
 ``-query``, ``-out``, and ``-outfmt``. Do not try to change them.
 
 The default in the BLAST options box is ``-evalue 0.1``,
@@ -74,7 +74,7 @@ Start processing
 ----------------
 
 Once the genome files are provided, the start button will change from
-disabled to enabled. Press it and TNA will then:
+disabled to enabled. Press it and Ziplign will then:
 
 * check the input genome files exist
 * import the genomes

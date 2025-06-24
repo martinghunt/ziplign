@@ -2,18 +2,6 @@ Frequently Asked Questions
 ==========================
 
 
-Why the name TNA?
-^^^^^^^^^^^^^^^^^
-
-It stands for "TNA's Not ACT", following a geeky tradition of using
-`recursive acronyms <https://en.wikipedia.org/wiki/Recursive_acronym>`_.
-TNA is meant to be a "minimal ACT" (plus all the
-extra features I wanted that ACT can't do).
-ACT can do a lot of things that TNA cannot.
-TNA is not ACT. However, TNA is essentially feature-complete for my use
-cases.
-
-
 Can I compare more than two genomes?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -44,7 +32,7 @@ Why do the tooltips have slightly blurry text?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This seems to be a known issue with Godot rendering.
-Sorry but it probably won't get fixed in TNA unless it's changed in Godot.
+Sorry but it probably won't get fixed in Ziplign unless it's changed in Godot.
 
 
 Why are the save/load windows slightly blurry?
@@ -52,11 +40,11 @@ Why are the save/load windows slightly blurry?
 
 For the same reason as the tooltips. Please see the previous answer.
 One way around it is to make a custom save/load UI instead of the built-in
-ones that TNA currently uses, which is not worth the effort.
+ones that Ziplign currently uses, which is not worth the effort.
 
 
 Why not use ACT instead?
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Go ahead and use ACT. Or use TNA. Up to you. Choose your favourite.
+Go ahead and use ACT. Or use Ziplign. Up to you. Choose your favourite.
 

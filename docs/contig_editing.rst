@@ -1,14 +1,14 @@
 Contig editing
 ==============
 
-TNA currently supports basic editing: contigs can be reverse complemented or
+Ziplign currently supports basic editing: contigs can be reverse complemented or
 moved.
 
 
 To reverse complement every contig in either genome, use the buttons in the left
 panel.
 
-.. image:: pics/tna_docs_genome_revcomp_buttons.png
+.. image:: pics/zl_docs_genome_revcomp_buttons.png
    :width: 400
    :alt: screenshot showing genome reverse complement buttons
 
@@ -26,6 +26,6 @@ At the bottom of the left panel, the contig options will appear.
 There are buttons to move the contig, or reverse complement it.
 
 
-.. image:: pics/tna_docs_contig_opts.png
+.. image:: pics/zl_docs_contig_opts.png
    :width: 400
    :alt: screenshot showing contig options buttons

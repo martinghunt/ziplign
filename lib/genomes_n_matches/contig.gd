@@ -26,6 +26,8 @@ var gene_fwd_top = 9
 var gene_fwd_bottom = 17
 var gene_rev_top = 21
 var gene_rev_bottom = 28
+var gap_top = gene_fwd_bottom + 1
+var gap_bottom = gene_rev_top - 1
 var middle = 0.5 * (top + bottom)
 var centerline_y = middle
 var id
@@ -48,11 +50,15 @@ func set_gene_top_bottom(zoomed: bool):
 		gene_fwd_bottom = top + 0.6 * (middle - top)
 		gene_rev_top = middle + 0.4 * (bottom - middle)
 		gene_rev_bottom = bottom - 5
+		#gap_top = gene_fwd_top
+		#gap_bottom = gene_rev_bottom
 	else:
 		gene_fwd_top = top + 0.15 * (middle - top)
 		gene_fwd_bottom = top + 0.85 * (middle - top)
 		gene_rev_top = middle + 0.15 * (bottom - middle)
 		gene_rev_bottom = middle + 0.85 * (bottom - middle)
+	gap_top = gene_fwd_bottom + 1
+	gap_bottom = gene_rev_top - 1
 
 
 func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_bottom, bp_length, annotation):
@@ -97,7 +103,10 @@ func _init(new_id, new_top_or_bottom, new_x_start, new_x_end, new_top, new_botto
 			continue
 		var f_top = gene_fwd_top
 		var f_bot = gene_fwd_bottom
-		if feature[3]: # is reverse
+		if feature[2] == "gap":
+			f_top = gap_top
+			f_bot = gap_bottom
+		elif feature[3]: # is reverse
 			f_top = gene_rev_top
 			f_bot = gene_rev_bottom
 		annot_polys.append(AnnotFeatureClass.new(len(annot_polys), feature, f_top, f_bot, self))
@@ -175,7 +184,9 @@ func set_zoomed_view(turn_on):
 
 	set_gene_top_bottom(turn_on)
 	for x in annot_polys:
-		if x.is_rev():
+		if x.is_gap():
+			x.set_top_and_bottom(gap_top, gap_bottom)
+		elif x.is_rev():
 			x.set_top_and_bottom(gene_rev_top, gene_rev_bottom)
 		else:
 			x.set_top_and_bottom(gene_fwd_top, gene_fwd_bottom)

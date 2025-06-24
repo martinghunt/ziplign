@@ -19,6 +19,7 @@ var default_config = {
 	"other": {
 		"max_matches_on_screen": 500,
 		"fasta_line_length": 60,
+		"min_gap_length": 10,
 	},
 }
 
@@ -66,7 +67,7 @@ var home_dir = OS.get_environment("USERPROFILE") if OS.has_feature("windows") el
 var bin = get_bin_path()
 var makeblastdb = fix_windows_binary(bin.path_join("makeblastdb"))
 var blastn = fix_windows_binary(bin.path_join("blastn"))
-var tnahelper = fix_windows_binary(bin.path_join("tnahelper"))
+var zlhelper = fix_windows_binary(bin.path_join("zlhelper"))
 var example_data_dir = get_example_data_dir()
 var data_dir = OS.get_user_data_dir()
 var example_data_file1 = example_data_dir.path_join("g1.gff")
@@ -75,15 +76,15 @@ var data_dir_exists = false
 var bin_exists = false
 var blastn_exists = false
 var makeblastdb_exists = false
-var tnahelper_exists = false
-var tnahelper_version_ok = false
+var zlhelper_exists = false
+var zlhelper_version_ok = false
 var example_data_exists = false
 var current_proj_dir = OS.get_user_data_dir().path_join("current_proj")
 var install_ok = false
 var config_file = OS.get_user_data_dir().path_join("config")
 var config_file_exists = false
 var config = ConfigFile.new()
-var tnahelper_version = "unknown"
+var zlhelper_version = "unknown"
 var blastn_version = "unknown"
 var blast_options = "-evalue 0.1"
 var default_blast_options = "-evalue 0.1"
@@ -128,16 +129,16 @@ func run_os_execute_get_output(to_execute, options):
 	return output[0].rstrip("\n").rstrip("\r").split("\n")
 
 
-func set_tnahelper_version():
-	tnahelper_version = "unknown"
-	var output = run_os_execute_get_output(tnahelper, ["-v"])
+func set_zlhelper_version():
+	zlhelper_version = "unknown"
+	var output = run_os_execute_get_output(zlhelper, ["-v"])
 	if len(output) == 1:
 		var fields = output[0].rstrip("\r").split(" ")
-		if len(fields) == 3 and fields[0] == "tnahelper" and fields[1] == "version":
-			tnahelper_version = fields[2]
-	tnahelper_version_ok = tnahelper_version == Globals.expect_tnahelper_version
-	if config.get_value("dev", "ignore_tnahelper_version", false):
-		tnahelper_version_ok = true
+		if len(fields) == 3 and fields[0] == "zlhelper" and fields[1] == "version":
+			zlhelper_version = fields[2]
+	zlhelper_version_ok = zlhelper_version == Globals.expect_zlhelper_version
+	if config.get_value("dev", "ignore_zlhelper_version", false):
+		zlhelper_version_ok = true
 
 
 func set_blastn_version():
@@ -160,18 +161,18 @@ func check_all_paths():
 	print("makeblastdb exists:", makeblastdb_exists)
 	set_blastn_version()
 	print("blastn version:", blastn_version)
-	tnahelper_exists = FileAccess.file_exists(tnahelper)
-	print("tnahelper exists:", tnahelper_exists)
+	zlhelper_exists = FileAccess.file_exists(zlhelper)
+	print("zlhelper exists:", zlhelper_exists)
 	example_data_exists = does_example_data_exist()
 	print("example data found:", example_data_exists)
 	config_file_exists = FileAccess.file_exists(config_file)
 	print("config file found:", config_file_exists)
-	install_ok = bin_exists and tnahelper_exists and tnahelper_version_ok \
+	install_ok = bin_exists and zlhelper_exists and zlhelper_version_ok \
 		and blastn_exists and makeblastdb_exists and makeblastdb_exists \
 		and example_data_exists and config_file_exists \
 		and blastn_version != "unknown"
-	
-	
+
+
 func make_default_config():
 	config.clear()
 	for section in default_config:
@@ -188,10 +189,10 @@ func load_config():
 			if not config.has_section_key(section, key):
 				config.set_value(section, key, default_config[section][key])
 				any_missing = true
-	
+
 	if any_missing:
 		save_config()
-		
+
 
 func save_config():
 	config.save(config_file)
