@@ -34,7 +34,7 @@ var x_zoom = 1.0
 var top_x_left = 1.0
 var bottom_x_left = 1.0
 var max_search_results = 1000
-var expect_zlhelper_version = "v0.7.0"
+var expect_zlhelper_version = "v1.0.0"
 
 
 var complement_dict = {
