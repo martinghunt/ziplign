@@ -1,5 +1,5 @@
 ---
-title: 'TNA: a simple-to-use interactive tool to compare bacterial genomes'
+title: 'Ziplign: a simple-to-use interactive tool to compare bacterial genomes'
 tags:
   - Bioinformatics
   - Genomics
@@ -31,19 +31,19 @@ bibliography: paper.bib
 
 
 # Summary
-TNA is a user-friendly interactive application to visually compare two
+Ziplign is a user-friendly interactive application to visually compare two
 bacterial genome sequences and their annotation. It requires no command-line
 use, and is intended to make genome-comparison easily accessible to the
-biologist. Genome files can be directly drag-and-dropped into TNA, or will be
+biologist. Genome files can be directly drag-and-dropped into Ziplign, or will be
 automatically downloaded when an accession is provided. All commonly-used file
 formats and compression are supported. The comparison between genomes is
 generated using NCBI blast+[@blast], which is run for the user, and then the
-two genomes, their annotation, and sequence matches are displayed by TNA. A
-screenshot of TNA is shown in \autoref{fig1}.
+two genomes, their annotation, and sequence matches are displayed by Ziplign. A
+screenshot of Ziplign is shown in \autoref{fig1}.
 
 
 
-![Figure 1 Screenshots of TNA comparing the Shigella flexneri 2a genome
+![Figure 1 Screenshots of Ziplign comparing the Shigella flexneri 2a genome
 GCF\_000007405.1 [@flexneri] - shown at the top - with the Escherichia
 coli K-12 substr. MG1655 GCF\_000005845.2 [@k12] - shown at the bottom.
 BLAST matches are shown in red when the direction of
@@ -85,19 +85,19 @@ meaning that repeats may not be shown. We tested this using a single contig
 1000bp genome compared to a genome comprising two copies of the same contig,
 where Mauve showed no matches (also tested again using a 10,000bp contig).
 
-Here we introduce TNA, which fills the need for an easy-to-install and
+Here we introduce Ziplign, which fills the need for an easy-to-install and
 simple-to-use genome comparison tool. It is heavily inspired by ACT, with a
 very similar user interface, but is significantly easier to install and
 use.
 
 
 # Usage and availability
-TNA is intended for microbiologists with no command line experience. As such,
+Ziplign is intended for microbiologists with no command line experience. As such,
 no use of a terminal is required. First, two genomes must be provided, either
 with an NCBI accession or by dragging-and-dropping local files. FASTA, FASTQ,
 GFF3, EMBL and GenBank file formats are supported, optionally with gzip, bzip2
 or xz compression. Genome sequences and annotation are automatically
-downloaded when an accession is used. TNA runs blastn from the NCBI blast+
+downloaded when an accession is used. Ziplign runs blastn from the NCBI blast+
 suite to generate the matches between the two genomes. The blastn
 options are configurable by the user.
 
@@ -105,19 +105,19 @@ Genomes are displayed at the top and bottom of the window, with BLAST matches
 shown between them (Figure 1). The view can be zoomed and panned using mouse,
 trackpad or keyboard controls, or with buttons in the control panel on the
 left. Features include searching by nucleotide sequence or annotation, contig
-reordering, and reverse complementing contigs. TNA can save and load an entire
+reordering, and reverse complementing contigs. Ziplign can save and load an entire
 “project” - the genomes, annotations, and BLAST matches - using a single binary
 file, removing the need to store the original files.
 
-TNA is available for Windows 11, macOS, and Linux operating systems from
-GitHub [https://github.com/martinghunt/tna](https://github.com/martinghunt/tna),
+Ziplign is available for Windows 11, macOS, and Linux operating systems from
+GitHub [https://github.com/martinghunt/ziplign](https://github.com/martinghunt/ziplign),
 under the MIT license.
 Comprehensive documentation is hosted on ReadTheDocs
-[https://tna.readthedocs.io/en/](https://tna.readthedocs.io/en/).
+[https://ziplign.readthedocs.io/en/](https://ziplign.readthedocs.io/en/).
 
 
 # Implementation
-TNA is primarily written in GDScript, the scripting language of the free, open
+Ziplign is primarily written in GDScript, the scripting language of the free, open
 source, MIT licensed, game engine Godot
 ([https://godotengine.org](https://godotengine.org),
 [https://github.com/godotengine/godot](https://github.com/godotengine/godot)).
@@ -125,8 +125,8 @@ This handles the graphical user
 interface (GUI), and displaying and interacting with all the genome and
 comparison data. Bioinformatics tasks such as parsing sequence/BLAST files and
 downloading genomes are processed using a separate command line program called
-tnahelper
-[https://github.com/martinghunt/tnahelper](https://github.com/martinghunt/tnahelper),
+zlhelper
+[https://github.com/martinghunt/zlhelper](https://github.com/martinghunt/zlhelper),
 also with the MIT license, written in the Go programming language. All command
 line programs are hidden from the user, so that the only interaction is simply
 with the GUI.
@@ -134,7 +134,7 @@ with the GUI.
 
 # Acknowledgements
 The authors thank Daniel Anderson, Jane Hawkey and Leah Roberts for testing
-TNA, and Thomas Hunt for making the TNA icon.
+Ziplign, and Thomas Hunt for making the Ziplign icon.
 Martin Hunt was supported by the National Institute for Health Research (NIHR)
 Health Protection Research Unit in Healthcare Associated Infections and
 Antimicrobial Resistance at Oxford University in partnership with the UK
