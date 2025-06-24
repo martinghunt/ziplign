@@ -145,9 +145,14 @@ using the boxes in the left panel. If it is not already selected, press the
    :width: 140
    :alt: screenshot of match filter controls
 
-By default, only matches longer than 100bp and at least 90% identity are
-shown. The minimum values can be changed in the boxes. Note: showing all
+By default, only matches of length 100bp-1Mbp and at least 90% identity are
+shown. The minimum values can be changed in the boxes. Note that showing all
 matches may slow Ziplign down if there is a large number of them on screen.
+
+If you are viewing a genome compared to itself, then you probably want to
+set the maximum match length to be less than the length of the genome, so that
+there is not one huge match filling in the whole window.
+
 
 Matches in a region
 -------------------

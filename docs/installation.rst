@@ -109,10 +109,10 @@ Press the "New" button. You should see the window below.
    :width: 500
    :alt: screenshot showing how to use test data
 
-1. Click the "test data" icon (the rightmost icon on the top row, circled).
+1. Click the "test data" icon (the rightmost icon on the top row).
    This will fill in the top and bottom genome filenames with the names
    of the  test files.
-2. Click the "start" button (circled at the bottom) to begin processing.
+2. Click the "start" button (at the bottom) to begin processing.
 
 After pressing start, it will process the data.
 This means importing the genome files,
