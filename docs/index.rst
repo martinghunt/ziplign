@@ -24,5 +24,6 @@ under the permissive MIT license. Please report any issues on GitHub.
    settings
    data_folder
    uninstalling
+   contributing
    background
    faq
