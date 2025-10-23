@@ -5,30 +5,30 @@ First off, thanks for taking the time to contribute! ❤️
 
 All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
 
-> And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
-> - Star the project
-> - Tweet about it
-> - Refer this project in your project's readme
-> - Mention the project at local meetups and tell your friends/colleagues
+And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+ - Star the project
+ - Tweet about it
+ - Refer this project in your project's readme
+ - Mention the project at local meetups and tell your friends/colleagues
 
 <!-- omit in toc -->
 ## Table of Contents
 
 - [I Have a Question](#i-have-a-question)
-  - [I Want To Contribute](#i-want-to-contribute)
-  - [Reporting Bugs](#reporting-bugs)
-  - [Suggesting Enhancements](#suggesting-enhancements)
-  - [Your First Code Contribution](#your-first-code-contribution)
-  - [Improving The Documentation](#improving-the-documentation)
+- [I Want To Contribute](#i-want-to-contribute)
+- [Reporting Bugs](#reporting-bugs)
+- [Suggesting Enhancements](#suggesting-enhancements)
+- [Code Contributions](#code-contributions)
+- [Improving The Documentation](#improving-the-documentation)
 - [Styleguides](#styleguides)
-  - [Commit Messages](#commit-messages)
+- [Commit Messages](#commit-messages)
 - [Join The Project Team](#join-the-project-team)
 
 
 
 ## I Have a Question
 
-> If you want to ask a question, we assume that you have read the available [Documentation](https://ziplign.readthedocs.io).
+If you want to ask a question, we assume that you have read the available [Documentation](https://ziplign.readthedocs.io).
 
 Before you ask a question, it is best to search for existing [Issues](https://github.com/martinghunt/ziplign/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
 
@@ -77,7 +77,7 @@ Once it's filed:
 
 - The project team will label the issue accordingly.
 - A team member will try to reproduce the issue with your provided steps. If there are no reproduction steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the issue as `needs-repro`. Bugs with the `needs-repro` tag will not be addressed until they are reproduced.
-- If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
+- If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#code-contributions).
 
 
 ### Suggesting Enhancements
@@ -104,14 +104,52 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/martin
 - **Explain why this enhancement would be useful** to most Ziplign users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 
-### Your First Code Contribution
+### Code Contributions
 
 Ziplign is developed using the Godot engine and IDE available for free from here: https://godotengine.org/download/.
 It is available for Windows, MacOS and Linux.
 Please use the Godot IDE it to modify the code, and let it do the formatting (indendation etc).
 Test your changes using the "Run Project" button near the top right of the IDE.
 
-Once you have made the changes and are happy everything works, submit a pull request.
+Please test the main functionality of Ziplign using the built-in test data.
+Run the project, select "New", click the test data button at the top, and then
+"Start". See the
+[test data](https://ziplign.readthedocs.io/en/stable/installation.html#use-the-test-data)
+documentation for more details and screenshots.
+
+Once the test data are loaded, test all of the following still work, which
+is a basic check of the main functionality. It does not test everything.
+
+1. All navigation buttons at the top left, and the cursor keys on the keyboard.
+2. The main horizontal scroll bars at the top and bottom, to slide the genomes
+left and right.
+3. Zooming using the buttons on the left and with the keys `-`, `+`, `=`. Also,
+where possible, with a mouse wheel or trackpad pinch gesture.
+4. Double-click on any BLAST match to check that the view jumps so that the match
+is on the left of the window. Reset the view by pressing `=`.
+5. Reverse complement buttons on the left. Check both the top and bottom genomes
+are correctly reverse complemented.
+6. In the filter matches fields:
+   * Set the minimum match length to 500bp. All but
+one of the matches should disappear. Put it back to 100bp.
+   * Set the maximum match length to 500bp. One match should disappear. Put it
+    back to 1000000bp.
+   * Set the minimumum percent identity to 99. All but two matches should disappear.
+    Put it back to 90.
+7. Test saving/loading temporary views work. Press `shift-1` to save the current
+view in slot 1. Then move anywhere else and press `1`. It should return to the
+saved view.
+8. Check that searching works. Click on the magnifying glass icon on the left,
+near the bottom. Check the searches below. Clicking on each search result at the
+bottom left should highlight where it is in the genome.
+   * Search for the sequence AGTCCAGAGTGGGGG. There should be two matches.
+   * Search for "name" in the annotation. There should be several matches.
+9. Return to the main menu (top left return button or press `q`),
+and then check that the project can be saved to a file and then loaded from that file.
+
+If your code changes affect something not listed above, then obviously check
+the releveant functionality.  Once you have made the changes and are happy
+everything works, submit a pull request.
 The GitHub documentation may help if this is your first pull request:
 https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-open-source.
 
