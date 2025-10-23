@@ -520,10 +520,16 @@ func _unhandled_input(event):
 					save_view(i)
 				elif i in saved_views:
 					load_view(i)
-	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event_is_wheel_down(event):
-		await _on_button_zoom_minus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.2, event.position.x - Globals.controls_width)
-	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event_is_wheel_up(event):
-		await _on_button_zoom_plus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.2, event.position.x - Globals.controls_width)
+	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.pressed and event_is_wheel_down(event):
+		if event.is_shift_pressed():
+			await move_top_and_bottom(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.4, Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.4)
+		else:
+			await _on_button_zoom_minus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.4, event.position.x - Globals.controls_width)
+	elif event is InputEventMouseButton and event.position.x > Globals.controls_width - 13 and event.pressed and event_is_wheel_up(event):
+		if event.is_shift_pressed():
+			await move_top_and_bottom(-Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.4, -Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.4)
+		else:
+			await _on_button_zoom_plus_pressed(Globals.userdata.config.get_value("mouse", "wheel_sens") * 0.4, event.position.x - Globals.controls_width)
 	elif event is InputEventPanGesture and event.position.x > Globals.controls_width - 13:
 		if Globals.userdata.config.get_value("trackpad", "v_sens") > 0 and event.delta.x == 0:
 			if Globals.userdata.config.get_value("trackpad", "invert_v"):
