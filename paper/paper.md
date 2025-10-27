@@ -81,9 +81,11 @@ provide (most likely via running command line tools) a genome comparison file,
 multi-sequence genomes are not supported out of the box, and alignment details
 including SNPs and small insertions/deletions are not shown. Mauve is simple
 to run but it only shows unique synteny/collinear blocks between genomes,
-meaning that repeats may not be shown. We tested this using a single contig
-1000bp genome compared to a genome comprising two copies of the same contig,
-where Mauve showed no matches (also tested again using a 10,000bp contig).
+meaning that repeats may not be shown. We tested this using a 1000bp randomly
+generated sequence sampled uniformly from A,C,G,T characters,
+comparing it to a second contig comprising two identical copies of the first
+1000bp sequence, and Mauve showed no matches
+(also tested again using a 10,000bp sequence).
 
 Here we introduce Ziplign, which fills the need for an easy-to-install and
 simple-to-use genome comparison tool. It is heavily inspired by ACT, with a
