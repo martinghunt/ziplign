@@ -7,7 +7,7 @@ There is no need to use a terminal or type any commands.
 
 Documentation: https://ziplign.readthedocs.io/en/
 
-<img src="docs/pics/zl_docs_overview_screenshots.gif" alt="demo screenshots" width="60%">
+<img src="docs/pics/zl_docs_overview_screenshots.gif" alt="demo screenshots" width="80%">
 
 ## Quick start
 
