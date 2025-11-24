@@ -79,8 +79,9 @@ Artemis. However, ACT has a number of limitations. It can be difficult for
 non-technical users to install and use, Java must be installed, the user must
 provide (most likely via running command line tools) a genome comparison file,
 multi-sequence genomes are not supported out of the box, and alignment details
-including SNPs and small insertions/deletions are not shown. Mauve is simple
-to run but it only shows unique synteny/collinear blocks between genomes,
+including SNPs and small insertions and deletions are not shown. Mauve is simple
+to run but it displays global alignments of locally collinear blocks shared
+between genomes,
 meaning that repeats may not be shown. We tested this using a 1000bp randomly
 generated sequence sampled uniformly from A,C,G,T characters,
 comparing it to a second contig comprising two identical copies of the first
