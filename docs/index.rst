@@ -7,6 +7,10 @@ files to compare.
 Ziplign will run BLAST for you and show you the results. There is no need to use a
 terminal or type any commands.
 
+.. image:: pics/zl_docs_overview_screenshots.gif
+   :width: 70%
+   :alt: screenshots showing an overview of ziplign
+
 The source code is in the  `Ziplign GitHub repository <https://github.com/martinghunt/ziplign>`_,
 under the permissive MIT license. Please report any issues on GitHub.
 
