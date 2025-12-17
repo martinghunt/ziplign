@@ -33,17 +33,17 @@ bibliography: paper.bib
 # Summary
 Ziplign is a user-friendly interactive application to visually compare two
 bacterial genome sequences and their annotation. It requires no command-line
-use, and is intended to make genome-comparison easily accessible to the
+use, and is intended to make genome comparison easily accessible to the
 biologist. Genome files can be directly drag-and-dropped into Ziplign, or will be
 automatically downloaded when an accession is provided. All commonly-used file
 formats and compression are supported. The comparison between genomes is
-generated using NCBI blast+[@blast], which is run for the user, and then the
+generated using NCBI BLAST+ [@blast], which is run for the user, and then the
 two genomes, their annotation, and sequence matches are displayed by Ziplign. A
 screenshot of Ziplign is shown in \autoref{fig1}.
 
 
 
-![Figure 1 Screenshots of Ziplign comparing the Shigella flexneri 2a genome
+![Screenshots of Ziplign comparing the Shigella flexneri 2a genome
 GCF\_000007405.1 [@flexneri] - shown at the top - with the Escherichia
 coli K-12 substr. MG1655 GCF\_000005845.2 [@k12] - shown at the bottom.
 BLAST matches are shown in red when the direction of
@@ -71,10 +71,10 @@ invaluable to visually and interactively compare two genomes. This is often
 the simplest way to truly understand the differences between two
 sequences.
 
-To our knowledge ACT[@act] and Mauve[@mauve] are the only existing tools
+To our knowledge ACT [@act] and Mauve [@mauve] are the only existing tools
 for displaying genomes and matches between them in an interactive manner -
 however both tools are no longer supported. Since ACT is based on
-Artemis[@artemis], it incorporates the extensive feature set implemented in
+Artemis [@artemis], it incorporates the extensive feature set implemented in
 Artemis. However, ACT has a number of limitations. It can be difficult for
 non-technical users to install and use, Java must be installed, the user must
 provide (most likely via running command line tools) a genome comparison file,
@@ -83,7 +83,7 @@ including SNPs and small insertions and deletions are not shown. Mauve is simple
 to run but it displays global alignments of locally collinear blocks shared
 between genomes,
 meaning that repeats may not be shown. We tested this using a 1000bp randomly
-generated sequence sampled uniformly from A,C,G,T characters,
+generated sequence sampled uniformly from A, C, G, T characters,
 comparing it to a second contig comprising two identical copies of the first
 1000bp sequence, and Mauve showed no matches
 (also tested again using a 10,000bp sequence).
@@ -98,10 +98,10 @@ use.
 Ziplign is intended for microbiologists with no command line experience. As such,
 no use of a terminal is required. First, two genomes must be provided, either
 with an NCBI accession or by dragging-and-dropping local files. FASTA, FASTQ,
-GFF3, EMBL and GenBank file formats are supported, optionally with gzip, bzip2
+GFF3, EMBL, and GenBank file formats are supported, optionally with gzip, bzip2
 or xz compression. Genome sequences and annotation are automatically
-downloaded when an accession is used. Ziplign runs blastn from the NCBI blast+
-suite to generate the matches between the two genomes. The blastn
+downloaded when an accession is used. Ziplign runs BLASTN from the NCBI BLAST+
+suite to generate the matches between the two genomes. The BLASTN
 options are configurable by the user.
 
 Genomes are displayed at the top and bottom of the window, with BLAST matches
@@ -120,8 +120,8 @@ Comprehensive documentation is hosted on ReadTheDocs
 
 
 # Implementation
-Ziplign is primarily written in GDScript, the scripting language of the free, open
-source, MIT licensed, game engine Godot
+Ziplign is primarily written in GDScript, the scripting language of the free,
+open-source, MIT-licensed, game engine Godot
 ([https://godotengine.org](https://godotengine.org),
 [https://github.com/godotengine/godot](https://github.com/godotengine/godot)).
 This handles the graphical user
