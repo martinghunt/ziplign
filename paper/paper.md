@@ -15,15 +15,15 @@ authors:
     equal-contrib: false # (This is how you can denote equal contributions between multiple authors)
     affiliation: 5
 affiliations:
- - name: European Molecular Biology Laboratory - European Bioinformatics Institute, Hinxton, UK
+ - name: European Molecular Biology Laboratory - European Bioinformatics Institute, Hinxton, United Kingdom
    index: 1
- - name: Nuffield Department of Medicine, University of Oxford, Oxford, UK
+ - name: Nuffield Department of Medicine, University of Oxford, Oxford, United Kingdom
    index: 2
- - name: National Institute of Health Research Oxford Biomedical Research Centre, John Radcliffe Hospital, Headley Way, Oxford, UK
+ - name: National Institute of Health Research Oxford Biomedical Research Centre, John Radcliffe Hospital, Headley Way, Oxford, United Kingdom
    index: 3
- - name: Health Protection Research Unit in Healthcare Associated Infections and Antimicrobial Resistance, University of Oxford, Oxford, UK
+ - name: Health Protection Research Unit in Healthcare Associated Infections and Antimicrobial Resistance, University of Oxford, Oxford, United Kingdom
    index: 4
- - name: Milner Centre for Evolution, University of Bath, UK
+ - name: Milner Centre for Evolution, University of Bath, United Kingdom
    index: 5
 date: 1 April 2025
 bibliography: paper.bib
@@ -140,7 +140,7 @@ The authors thank Daniel Anderson, Jane Hawkey and Leah Roberts for testing
 Ziplign, and Thomas Hunt for making the Ziplign icon.
 Martin Hunt was supported by the National Institute for Health Research (NIHR)
 Health Protection Research Unit in Healthcare Associated Infections and
-Antimicrobial Resistance at Oxford University in partnership with the UK
+Antimicrobial Resistance at Oxford University in partnership with the United Kingdom
 Health Security Agency (UKHSA) (NIHR200915), and supported by the NIHR
 Biomedical Research Centre, Oxford. The views expressed in this publication
 are those of the authors and not necessarily those of the NHS, the National
