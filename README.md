@@ -1,11 +1,15 @@
 # Ziplign
 
+[![status](https://joss.theoj.org/papers/0fc2ce726ea149065995d899c9dc2f68/status.svg)](https://joss.theoj.org/papers/0fc2ce726ea149065995d899c9dc2f68)
+
 Ziplign is a free application to visualise the comparison of two bacterial genomes.
 It is intended to be easy to use: you just need to drag and drop two sequence
 files to compare. Ziplign will run BLAST for you and show you the results.
 There is no need to use a terminal or type any commands.
 
 Documentation: https://ziplign.readthedocs.io/en/
+
+Citation: Hunt et al., (2025). Ziplign: a simple-to-use interactive tool to compare bacterial genomes. Journal of Open Source Software, 10(116), 9004, https://doi.org/10.21105/joss.09004
 
 <img src="docs/pics/zl_docs_overview_screenshots.gif" alt="demo screenshots" width="80%">
 
